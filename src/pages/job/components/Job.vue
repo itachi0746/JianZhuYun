@@ -1,0 +1,205 @@
+<template>
+  <div class="profile">
+    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <div class="body" ref="body">
+      <div class="filter van-hairline--bottom">
+        <van-row>
+          <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
+            <div class="filter-cell-box">
+              <div class="van-hairline--right">
+                <div class="filter-cell">{{item.name}}</div>
+                <van-icon class="filter-icon normal-icon" name="play" />
+              </div>
+            </div>
+          </van-col>
+        </van-row>
+      </div>
+      <div class="job-list">
+        <ul>
+          <li class="job-li">
+            <van-row>
+              <van-col span="12">
+                <div class="job-name">美工设计</div>
+              </van-col>
+              <van-col span="12">
+                <div class="job-pay">5k-8k</div>
+              </van-col>
+            </van-row>
+            <div class="job-remarks">
+              <ul>
+                <li class="job-remarks-li">www</li>
+                <li class="job-remarks-li">www</li>
+              </ul>
+            </div>
+            <div class="job-tag">
+              <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
+              <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
+            </div>
+            <div class="job-HR">
+              <div class="HR-head"></div>
+              <div class="HR-name">方文文·招聘者</div>
+            </div>
+          </li>
+          <li class="job-li">
+            <van-row>
+              <van-col span="12">
+                <div class="job-name">美工设计</div>
+              </van-col>
+              <van-col span="12">
+                <div class="job-pay">5k-8k</div>
+              </van-col>
+            </van-row>
+            <div class="job-remarks">
+              <ul>
+                <li class="job-remarks-li">www</li>
+                <li class="job-remarks-li">www</li>
+              </ul>
+            </div>
+            <div class="job-tag">
+              <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
+              <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
+            </div>
+            <div class="job-HR">
+              <div class="HR-head"></div>
+              <div class="HR-name">方文文·招聘者</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
+  </div>
+</template>
+
+<script>
+import myModule from '../../../common'
+import Footer from '../../../component/Footer.vue'
+import Header from '../../../component/Header.vue'
+
+export default {
+  name: 'profile',
+  data () {
+    return {
+      headerName: '职位',
+      activeNum: 0,
+      headerHeight: null,
+      footerHeight: null,
+      filterItems: [
+        {name: '推荐'},
+        {name: '广州'},
+        {name: '公司'},
+        {name: '要求'}
+      ]
+    }
+  },
+  components: {
+    Footer,
+    Header
+  },
+  mounted () {
+    console.log(myModule)
+  },
+  methods: {
+    /**
+     * 处理header,footer的高度
+     */
+    handleHeight (height) {
+      console.log(height)
+      if (height.headerHeight) {
+        this.headerHeight = height.headerHeight
+      } else {
+        this.footerHeight = height.footerHeight
+      }
+      if (this.headerHeight && this.footerHeight) {
+        const WH = myModule.getClientHeight()
+        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+      }
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+  .body {
+    background-color: #F5F9FA;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+  }
+  .filter {
+    width: 100%;
+    background-color: #fff;
+  }
+  .filter-cell-box {
+    @include font-size(14px);
+    padding: 10px 0;
+    position: relative;
+  }
+  .filter-cell {
+    text-align: center;
+    color: #666;
+  }
+  .filter-icon {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    color: #666;
+  }
+  .normal-icon {
+    transform: rotate(90deg);
+  }
+  .active-icon {
+    transform: rotate(-90deg);
+  }
+  .job-list {
+    .job-li {
+      width: 100%;
+      /*height: 140px;*/
+      background-color: #fff;
+      margin-bottom: 8px;
+      padding: 19px 23px;
+      @include borderBox();
+      color: #666;
+      @include font-size(16px)
+    }
+    .job-name {
+      color: #000;
+      font-weight: bold;
+    }
+    .job-pay {
+      color: #067FCC;
+      text-align: right;
+      @include font-size(14px)
+    }
+    .job-remarks {
+      @include font-size(14px);
+      padding: 5px 0;
+      ul {
+        overflow: hidden;
+      }
+    }
+    .job-remarks-li {
+      float: left;
+      margin-right: 5px;
+    }
+    .job-tag {
+      padding: 5px 0;
+      color: #999;
+    }
+    .job-HR {
+      padding-top: 5px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      @include font-size(14px)
+    }
+    .HR-head {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #969799;
+      margin-right: 6px;
+    }
+
+  }
+</style>
