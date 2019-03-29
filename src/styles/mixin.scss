@@ -126,3 +126,13 @@ $mainColor: #00A7DD;
 //    animation: fadeIn 0.3s 1s forwards;
 //  }
 //}
+
+@mixin theBtnColor() {
+  background-color: $mainColor;
+  border-color: $mainColor;
+}
+
+@mixin btnStyle() {
+  padding: 0;
+  line-height: 0;
+}

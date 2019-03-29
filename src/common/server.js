@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from 'axios'
 import { Notify } from 'vant'
 
@@ -44,7 +45,8 @@ Axios.interceptors.request.use(
     Notify({
       message: error.data,
       duration: 1000,
-      background: '#fef0f0'
+      background: '#fef0f0',
+      color: 'red'
     })
     return Promise.reject(error)
   }
@@ -58,7 +60,8 @@ Axios.interceptors.response.use(
       Notify({
         message: res.data.ErrMsg, // 弹出错误信息
         duration: 1000,
-        background: '#fef0f0'
+        background: '#fef0f0',
+        color: 'red'
       });
       return Promise.reject(res.data.ErrMsg) // 返回promise对象,把错误信息传下去
     }
@@ -68,7 +71,8 @@ Axios.interceptors.response.use(
     Notify({
       message: '请求出错', // 弹出错误信息
       duration: 1000,
-      background: '#fef0f0'
+      background: '#fef0f0',
+      color: 'red'
     });
 
     // 下面是接口回调的status

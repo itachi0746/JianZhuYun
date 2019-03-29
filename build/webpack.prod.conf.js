@@ -121,7 +121,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common-api',
-      chunks: ['admin', 'index', 'login', 'register', 'profile', 'job', 'company', 'message', 'myOffer'],
+      chunks: ['login', 'register', 'profile', 'job', 'company',
+        'message', 'offer', 'offerDetail', 'contract', 'contractDetail', 'jobDetail',
+      'resume', 'EPIndex', 'EPRecord', 'EPProfile', 'EPRelease'],
       minChunks: Infinity
     }),
     // extract webpack runtime and module manifest to its own file in order to

@@ -2,8 +2,9 @@
   <div id="common-header" ref="common-header" class="common-header">
     <div style="position: relative;">
       <div class="header-name">
+        <van-icon v-show="canBack" class="header-icon2" name="arrow-left" @click="clickBack" />
         {{headerName}}
-        <van-icon class="header-icon" name="search" />
+        <van-icon v-show="canSearch" class="header-icon" name="search" @click="clickSearch" />
       </div>
     </div>
   </div>
@@ -21,6 +22,14 @@ export default {
     headerName: {
       type: String,
       default: ''
+    },
+    canBack: {
+      type: Boolean,
+      default: false
+    },
+    canSearch: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -32,6 +41,13 @@ export default {
         const headerHeight = this.$refs['common-header'].offsetHeight
         this.$emit('sendHeight', {'headerHeight': headerHeight})
       }, 300)
+    },
+    clickSearch () {
+      this.$router.push({name: 'Search', params: { }})
+    },
+    clickBack () {
+      console.log('back')
+      this.$router.go(-1)
     }
   },
 
@@ -60,6 +76,12 @@ export default {
   .header-icon {
     position: absolute;
     right: 0;
+    top: 0;
+    @include font-size(20px)
+  }
+  .header-icon2 {
+    position: absolute;
+    left: 0;
     top: 0;
     @include font-size(20px)
   }

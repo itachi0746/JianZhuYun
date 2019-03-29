@@ -1,12 +1,12 @@
 <template>
   <div ref="common-footer">
-    <van-tabbar v-model="active">
-      <van-tabbar-item v-for="(item, index) in icons" :key="index" @click="clickFooter(item.link)">
+    <van-tabbar v-model="active" v-if="theFooterItems">
+      <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link)">
         <span>{{ item.name }}</span>
         <img
           slot="icon"
           slot-scope="props"
-          :src="props.active ? icons[index].active : icons[index].normal"
+          :src="props.active ? theFooterItems[index].active : theFooterItems[index].normal"
         >
       </van-tabbar-item>
     </van-tabbar>
@@ -19,7 +19,7 @@ import myModule from '../common'
 export default {
   data () {
     return {
-//      active: 0, // 当前激活的
+      theFooterItems: null,
       icons: [
         {
           normal: require('./assets/f1.png'),
@@ -45,6 +45,26 @@ export default {
           name: '我的',
           link: 'profile.html'
         }
+      ],
+      icons2: [ // 企业端footer
+        {
+          normal: require('./assets/home_shouye_nor.png'),
+          active: require('./assets/home_shouye_sel.png'),
+          name: '首页',
+          link: 'EPIndex.html'
+        },
+        {
+          normal: require('./assets/home_shengqingjilu_nor.png'),
+          active: require('./assets/home_shengqingjulu_sel.png'),
+          name: '申请记录',
+          link: 'EPRecord.html'
+        },
+        {
+          normal: require('./assets/home_wode_nor.png'),
+          active: require('./assets/home_wode_sel.png'),
+          name: '我的',
+          link: 'EPProfile.html'
+        }
       ]
     }
   },
@@ -53,6 +73,10 @@ export default {
     active: { // 当前激活的
       type: Number,
       default: 0
+    },
+    enterprise: { // 是不是企业端
+      type: Boolean,
+      default: false
     }
   },
 
@@ -78,7 +102,9 @@ export default {
     }
   },
 
-  created () {},
+  created () {
+    this.enterprise ? this.theFooterItems = this.icons2 : this.theFooterItems = this.icons
+  },
 
   mounted () {
     this.handleHeight()
