@@ -2,31 +2,19 @@
   <div>
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <div class="myOffer-list">
+      <div class="myOffer-list" v-if="resData">
         <ul>
-          <li class="myOffer-li">
+          <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickOffer(item.RE32_OFFER_ID
+)">
             <div class="myOffer-li-box van-hairline--bottom">
               <div class="myOffer-head"></div>
               <div class="myOffer-data">
-                <div>软通动力</div>
-                <div>2019-3-25</div>
+                <div>{{item.RE32_SEND_ENT_NAME}}</div>
+                <div>{{item.RE32_CRT_TIME}}</div>
               </div>
               <div class="myOffer-time">
-                <div class="myOffer-status">已拒绝</div>
-                <van-icon class="" name="arrow" />
-              </div>
-            </div>
-          </li>
-          <li class="myOffer-li">
-            <div class="myOffer-li-box van-hairline--bottom">
-              <div class="myOffer-head"></div>
-              <div class="myOffer-data">
-                <div>软通动力</div>
-                <div>2019-3-25</div>
-              </div>
-              <div class="myOffer-time">
-                <div class="myOffer-status">已拒绝</div>
-                <van-icon class="" name="arrow" />
+                <div class="myOffer-status">{{item.RE32_STATUS}}</div>
+                <van-icon class="" name="arrow"/>
               </div>
             </div>
           </li>
@@ -38,6 +26,7 @@
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 
 export default {
@@ -45,8 +34,8 @@ export default {
   data () {
     return {
       headerName: '我的 offer',
-      activeNum: 2,
-      headerHeight: null
+      headerHeight: null,
+      resData: null
     }
   },
   components: {
@@ -55,17 +44,32 @@ export default {
   mounted () {
     console.log(myModule)
   },
+  created () {
+    postData('/ReService/MyOffers', {}).then((res) => {
+      console.log(res)
+      this.resData = res.ReturnData
+      let theTS = myModule.formatDate(this.resData.RE32_CRT_TIME)
+      this.resData.RE32_CRT_TIME = myModule.formatTime(theTS)
+    })
+  },
   methods: {
     /**
      * 处理header,footer的高度
      */
     handleHeight (height) {
-//      console.log(height)
+      //      console.log(height)
       this.headerHeight = height.headerHeight
       if (this.headerHeight) {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
+    },
+    /**
+     * 点击offer
+     * @param id
+     */
+    clickOffer (id) {
+      GoToPage('', 'offerDetail.html', {id: id})
     }
   }
 }
@@ -76,8 +80,9 @@ export default {
   .body {
     background-color: #F5F9FA;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+    -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
+
   .myOffer-li {
     /*display: flex;*/
     @include borderBox();
@@ -86,10 +91,12 @@ export default {
     color: #999;
     background-color: #fff;
   }
+
   .myOffer-li-box {
     display: flex;
     padding-bottom: 13px;
   }
+
   .myOffer-head {
     margin-right: 16px;
     min-width: 47px;
@@ -97,16 +104,19 @@ export default {
     border-radius: 5px;
     background-color: #999;
   }
+
   .myOffer-data {
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
   }
+
   .myOffer-data div:nth-child(1) {
     color: #333;
     @include font-size(18px);
   }
+
   .myOffer-time {
     max-width: 90px;
     @include font-size(14px);
@@ -114,6 +124,7 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
+
   .myOffer-status {
     color: #F9514E;
     margin-right: 15px;

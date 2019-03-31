@@ -4,9 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import '@/common/rem.js'
-import { Cell, Row, Col, Tabbar, TabbarItem, Icon, Button } from 'vant'
+import { Cell, Row, Col, Tabbar, TabbarItem, Icon, Button, Dialog, Field, Toast } from 'vant'
 
-Vue.use(Cell).use(Row).use(Col).use(Tabbar).use(TabbarItem).use(Icon).use(Button)
+Vue.use(Cell).use(Row).use(Col).use(Tabbar).use(TabbarItem).use(Icon).use(Button).use(Dialog).use(Field).use(Toast)
 
 Vue.config.productionTip = false
 

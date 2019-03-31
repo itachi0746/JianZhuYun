@@ -2,25 +2,24 @@
   <div>
     <van-row>
       <van-col span="12">
-        <div class="job-name">美工设计</div>
+        <div class="job-name">{{jobData.RE13_NAME}}</div>
       </van-col>
       <van-col span="12">
-        <div class="job-pay">5k-8k</div>
+        <div class="job-pay">{{jobData.ReferenceValues.RE13_SALARY_REQUIRED}}</div>
       </van-col>
     </van-row>
-    <div class="job-remarks">
+    <div class="job-remarks" v-show="false">
       <ul>
         <li class="job-remarks-li">备注</li>
         <li class="job-remarks-li">备注</li>
       </ul>
     </div>
-    <div class="job-tag">
-      <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-      <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
+    <div class="job-tag" v-if="tagData.length">
+      <van-tag v-for="(item,index) in tagData" :key="index" color="#F1F1F1" text-color="#999999" size="medium">{{item}}</van-tag>
     </div>
     <div class="job-HR">
-      <div class="HR-head"></div>
-      <div class="HR-name">方文文·招聘者</div>
+      <div class="HR-head" v-show="false"></div>
+      <div class="HR-name">{{jobData.ReferenceValues.RE13_CRT_USR}}</div>
     </div>
   </div>
 </template>
@@ -29,13 +28,37 @@
 export default {
   data () {
     return {
+//      tagData: []
+    }
+  },
+  props: {
+    jobData: {
+      type: Object,
+      default: null
+    }
+  },
+  watch: {
+    jobData () {
+      let ReferenceValues = this.jobData.ReferenceValues
+      debugger
+      this.tagData = []
+      this.tagData.push(ReferenceValues.RE13_WORK_PLACE)
+      this.tagData.push(ReferenceValues.RE13_WORK_YEAR)
+    }
+  },
+  computed: {
+    tagData () {
+      let arr = []
+      if (this.jobData) {
+        let ReferenceValues = this.jobData.ReferenceValues
+        arr.push(ReferenceValues.RE13_WORK_PLACE)
+        arr.push(ReferenceValues.RE13_WORK_YEAR)
+      }
+      return arr
     }
   },
 
   components: {},
-
-  computed: {},
-
   methods: {},
 
   created () {},
@@ -70,6 +93,9 @@ export default {
   .job-tag {
     padding: 5px 0;
     color: #999;
+    span {
+      margin-right: 5px;
+    }
   }
   .job-HR {
     padding-top: 5px;

@@ -31,7 +31,7 @@ export default {
       headerHeight: null,
       showPopup: false,
       popType: null,
-      curField: null,
+      curFieldItem: null,
       fieldData: [
         {name: '职位名称', type: 'field', value: '请填写'},
         {name: '职位类型', type: 'radio', value: '请选择'},
@@ -62,6 +62,7 @@ export default {
     clickCell (item) {
       this.showPopup = true
       this.popType = item.type
+      this.curFieldItem = item
     },
     popupHidden (params) {
       this.showPopup = false

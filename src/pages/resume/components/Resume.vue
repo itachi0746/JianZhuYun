@@ -37,7 +37,8 @@
                   :disabled="isDisable">
         下一页
       </van-button>
-      <van-button v-if="activePage===2" class="btnClass" type="info" size="large" :disabled="isDisable">
+      <van-button v-if="activePage===2" @click="clickSubmit" class="btnClass" type="info" size="large"
+                  :disabled="isDisable">
         确定
       </van-button>
     </div>
@@ -62,7 +63,7 @@ export default {
       isDisable: false,
       theRadioData: null, // 单选数据
       theFieldArr: [
-        {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: ''},
+        {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'RE23_NAME'},
         {
           name: '出生日期',
           code: '',
@@ -72,18 +73,83 @@ export default {
           popType: 'date',
           showDate: new Date(1970, 0, 1),
           minDate: new Date(1970, 0, 1),
-          datetimeType: 'date'
+          datetimeType: 'date',
+          fieldName: 'RE23_BIRTHDAY'
         },
-        {name: '性别', code: 'UDHR027', value: '', placeHolder: '性别', type: 'text', popType: 'radio'},
-        {name: '婚姻状况', code: 'UDHR007', value: '', placeHolder: '婚姻状况', type: 'text', popType: 'radio'},
-        {name: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: ''},
-        {name: '期待工作性质', code: 'UDRE003', value: '', placeHolder: '期待工作性质', type: 'text', popType: 'radio'},
-        {name: '期待工作地点', code: '', value: '', placeHolder: '期待工作地点', type: 'text', popType: ''},
-        {name: '期待职能', code: 'UDRE004', value: '', placeHolder: '期待职能', type: 'text', popType: 'radio'},
-        {name: '期待年薪', code: '', value: '', placeHolder: '期待年薪', type: 'text', popType: ''},
-        {name: '目前薪酬', code: '', value: '', placeHolder: '目前薪酬', type: 'text', popType: ''},
-        {name: '驾驶证书', code: '', value: '', placeHolder: '驾驶证书', type: 'text', popType: ''},
-        {name: '工作经历', code: '', value: '', placeHolder: '工作经历', type: 'textarea', popType: ''},
+        {
+          name: '性别',
+          code: 'UDHR027',
+          value: '',
+          placeHolder: '性别',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_SEX'
+        },
+        {
+          name: '婚姻状况',
+          code: 'UDHR007',
+          value: '',
+          placeHolder: '婚姻状况',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_MARITAL_STATUS'
+        },
+        {name: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS'},
+        {
+          name: '期待工作性质',
+          code: 'UDRE003',
+          value: '',
+          placeHolder: '期待工作性质',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_WORK_PROP'
+        },
+        {
+          name: '期待工作地点',
+          code: '',
+          value: '',
+          placeHolder: '期待工作地点',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_WORK_PLACE'
+        },
+        {
+          name: '期待职能',
+          code: 'UDRE004',
+          value: '',
+          placeHolder: '期待职能',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_EXPECTED_FX'
+        },
+        {
+          name: '期待年薪',
+          code: '',
+          value: '',
+          placeHolder: '期待年薪',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_ANNUAL_SALARY_E'
+        },
+        {
+          name: '目前薪酬',
+          code: '',
+          value: '',
+          placeHolder: '目前薪酬',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_ANNUAL_SALARY_C'
+        },
+        {
+          name: '驾驶证书',
+          code: '',
+          value: '',
+          placeHolder: '驾驶证书',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_DRIVING_LICENSE'
+        },
+        {name: '工作经历', code: '', value: '', placeHolder: '工作经历', type: 'textarea', popType: '', fieldName: 'RE24_WORK_EXPERIENCE'},
         {
           name: '到岗时间',
           code: '',
@@ -93,8 +159,9 @@ export default {
           popType: 'date',
           theShowDate: new Date(),
           minDate: new Date(),
-          datetimeType: 'date'
-//          datetimeType: 'year-month'
+          datetimeType: 'date',
+          fieldName: 'RE23_CAN_WORK_TIME'
+          //          datetimeType: 'year-month'
         }
       ],
       curFieldDIdx: null, // 当前字段index
@@ -112,8 +179,8 @@ export default {
   methods: {
     clickConfirm () {
       this.showPicker = false
-//      console.log(this.theShowDate)
-//      debugger
+      //      console.log(this.theShowDate)
+      //      debugger
       this.theFieldArr[this.curFieldDIdx].value = myModule.formatTime(this.theShowDate)
     },
     clickCancel () {
@@ -146,7 +213,11 @@ export default {
         }
         return
       }
-      postData('/GetDictVals', {code: theCode}).then((res) => {
+      this.$toast.loading({
+        mask: true,
+        message: '加载中...'
+      })
+      postData('/Share/GetDictVals', {code: theCode}).then((res) => {
         console.log(res)
         if (!res.ReturnData.length) {
           console.log('没有数据')
@@ -158,6 +229,8 @@ export default {
         } else if (thePopType === 'radio') {
           this.showRadio = true
         }
+      }).then(() => {
+        this.$toast.clear()
       })
     },
     /**
@@ -181,6 +254,19 @@ export default {
       this.theFieldArr[this.curFieldDIdx].value = this.radio
       this.showRadio = false
       this.theRadioData = null
+    },
+    /**
+     * 提交简历
+     */
+    clickSubmit () {
+      let dataObj = {}
+      for (let obj of this.theFieldArr) {
+        dataObj[obj.fieldName] = obj.value
+      }
+//      console.log(dataObj)
+      postData('/ReService/SaveResume', dataObj).then((res) => {
+        console.log(res)
+      })
     }
   }
 }

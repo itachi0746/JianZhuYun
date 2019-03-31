@@ -123,5 +123,29 @@ export default {
     // var s = time.getSeconds()
     // return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s)
     return y + '-' + this.add0(m) + '-' + this.add0(d)
+  },
+  /**
+   * json转formdata
+   * @param jsonData
+   * @returns {*}
+   */
+  JsonToFormData: function (jsonData) {
+    var form = new FormData()
+    form.append('param', JSON.stringify(jsonData))
+    return form
+  },
+  /**
+   * 格式化后台返回的日期字符串, 返回时间抽
+   * @param dateStr
+   */
+  formatDate: function (dateStr) {
+    var theResult = dateStr
+    var theReg = /\/Date\(\d*\)\//g
+    if (!theReg.test(theResult)) {
+      return theResult
+    }
+    theResult = 'new ' + theResult.substr(1, temp1.length - 2)
+    theResult = eval(theResult)
+    return theResult
   }
 }

@@ -25,7 +25,7 @@ export default {
           normal: require('./assets/f1.png'),
           active: require('./assets/f1_active.png'),
           name: '职位',
-          link: 'job.html'
+          link: 'index.html'
         },
         {
           normal: require('./assets/f2.png'),
@@ -98,7 +98,7 @@ export default {
      * 点击footer
      */
     clickFooter (link) {
-      myModule.goToPage('', link)
+      GoToPage('', link)
     }
   },
 

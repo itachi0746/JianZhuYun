@@ -2,7 +2,7 @@
   <div class="profile">
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <div class="filter van-hairline--bottom">
+      <div class="filter van-hairline--bottom" v-show="false">
         <van-row>
           <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
             <div class="filter-cell-box">
@@ -14,32 +14,10 @@
           </van-col>
         </van-row>
       </div>
-      <div class="job-list">
+      <div class="job-list" v-if="resData">
         <ul>
-          <li class="job-li">
-            <JobItem></JobItem>
-            <!--<van-row>-->
-              <!--<van-col span="12">-->
-                <!--<div class="job-name">美工设计</div>-->
-              <!--</van-col>-->
-              <!--<van-col span="12">-->
-                <!--<div class="job-pay">5k-8k</div>-->
-              <!--</van-col>-->
-            <!--</van-row>-->
-            <!--<div class="job-remarks">-->
-              <!--<ul>-->
-                <!--<li class="job-remarks-li">www</li>-->
-                <!--<li class="job-remarks-li">www</li>-->
-              <!--</ul>-->
-            <!--</div>-->
-            <!--<div class="job-tag">-->
-              <!--<van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>-->
-              <!--<van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>-->
-            <!--</div>-->
-            <!--<div class="job-HR">-->
-              <!--<div class="HR-head"></div>-->
-              <!--<div class="HR-name">方文文·招聘者</div>-->
-            <!--</div>-->
+          <li class="job-li" v-for="(item,index) in resData" :key="index" @click="clickJob(item.RE13_ID)">
+            <JobItem :jobData="item"></JobItem>
           </li>
         </ul>
       </div>
@@ -50,6 +28,7 @@
 
 <script>
 import myModule from '../../../common'
+import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 import JobItem from '../../../component/jobItem.vue'
@@ -67,7 +46,10 @@ export default {
         {name: '广州'},
         {name: '公司'},
         {name: '要求'}
-      ]
+      ],
+      PageIndex: 1, // 记录当前第几页
+      PageCount: null, // 总页数
+      resData: null
     }
   },
   components: {
@@ -77,6 +59,17 @@ export default {
   },
   mounted () {
     console.log(myModule)
+  },
+  created () {
+    const data = {
+      PageIndex: this.PageIndex
+    }
+    postData('/ReService/SearchPosition', data).then((res) => {
+      console.log(res)
+      this.resData = res.ReturnData
+      this.PageCount = res.PageCount
+      this.PageIndex = res.PageIndex
+    })
   },
   methods: {
     /**
@@ -93,6 +86,13 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
+    },
+    /**
+     * 点击职位
+     * @param id 职位id
+     */
+    clickJob (id) {
+      GoToPage('jobDetail', 'jobDetail.html', {id: id})
     }
   }
 }

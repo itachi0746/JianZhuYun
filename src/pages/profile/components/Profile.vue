@@ -59,7 +59,7 @@
         </van-cell>
       </div>
     </div>
-    <Footer @sendHeight="handleHeight"></Footer>
+    <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
   </div>
 </template>
 
@@ -74,6 +74,7 @@ export default {
     return {
       headerHeight: null,
       footerHeight: null,
+      activeNum: 3,
       items: [
         {name: '我的简历', img: require('../assets/home_icon_jianli.png')},
         {name: '附件简历', img: require('../assets/home_icon_fujianjianli.png')},

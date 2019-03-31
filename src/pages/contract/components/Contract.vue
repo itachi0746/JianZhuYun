@@ -2,30 +2,17 @@
   <div>
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <div class="myOffer-list">
+      <div class="myOffer-list" v-if="resData">
         <ul>
-          <li class="myOffer-li">
+          <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickContact(item.RE33_SIGN_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
               <div class="myOffer-head"></div>
               <div class="myOffer-data">
-                <div>软通动力</div>
-                <div>2019-3-25</div>
+                <div>{{item.RE33_CO_NAME}}</div>
+                <div>{{item.RE33_CRT_TIME}}</div>
               </div>
               <div class="myOffer-time">
-                <div class="myOffer-status">未签约</div>
-                <van-icon class="" name="arrow" />
-              </div>
-            </div>
-          </li>
-          <li class="myOffer-li">
-            <div class="myOffer-li-box van-hairline--bottom">
-              <div class="myOffer-head"></div>
-              <div class="myOffer-data">
-                <div>软通动力</div>
-                <div>2019-3-25</div>
-              </div>
-              <div class="myOffer-time">
-                <div class="myOffer-status">未签约</div>
+                <div class="myOffer-status">{{item.RE33_STATUS}}</div>
                 <van-icon class="" name="arrow" />
               </div>
             </div>
@@ -38,6 +25,7 @@
 
 <script>
 import myModule from '../../../common'
+import {postData} from '../../../common/server'
 import Header from '../../../component/Header.vue'
 
 export default {
@@ -45,7 +33,8 @@ export default {
   data () {
     return {
       headerName: '我的合同',
-      headerHeight: null
+      headerHeight: null,
+      resData: null
     }
   },
   components: {
@@ -53,6 +42,14 @@ export default {
   },
   mounted () {
     console.log(myModule)
+  },
+  created () {
+    postData('/ReService/MyContracts', {}).then((res) => {
+      console.log(res)
+      this.resData = res.ReturnData
+      let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
+      this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
+    })
   },
   methods: {
     /**
@@ -65,6 +62,9 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
+    },
+    clickContact (id) {
+      GoToPage('', 'contractDetail.html', {id: id})
     }
   }
 }

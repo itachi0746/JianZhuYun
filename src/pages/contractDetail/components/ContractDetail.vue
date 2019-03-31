@@ -1,16 +1,16 @@
 <template>
   <div class="contractDetail">
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
-    <div class="body" ref="body">
+    <div class="body" ref="body" v-if="resData">
       <div class="mb-box">
         <van-cell-group>
           <div class="title">
             <div class="title-box van-hairline--bottom">甲方</div>
           </div>
-          <van-cell title="甲方" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="公司地址" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="法人" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="联系方式" value="内容" title-class="title-class" value-class="value-class" />
+          <van-cell title="甲方" :value="resData.RE33_CO_NAME" title-class="title-class" value-class="value-class" />
+          <van-cell title="公司地址" :value="resData.RE33_CO_ADDR" title-class="title-class" value-class="value-class" />
+          <van-cell title="法人" :value="resData.RE33_CO_PERSON" title-class="title-class" value-class="value-class" />
+          <van-cell title="联系方式" :value="resData.RE33_CO_LINK" title-class="title-class" value-class="value-class" />
         </van-cell-group>
       </div>
       <div class="mb-box">
@@ -18,9 +18,9 @@
           <div class="title">
             <div class="title-box van-hairline--bottom">乙方</div>
           </div>
-          <van-cell title="乙方" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="身份证号" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="联系方式" value="内容" title-class="title-class" value-class="value-class" />
+          <van-cell title="乙方" :value="resData.RE33_NAME" title-class="title-class" value-class="value-class" />
+          <van-cell title="身份证号" :value="resData.RE33_ID_NO" title-class="title-class" value-class="value-class" />
+          <van-cell title="联系方式" :value="resData.RE33_CANDIDATE_PHONE" title-class="title-class" value-class="value-class" />
         </van-cell-group>
       </div>
       <div class="mb-box">
@@ -28,10 +28,15 @@
           <div class="title">
             <div class="title-box van-hairline--bottom">合同内容</div>
           </div>
-          <van-cell title="项目" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="工作地点" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="合同开始时间" value="内容" title-class="title-class" value-class="value-class" />
-          <van-cell title="合同结束时间" value="内容" title-class="title-class" value-class="value-class" />
+          <van-cell title="项目" :value="resData.RE33_PRJ_NAME" title-class="title-class" value-class="value-class" />
+          <van-cell title="工作地点" :value="resData.RE33_WORK_ADDR" title-class="title-class" value-class="value-class" />
+          <van-cell title="合同开始时间" :value="resData.RE33_START_TIME" title-class="title-class" value-class="value-class" />
+          <van-cell title="合同结束时间" :value="resData.RE33_END_TIME" title-class="title-class" value-class="value-class" />
+          <van-cell title="签约年限" :value="resData.RE33_SIGN_YEARS" title-class="title-class" value-class="value-class" />
+          <van-cell title="年薪" :value="resData.RE33_SALARY_Y" title-class="title-class" value-class="value-class" />
+          <van-cell title="月薪" :value="resData.RE33_SALARY_M" title-class="title-class" value-class="value-class" />
+          <van-cell title="日薪" :value="resData.RE33_SALARY_D" title-class="title-class" value-class="value-class" />
+          <van-cell title="时薪" :value="resData.RE33_SALARY_H" title-class="title-class" value-class="value-class" />
           <van-cell title="查看合同详情" value="" title-class="title-class2" is-link value-class="" />
         </van-cell-group>
       </div>
@@ -42,7 +47,7 @@
         <div class="result-logo">
           <img src="../assets/accept.png" alt="">
         </div>
-        <div class="result-msg">入职邀请已接受</div>
+        <div class="result-msg">签约成功</div>
         <div class="result-data">2019-3-25</div>
       </div>
     </div>
@@ -51,6 +56,7 @@
 
 <script>
 import myModule from '../../../common'
+import {postData} from '../../../common/server'
 import Header from '../../../component/Header.vue'
 
 export default {
@@ -58,7 +64,9 @@ export default {
   data () {
     return {
       headerName: '合同签约',
-      headerHeight: null
+      headerHeight: null,
+      id: null,
+      resData: null
     }
   },
   components: {
@@ -67,12 +75,21 @@ export default {
   mounted () {
     console.log(myModule)
   },
+  created () {
+    const param = myModule.getUrlParams()
+    this.id = param.id
+    postData('/ReService/ContractDetails', {id: this.id}).then((res) => {
+      console.log(res)
+      this.resData = res.ReturnData
+      let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
+      this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
+    })
+  },
   methods: {
     /**
      * 处理header,footer的高度
      */
     handleHeight (height) {
-//      console.log(height)
       this.headerHeight = height.headerHeight
       if (this.headerHeight) {
         const WH = myModule.getClientHeight()
