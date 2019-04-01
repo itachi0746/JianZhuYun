@@ -8,9 +8,9 @@
             <div class="title-box van-hairline--bottom">甲方</div>
           </div>
           <van-cell title="甲方" :value="resData.RE33_CO_NAME" title-class="title-class" value-class="value-class" />
-          <van-cell title="公司地址" :value="resData.RE33_CO_ADDR" title-class="title-class" value-class="value-class" />
-          <van-cell title="法人" :value="resData.RE33_CO_PERSON" title-class="title-class" value-class="value-class" />
-          <van-cell title="联系方式" :value="resData.RE33_CO_LINK" title-class="title-class" value-class="value-class" />
+          <van-cell title="公司地址" :value="resData.ReferenceValues.RE33_CO_ADDR" title-class="title-class" value-class="value-class" />
+          <van-cell title="法人" :value="resData.ReferenceValues.RE33_CO_PERSON" title-class="title-class" value-class="value-class" />
+          <van-cell title="联系方式" :value="resData.ReferenceValues.RE33_CO_LINK" title-class="title-class" value-class="value-class" />
         </van-cell-group>
       </div>
       <div class="mb-box">
@@ -19,8 +19,8 @@
             <div class="title-box van-hairline--bottom">乙方</div>
           </div>
           <van-cell title="乙方" :value="resData.RE33_NAME" title-class="title-class" value-class="value-class" />
-          <van-cell title="身份证号" :value="resData.RE33_ID_NO" title-class="title-class" value-class="value-class" />
-          <van-cell title="联系方式" :value="resData.RE33_CANDIDATE_PHONE" title-class="title-class" value-class="value-class" />
+          <van-cell title="身份证号" :value="resData.ReferenceValues.RE33_ID_NO" title-class="title-class" value-class="value-class" />
+          <van-cell title="联系方式" :value="resData.ReferenceValues.RE33_CANDIDATE_PHONE" title-class="title-class" value-class="value-class" />
         </van-cell-group>
       </div>
       <div class="mb-box">
@@ -29,14 +29,14 @@
             <div class="title-box van-hairline--bottom">合同内容</div>
           </div>
           <van-cell title="项目" :value="resData.RE33_PRJ_NAME" title-class="title-class" value-class="value-class" />
-          <van-cell title="工作地点" :value="resData.RE33_WORK_ADDR" title-class="title-class" value-class="value-class" />
-          <van-cell title="合同开始时间" :value="resData.RE33_START_TIME" title-class="title-class" value-class="value-class" />
-          <van-cell title="合同结束时间" :value="resData.RE33_END_TIME" title-class="title-class" value-class="value-class" />
-          <van-cell title="签约年限" :value="resData.RE33_SIGN_YEARS" title-class="title-class" value-class="value-class" />
-          <van-cell title="年薪" :value="resData.RE33_SALARY_Y" title-class="title-class" value-class="value-class" />
-          <van-cell title="月薪" :value="resData.RE33_SALARY_M" title-class="title-class" value-class="value-class" />
-          <van-cell title="日薪" :value="resData.RE33_SALARY_D" title-class="title-class" value-class="value-class" />
-          <van-cell title="时薪" :value="resData.RE33_SALARY_H" title-class="title-class" value-class="value-class" />
+          <van-cell title="工作地点" :value="resData.ReferenceValues.RE33_WORK_ADDR" title-class="title-class" value-class="value-class" />
+          <van-cell title="合同开始时间" :value="resData.ReferenceValues.RE33_START_TIME" title-class="title-class" value-class="value-class" />
+          <van-cell title="合同结束时间" :value="resData.ReferenceValues.RE33_END_TIME" title-class="title-class" value-class="value-class" />
+          <van-cell title="签约年限" :value="resData.ReferenceValues.RE33_SIGN_YEARS" title-class="title-class" value-class="value-class" />
+          <van-cell title="年薪" :value="resData.ReferenceValues.RE33_SALARY_Y" title-class="title-class" value-class="value-class" />
+          <van-cell title="月薪" :value="resData.ReferenceValues.RE33_SALARY_M" title-class="title-class" value-class="value-class" />
+          <van-cell title="日薪" :value="resData.ReferenceValues.RE33_SALARY_D" title-class="title-class" value-class="value-class" />
+          <van-cell title="时薪" :value="resData.ReferenceValues.RE33_SALARY_H" title-class="title-class" value-class="value-class" />
           <van-cell title="查看合同详情" value="" title-class="title-class2" is-link value-class="" />
         </van-cell-group>
       </div>
@@ -81,6 +81,10 @@ export default {
     postData('/ReService/ContractDetails', {id: this.id}).then((res) => {
       console.log(res)
       this.resData = res.ReturnData
+      if (!this.resData) {
+        console.log('没有数据')
+        return
+      }
       let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
       this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
     })

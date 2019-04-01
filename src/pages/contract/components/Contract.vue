@@ -12,7 +12,7 @@
                 <div>{{item.RE33_CRT_TIME}}</div>
               </div>
               <div class="myOffer-time">
-                <div class="myOffer-status">{{item.RE33_STATUS}}</div>
+                <div class="myOffer-status">{{item.ReferenceValues.RE33_STATUS}}</div>
                 <van-icon class="" name="arrow" />
               </div>
             </div>

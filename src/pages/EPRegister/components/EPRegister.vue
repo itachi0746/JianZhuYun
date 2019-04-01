@@ -1,21 +1,15 @@
 <template>
   <div class="register">
     <div>
-      <!--<van-field class="cell-mb" v-model="IdCard" placeholder="请输入您的身份证号码" right-icon="scan"-->
-      <!--@click-right-icon="clickIcon"/>-->
-      <!--<input ref="upload" type="file" v-show="false" @onchange="uploadImg(event)">-->
-      <div style="position: relative;width: 100%;">
-        <van-field class="cell-mb" v-model="IdCard" placeholder="请输入您的身份证号码"/>
-        <van-uploader class="theUploadClass" :after-read="onRead" v-show="true">
-          <van-icon ref="upload" name="scan" :size="'25px'"/>
-        </van-uploader>
-      </div>
-      <van-field type="text" class="cell-mb" v-model="Name" placeholder="请输入您的姓名"/>
+      <van-field type="text" class="cell-mb" v-model="Name" placeholder="请输入公司名称"/>
       <van-field type="number" class="cell-mb" v-model="Mobile" placeholder="请输入您的手机号码"/>
       <van-field class="cell-mb" v-model="Code" placeholder="请输入验证码">
         <van-button class="active" @click="clickFaSong" slot="button" size="small" clearable type="primary">发送验证码
         </van-button>
       </van-field>
+      <van-field class="cell-mb" v-model="LP" placeholder="请输入企业法人"/>
+      <van-field class="cell-mb" v-model="RT" placeholder="请输入注册时间"/>
+      <van-field class="cell-mb" v-model="RC" placeholder="请输入注册资本"/>
       <van-field class="cell-mb" v-model="PassWord1" placeholder="请设置密码(6-20位数字与字母组合)"/>
       <van-field class="cell-mb" v-model="PassWord2" placeholder="请确认您的密码"/>
       <div class="mt30">
@@ -42,6 +36,9 @@ export default {
       Name: '',
       Mobile: '',
       Code: '',
+      LP: '', // 企业法人
+      RT: '', // 注册资本
+      RC: '', // 注册时间
       PassWord1: '',
       PassWord2: '',
       FileUrl: '', // 图片地址
@@ -57,17 +54,19 @@ export default {
       this.$refs.input.click()
     },
     clickSubmit () {
-      // todo 检验输入
       let form = new FormData()
       form.append('IdCard', this.IdCard)
       form.append('Name', this.Name)
       form.append('Mobile', this.Mobile)
       form.append('Code', this.Code)
       form.append('PassWord1', this.PassWord1)
-      form.append('PassWord2', this.PassWord2)
+      form.append('Password2', this.Password2)
       form.append('FileUrl', this.FileUrl)
+      form.append('LP', this.LP)
+      form.append('RT', this.RT)
+      form.append('RC', this.RC)
 
-      postData('/ReService/Register', form).then((res) => {
+      postData('/EntService/Register', form).then((res) => {
         console.log(res)
         GoToPage('', 'login.html', {})
       })

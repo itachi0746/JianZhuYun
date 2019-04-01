@@ -1,134 +1,63 @@
 <template>
   <div class="profile">
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
-    <div class="body" ref="body">
-      <div class="filter van-hairline--bottom">
-        <van-row>
-          <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
-            <div class="filter-cell-box">
-              <div class="van-hairline--right">
-                <div class="filter-cell">{{item.name}}</div>
-                <van-icon class="filter-icon normal-icon" name="play" />
-              </div>
+    <div class="filter van-hairline--bottom" v-show="false">
+      <van-row>
+        <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
+          <div class="filter-cell-box">
+            <div class="van-hairline--right">
+              <div class="filter-cell">{{item.name}}</div>
+              <van-icon class="filter-icon normal-icon" name="play" />
             </div>
-          </van-col>
-        </van-row>
-      </div>
-      <div class="company-list">
-        <ul>
-          <li class="company-list-li">
-            <div class="li-line">
-              <div class="c-head"></div>
-              <div class="c-data">
-                <div class="c-name">33333333333333</div>
-                <ul class="c-remarks">
-                  <li class="c-remarks-li">111</li>
-                  <li class="c-remarks-li">222</li>
-                </ul>
-              </div>
-            </div>
-            <div class="van-hairline--bottom">
-              <ul class="c-tag">
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-              </ul>
-            </div>
-            <div class="c-msg">
-              <div>热招：设计师等2886个职位</div>
-              <van-icon name="arrow" />
-            </div>
-          </li>
-          <li class="company-list-li">
-            <div class="li-line">
-              <div class="c-head"></div>
-              <div class="c-data">
-                <div class="c-name">33333333333333</div>
-                <ul class="c-remarks">
-                  <li class="c-remarks-li">111</li>
-                  <li class="c-remarks-li">222</li>
-                </ul>
-              </div>
-            </div>
-            <div class="van-hairline--bottom">
-              <ul class="c-tag">
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-              </ul>
-            </div>
-            <div class="c-msg">
-              <div>热招：设计师等2886个职位</div>
-              <van-icon name="arrow" />
-            </div>
-          </li>
-          <li class="company-list-li">
-            <div class="li-line">
-              <div class="c-head"></div>
-              <div class="c-data">
-                <div class="c-name">33333333333333</div>
-                <ul class="c-remarks">
-                  <li class="c-remarks-li">111</li>
-                  <li class="c-remarks-li">222</li>
-                </ul>
-              </div>
-            </div>
-            <div class="van-hairline--bottom">
-              <ul class="c-tag">
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-              </ul>
-            </div>
-            <div class="c-msg">
-              <div>热招：设计师等2886个职位</div>
-              <van-icon name="arrow" />
-            </div>
-          </li>
-          <li class="company-list-li">
-            <div class="li-line">
-              <div class="c-head"></div>
-              <div class="c-data">
-                <div class="c-name">33333333333333</div>
-                <ul class="c-remarks">
-                  <li class="c-remarks-li">111</li>
-                  <li class="c-remarks-li">222</li>
-                </ul>
-              </div>
-            </div>
-            <div class="van-hairline--bottom">
-              <ul class="c-tag">
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-                <li>
-                  <van-tag color="#F1F1F1" text-color="#999999" size="medium">标签</van-tag>
-                </li>
-              </ul>
-            </div>
-            <div class="c-msg">
-              <div>热招：设计师等2886个职位</div>
-              <van-icon name="arrow" />
-            </div>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </van-col>
+      </van-row>
     </div>
+    <!--<div class="body" ref="body">-->
+    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :offset="100"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="company-list" v-if="resData">
+          <ul>
+            <li class="company-list-li" v-for="(item, index) in resData" :key="index" @click="clickCompany(item.HRA0_ENTERPRISE_ID)">
+              <div class="li-line">
+                <div class="c-head"></div>
+                <div class="c-data">
+                  <div class="c-name">{{item.HRA0_ENT_NAME}}</div>
+                  <ul class="c-remarks">
+                    <li class="c-remarks-li">{{item.HRA0_ENT_ADDR_L1}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="van-hairline--bottom" v-show="false">
+                <ul class="c-tag">
+                  <li>
+                    <van-tag color="#F1F1F1" text-color="#999999" size="medium">{{item.HRA0_ENT_NAME}}</van-tag>
+                  </li>
+                </ul>
+              </div>
+              <div class="c-msg" v-show="false">
+                <div>热招：设计师等2886个职位</div>
+                <van-icon name="arrow" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </van-list>
+    </van-pull-refresh>
+    <!--</div>-->
     <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
+import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 
@@ -144,7 +73,13 @@ export default {
         {name: '融资'},
         {name: '规模'},
         {name: '行业'}
-      ]
+      ],
+      PageIndex: 1, // 记录当前第几页
+      PageCount: null, // 总页数
+      resData: null,
+      loading: false,
+      finished: false,
+      isLoading: false
     }
   },
   components: {
@@ -153,6 +88,17 @@ export default {
   },
   mounted () {
     console.log(myModule)
+  },
+  created () {
+    const data = {
+      PageIndex: this.PageIndex
+    }
+    postData('/ReService/SearchCompany', data).then((res) => {
+      console.log(res)
+      this.resData = res.ReturnData
+      this.PageCount = res.PageCount
+      this.PageIndex = res.PageIndex
+    })
   },
   methods: {
     /**
@@ -167,8 +113,41 @@ export default {
       }
       if (this.headerHeight && this.footerHeight) {
         const WH = myModule.getClientHeight()
-        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+        let body = document.getElementById('body')
+        body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
+    },
+    /**
+     * 点击公司
+     * @param id
+     */
+    clickCompany (id) {
+      GoToPage('', 'companyDetail.html', {id: id})
+    },
+    onLoad () {
+      // 异步更新数据
+      if (this.PageCount === this.PageIndex) { // 加载完全部了
+        this.finished = true
+        this.loading = false
+        return
+      }
+      this.PageIndex++
+      const data = {
+        PageIndex: this.PageIndex
+      }
+      postData('/ReService/SearchCompany', data).then((res) => {
+        console.log(res)
+        this.resData = this.resData.concat(res.ReturnData)
+        this.PageCount = res.PageCount
+        this.PageIndex = res.PageIndex
+        this.loading = false
+      })
+    },
+    onRefresh () {
+      //      setTimeout(() => {
+      //        this.$toast('刷新成功')
+      //        this.isLoading = false
+      //      }, 500)
     }
   }
 }

@@ -7,8 +7,8 @@
       <div class="fillter"></div>
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
-          <van-col span="8" class="tac" @click="clickRegister">注册</van-col>
-          <van-col span="8" class="tac" @click="clickForget">忘记密码</van-col>
+          <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
+          <van-col span="8" class="tac" @click.native="clickForget">忘记密码</van-col>
         </van-row>
       </van-cell>
     </div>
@@ -55,7 +55,7 @@ export default {
       }
     },
     clickRegister () {
-      this.$router.push({name: 'Register', params: {}})
+      GoToPage('', 'register.html', {})
     },
     clickForget () {
     },
@@ -66,6 +66,7 @@ export default {
 
       postData('/ReService/Login', form).then((res) => {
         console.log(res)
+        GoToPage('', 'index.html', {})
       })
     }
   }

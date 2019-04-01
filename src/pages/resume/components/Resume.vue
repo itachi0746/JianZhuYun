@@ -157,11 +157,20 @@ export default {
           placeHolder: '到岗时间',
           type: 'text',
           popType: 'date',
-          theShowDate: new Date(),
+          showDate: new Date(),
           minDate: new Date(),
           datetimeType: 'date',
           fieldName: 'RE23_CAN_WORK_TIME'
           //          datetimeType: 'year-month'
+        },
+        {
+          name: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'RE23_CANDIDATE_ID'
         }
       ],
       curFieldDIdx: null, // 当前字段index
@@ -175,6 +184,25 @@ export default {
     console.log(myModule)
   },
   created () {
+    postData('/ReService/ResumeDetails', {}).then((res) => {
+      console.log(res)
+      const returnData = res.ReturnData
+      if (!returnData.RE23_CANDIDATE_ID) {
+        return
+      }
+      for (let obj of this.theFieldArr) {
+        for (let key in returnData) {
+          if (obj.fieldName === key) {
+            let theValue = returnData[key]
+            if (typeof theValue === 'string' && theValue.indexOf('/Date') !== -1) { // 如果是时间字符串
+              let temp = myModule.formatDate(theValue)
+              theValue = myModule.formatTime(temp)
+            }
+            obj.value = theValue
+          }
+        }
+      }
+    })
   },
   methods: {
     clickConfirm () {
@@ -259,6 +287,11 @@ export default {
      * 提交简历
      */
     clickSubmit () {
+      // todo 检验输入
+      this.$toast.loading({
+        mask: true,
+        message: '加载中...'
+      })
       let dataObj = {}
       for (let obj of this.theFieldArr) {
         dataObj[obj.fieldName] = obj.value
@@ -266,6 +299,11 @@ export default {
 //      console.log(dataObj)
       postData('/ReService/SaveResume', dataObj).then((res) => {
         console.log(res)
+        this.$toast.success('提交成功')
+        GoToPage('', 'index.hml')
+      }).catch((err) => {
+        console.log(err)
+        this.$toast.clear()
       })
     }
   }

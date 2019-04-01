@@ -37,7 +37,7 @@
     >
       <div class="reason-box">
         <div class="reason-title">理由</div>
-        <textarea class="reason" name="reason" id="reason" cols="" rows=""></textarea>
+        <textarea v-model="rejectReason" placeholder="请输入您拒绝的原因哦~" class="reason" name="reason" id="reason" cols="" rows=""></textarea>
       </div>
     </van-dialog>
   </div>
@@ -56,7 +56,8 @@ export default {
       headerHeight: null,
       showDialog: false,
       id: null,
-      resData: null
+      resData: null,
+      rejectReason: '' // 拒绝理由
     }
   },
   components: {
@@ -71,6 +72,9 @@ export default {
     postData('/ReService/OfferDetials', {id: this.id}).then((res) => {
       console.log(res)
       this.resData = res.ReturnData
+      if (!this.resData) {
+        return
+      }
       let theTS = myModule.formatDate(this.resData.RE32_CRT_TIME)
       this.resData.RE32_CRT_TIME = myModule.formatTime(theTS)
     })
@@ -91,12 +95,48 @@ export default {
      */
     clickRefuse () {
       this.showDialog = true
-      this.resData.RE32_STATUS = 'BD0904'
     },
     clickAccept () {
-      this.resData.RE32_STATUS = 'BD0903'
+      this.$toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0 // 持续展示 toast
+      })
+      const data = {
+        id: this.id,
+        note: ''
+      }
+      postData('/ReService/AcceptOffer', data).then((res) => {
+        console.log(res)
+        this.$toast.success('提交成功')
+        this.resData.RE32_STATUS = 'BD0903'
+      }).catch((err) => {
+        console.log(err)
+        this.$toast.clear()
+      })
     },
-    beforeClose () {
+    beforeClose (action, done) {
+      if (action === 'confirm') { // 点击确认
+        this.$toast.loading({
+          mask: true,
+          message: '加载中...',
+          duration: 0 // 持续展示 toast
+        })
+        const data = {
+          id: this.id,
+          note: this.rejectReason
+        }
+        postData('/ReService/RejectOffer', data).then((res) => {
+          console.log(res)
+          this.$toast.success('提交成功')
+          this.resData.RE32_STATUS = 'BD0904'
+        }).catch((err) => {
+          console.log(err)
+          this.$toast.clear()
+        })
+      } else { // 点击取消
+        done()
+      }
     }
   }
 }

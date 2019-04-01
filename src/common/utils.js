@@ -90,7 +90,7 @@ export default {
     var result = curTime - timeStamp
     return result > interval
   },
-  getClientHeight () {
+  getClientHeight: function () {
     let clientHeight = 0
     // if (document.body.clientHeight && document.documentElement.clientHeight) {
     //   clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
@@ -111,10 +111,11 @@ export default {
    * @param shijianchuo 时间戳
    * @returns {string}
    */
-  formatTime (shijianchuo) {
+  formatTime: function (shijianchuo) {
     //shijianchuo是整数，否则要parseInt转换
     // var time = new Date(shijianchuo)
     var time = shijianchuo
+    debugger
     var y = time.getFullYear()
     var m = time.getMonth() + 1
     var d = time.getDate()
@@ -140,11 +141,11 @@ export default {
    */
   formatDate: function (dateStr) {
     var theResult = dateStr
-    var theReg = /\/Date\(\d*\)\//g
+    var theReg = /\/Date\(-?\d*\)\//g
     if (!theReg.test(theResult)) {
       return theResult
     }
-    theResult = 'new ' + theResult.substr(1, temp1.length - 2)
+    theResult = 'new ' + theResult.substr(1, theResult.length - 2)
     theResult = eval(theResult)
     return theResult
   }

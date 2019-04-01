@@ -1,14 +1,14 @@
 <template>
   <div class="">
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <Header :canBack="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
         <div class="job-header van-hairline--bottom">
           <van-row type="flex" align="center">
-            <van-col span="19">
+            <van-col span="16">
               <div class="job-name">{{resData.RE13_NAME}}</div>
             </van-col>
-            <van-col span="5">
+            <van-col span="8">
               <div class="job-pay">{{resData.ReferenceValues.RE13_SALARY_REQUIRED}}</div>
             </van-col>
           </van-row>
@@ -125,7 +125,26 @@ export default {
      * 投点击简历
      */
     clickSend () {
-      this.showDialog = true
+//      this.showDialog = true
+      this.$toast.loading({
+        //        mask: true,
+        message: '加载中...',
+        duration: 0
+      })
+      const data = {
+        id: this.id,
+        note: this.recommendation
+      }
+      postData('/ReService/SendResume', data).then((res) => {
+        console.log(res)
+        this.$toast.success('投递成功')
+        setTimeout(() => {
+          GoToPage('', 'index.html', {})
+        }, 3000)
+      }).catch((err) => {
+        console.log(err)
+        this.$toast.fail('操作失败')
+      })
     },
     beforeClose (action, done) {
       if (action === 'confirm') {
@@ -207,6 +226,7 @@ export default {
 
   .job-pay {
     color: $mainColor;
+    text-align: right;
   }
 
   .job-name {

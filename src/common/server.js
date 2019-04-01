@@ -63,8 +63,22 @@ Axios.interceptors.response.use(
         background: '#fef0f0',
         color: 'red'
       });
+      if (res.data.Code === '403') {
+        setTimeout(() => {
+          window.location.href = res.data.Result
+        }, 2000)
+      }
       return Promise.reject(res.data.Message) // 返回promise对象,把错误信息传下去
     }
+    // if (res.data.Success && !res.ReturnData) {
+    //   Notify({
+    //     message: '没有数据', // 弹出错误信息
+    //     duration: 2000,
+    //     background: '#fef0f0',
+    //     color: 'red'
+    //   });
+    //   return Promise.reject('没有数据') // 返回promise对象,把错误信息传下去
+    // }
     return res
   },
   error => {

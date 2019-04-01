@@ -123,7 +123,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       name: 'common-api',
       chunks: ['login', 'register', 'profile', 'job', 'company',
         'message', 'offer', 'offerDetail', 'contract', 'contractDetail', 'jobDetail',
-      'resume', 'EPIndex', 'EPRecord', 'EPProfile', 'EPRelease'],
+      'resume', 'companyDetail', 'EPIndex', 'EPRecord', 'EPProfile', 'EPRelease', 'EPRegister'],
       minChunks: Infinity
     }),
     // extract webpack runtime and module manifest to its own file in order to
