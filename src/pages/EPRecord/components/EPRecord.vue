@@ -40,28 +40,28 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div class="job-list">
+        <div class="job-list" v-if="resData">
           <ul>
-            <li class="job-li">
+            <li class="job-li" v-for="(item, index) in resData" :key="index">
               <div class="manItem">
                 <div class="man-box">
                   <div class="man-head">
                   </div>
                   <div class="man-data">
                     <div class="man-name">
-                      蔡明宏
+                      {{item.RE34_NAME}}
                     </div>
                     <div class="man-tag1-box">
-                      <div class="man-tag1">申请建筑电工</div>
+                      <div class="man-tag1">申请{{item.RE34_POSITION}}</div>
                     </div>
                     <div class="man-tag1-box">
-                      <div class="man-tag1">2019-3-27 08:30</div>
+                      <div class="man-tag1">{{item.RE34_SEND_DATE}}</div>
                     </div>
                   </div>
                   <div class="action-box">
-                    <div class="status">未接受</div>
-                    <div class="action-btn">
-                      <van-button class="btnSize" type="info" @click="clickHandle">处理</van-button>
+                    <div class="status">{{item.ReferenceValues.RE34_STATUS}}</div>
+                    <div class="action-btn" v-if="item.RE34_STATUS==='BD0902'">
+                      <van-button class="btnSize" type="info" @click="clickHandle(item.RE34_RCV_ID)">处理</van-button>
                     </div>
                   </div>
                 </div>
@@ -104,6 +104,22 @@ export default {
   mounted () {
     console.log(myModule)
   },
+  created () {
+    postData('/EntService/MyApplys', {}).then((res) => {
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
+      this.resData = res.ReturnData
+      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
+    })
+  },
   methods: {
     /**
      * 处理header,footer的高度
@@ -122,10 +138,12 @@ export default {
 //        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
     },
-    clickHandle () {
-      this.$router.push({name: 'Handle', params: { }})
+    clickHandle (id) {
+      this.$router.push({name: 'Handle', params: {id: id}})
     },
     onLoad () {
+      this.loading = false // 测试
+
       // 异步更新数据
       if (this.PageCount === this.PageIndex) { // 加载完全部了
         this.finished = true

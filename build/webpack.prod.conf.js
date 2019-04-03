@@ -121,7 +121,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common-api',
-      chunks: ['login', 'register', 'profile', 'job', 'company', 'record', 'recordDetail',
+      chunks: ['login', 'register', 'profile', 'job', 'company', 'record', 'recordDetail', 'peopleDetail',
         'message', 'offer', 'offerDetail', 'contract', 'contractDetail', 'jobDetail', 'interview',
       'resume', 'companyDetail', 'EPIndex', 'EPRecord', 'EPProfile', 'EPRelease', 'EPRegister',
       'EPLogin', 'interviewDetail', 'EPInterviewDB', 'EPHireDB', 'EPSigningDB'],

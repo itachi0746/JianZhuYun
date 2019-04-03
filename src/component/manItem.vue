@@ -1,19 +1,22 @@
 <template>
   <div class="manItem">
-    <div class="man-box">
+    <div class="man-box" v-if="data">
       <div class="man-head">
+        <img :src="data.RE23_PIC_URL" alt="">
       </div>
       <div class="man-data">
         <div class="man-name">
-          蔡明宏
+          {{data.RE23_NAME}}
         </div>
         <div class="man-tag1-box">
-          <div class="man-tag1 van-hairline--right">本科</div>
-          <div class="man-tag1 van-hairline--right">本科</div>
+          <div class="man-tag1 van-hairline--right">{{data.RE23_WORK_PLACE}}</div>
+          <div class="man-tag1 van-hairline--right">{{data.RE23_WORK_YEARS}}</div>
+          <div class="man-tag1 van-hairline--right">{{data.RE23_EDUCATION}}</div>
+          <div class="man-tag1 van-hairline--right">{{data.RE23_SALARY_E1}}</div>
         </div>
         <div class="man-tag1-box">
-          <div class="man-tag1 van-hairline--right">Web前端开发工程师</div>
-          <div class="man-tag1 van-hairline--right">全城科技有限公司</div>
+          <div class="man-tag1 van-hairline--right">{{data.RE23_EXPECTED_POSITION}}</div>
+          <!--<div class="man-tag1 van-hairline&#45;&#45;right">全城科技有限公司</div>-->
         </div>
       </div>
     </div>
@@ -24,6 +27,12 @@
 export default {
   data () {
     return {}
+  },
+  props: {
+    data: {
+      type: Object,
+      default: null
+    }
   },
 
   components: {},
@@ -55,6 +64,10 @@ export default {
     border-radius: 50%;
     background-color: #969799;
     margin-right: 10px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .man-data {

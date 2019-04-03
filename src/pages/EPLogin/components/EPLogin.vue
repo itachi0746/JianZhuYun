@@ -79,7 +79,7 @@ export default {
 
       postData('/EntService/Login', form).then((res) => {
         console.log(res)
-//        GoToPage('', 'EPIndex.html', {})
+        GoToPage('', 'EPIndex.html', {})
       })
     }
   }

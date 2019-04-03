@@ -23,12 +23,12 @@
       >
         <div class="job-list">
           <ul>
-            <li class="job-li">
-              <manItem></manItem>
+            <li class="job-li" v-for="(item, index) in resData" :key="index" @click="clickLi">
+              <manItem :data="item"></manItem>
             </li>
-            <li class="job-li">
-              <manItem></manItem>
-            </li>
+            <!--<li class="job-li">-->
+              <!--<manItem></manItem>-->
+            <!--</li>-->
           </ul>
         </div>
       </van-list>
@@ -85,6 +85,21 @@ export default {
   mounted () {
     console.log(myModule)
   },
+  created () {
+    postData('/EntService/SearchPeople', {}).then((res) => {
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
+      this.resData = res.ReturnData
+    })
+  },
   methods: {
     /**
      * 处理header,footer的高度
@@ -114,19 +129,22 @@ export default {
       const data = {
         PageIndex: this.PageIndex
       }
-//      postData('/ReService/SearchPosition', data).then((res) => {
-//        console.log(res)
-//        this.resData = this.resData.concat(res.ReturnData)
-//        this.PageCount = res.PageCount
-//        this.PageIndex = res.PageIndex
-//        this.loading = false
-//      })
+      postData('/ReService/SearchPeople', data).then((res) => {
+        console.log(res)
+        this.resData = this.resData.concat(res.ReturnData)
+        this.PageCount = res.PageCount
+        this.PageIndex = res.PageIndex
+        this.loading = false
+      })
     },
     onRefresh () {
       //      setTimeout(() => {
       //        this.$toast('刷新成功')
       //        this.isLoading = false
       //      }, 500)
+    },
+    clickLi (id) {
+      GoToPage('', 'peopleDetail.html', {id: id})
     }
   }
 }

@@ -2,49 +2,51 @@
   <div class="handle">
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
-      <div class="header van-hairline--bottom">
-        <van-row>
-          <van-col span="19">
-            <div class="data-box">
-              <div class="data-name">陈明华</div>
-              <div class="data-line">申请职位 建筑电工</div>
-              <div class="data-line">2019-3-1 08：55</div>
-            </div>
-          </van-col>
-          <van-col span="5">
-            <div class="data-box-r">
-              <div class="data-head"></div>
-              <van-button class="btnStyle" plain type="primary" @click="clickBtn">查看简历</van-button>
-            </div>
-          </van-col>
-        </van-row>
-      </div>
-      <div class="main">
-        <div class="main-title">
-          自荐信
+      <div v-if="resData">
+        <div class="header van-hairline--bottom">
+          <van-row>
+            <van-col span="19">
+              <div class="data-box">
+                <div class="data-name">{{resData.RE34_NAME}}</div>
+                <div class="data-line">申请职位 {{resData.RE34_POSITION}}</div>
+                <div class="data-line">{{resData.RE34_SEND_DATE}}</div>
+              </div>
+            </van-col>
+            <van-col span="5">
+              <div class="data-box-r">
+                <div class="data-head"></div>
+                <van-button class="btnStyle" plain type="primary" @click="">查看简历</van-button>
+              </div>
+            </van-col>
+          </van-row>
         </div>
-        <div class="main-field">
-          {{value}}
+        <div class="main" v-if="resData.RE34_LETTER">
+          <div class="main-title">
+            自荐信
+          </div>
+          <div class="main-field">
+            {{resData.RE34_LETTER}}
+          </div>
         </div>
-      </div>
-      <div class="action-box">
-        <van-row class="theRow">
-          <van-col span="8">
-            <div class="btn-box">
-              <van-button class="btnClass" type="info">拒绝</van-button>
-            </div>
-          </van-col>
-          <van-col span="8">
-            <div class="btn-box">
-              <van-button class="btnClass" type="info">同意</van-button>
-            </div>
-          </van-col>
-          <van-col span="8">
-            <div class="btn-box">
-              <van-button class="btnClass" type="info">待定</van-button>
-            </div>
-          </van-col>
-        </van-row>
+        <div class="action-box">
+          <van-row class="theRow">
+            <van-col span="8">
+              <div class="btn-box">
+                <van-button class="btnClass" type="info" @click.native="clickRefuse">拒绝</van-button>
+              </div>
+            </van-col>
+            <van-col span="8">
+              <div class="btn-box">
+                <van-button class="btnClass" type="info" @click.native="clickAccept">同意</van-button>
+              </div>
+            </van-col>
+            <van-col span="8">
+              <div class="btn-box">
+                <van-button class="btnClass" type="info" @click.native="clickWait">待定</van-button>
+              </div>
+            </van-col>
+          </van-row>
+        </div>
       </div>
     </div>
 
@@ -53,6 +55,7 @@
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 
 export default {
@@ -73,11 +76,33 @@ export default {
     handleHeight () {
     },
     clickBtn () {
-      this.$router.push({name: 'ResumeDetail', params: {}})
+//      this.$router.push({name: 'ResumeDetail', params: {}})
+    },
+    clickRefuse () {
+    },
+    clickAccept () {
+    },
+    clickWait () {
     }
   },
 
-  created () {},
+  created () {
+    const param = myModule.getUrlParams()
+    postData('/EntService/ApplyDetials', {id: param.id}).then((res) => {
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
+      this.resData = res.ReturnData
+      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
+    })
+  },
 
   mounted () {
     console.log(myModule)
