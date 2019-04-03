@@ -1,43 +1,83 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
-    <div class="body" ref="body">
-      <div class="job-list">
-        <ul>
-          <li class="job-li">
-            <div class="manItem">
-              <div class="man-box">
-                <div class="man-head">
-                </div>
-                <div class="man-data">
-                  <div class="man-name">
-                    蔡明宏
+    <Header @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <!--<div class="body" ref="body">-->
+      <!--<div class="job-list">-->
+        <!--<ul>-->
+          <!--<li class="job-li">-->
+            <!--<div class="manItem">-->
+              <!--<div class="man-box">-->
+                <!--<div class="man-head">-->
+                <!--</div>-->
+                <!--<div class="man-data">-->
+                  <!--<div class="man-name">-->
+                    <!--蔡明宏-->
+                  <!--</div>-->
+                  <!--<div class="man-tag1-box">-->
+                    <!--<div class="man-tag1">申请建筑电工</div>-->
+                  <!--</div>-->
+                  <!--<div class="man-tag1-box">-->
+                    <!--<div class="man-tag1">2019-3-27 08:30</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="action-box">-->
+                  <!--<div class="status">未接受</div>-->
+                  <!--<div class="action-btn">-->
+                    <!--<van-button class="btnSize" type="info" @click="clickHandle">处理</van-button>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :offset="100"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="job-list">
+          <ul>
+            <li class="job-li">
+              <div class="manItem">
+                <div class="man-box">
+                  <div class="man-head">
                   </div>
-                  <div class="man-tag1-box">
-                    <div class="man-tag1">申请建筑电工</div>
+                  <div class="man-data">
+                    <div class="man-name">
+                      蔡明宏
+                    </div>
+                    <div class="man-tag1-box">
+                      <div class="man-tag1">申请建筑电工</div>
+                    </div>
+                    <div class="man-tag1-box">
+                      <div class="man-tag1">2019-3-27 08:30</div>
+                    </div>
                   </div>
-                  <div class="man-tag1-box">
-                    <div class="man-tag1">2019-3-27 08:30</div>
-                  </div>
-                </div>
-                <div class="action-box">
-                  <div class="status">未接受</div>
-                  <div class="action-btn">
-                    <van-button class="btnSize" type="info" @click="clickHandle">处理</van-button>
+                  <div class="action-box">
+                    <div class="status">未接受</div>
+                    <div class="action-btn">
+                      <van-button class="btnSize" type="info" @click="clickHandle">处理</van-button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+            </li>
+          </ul>
+        </div>
+      </van-list>
+    </van-pull-refresh>
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 
@@ -48,7 +88,13 @@ export default {
       headerName: '申请记录',
       activeNum: 1,
       headerHeight: null,
-      footerHeight: null
+      footerHeight: null,
+      PageIndex: 1, // 记录当前第几页
+      PageCount: null, // 总页数
+      resData: null,
+      loading: false,
+      finished: false,
+      isLoading: false
     }
   },
   components: {
@@ -71,12 +117,40 @@ export default {
       }
       if (this.headerHeight && this.footerHeight) {
         const WH = myModule.getClientHeight()
-        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+        let body = document.getElementById('body')
+        body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+//        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
     },
     clickHandle () {
       this.$router.push({name: 'Handle', params: { }})
+    },
+    onLoad () {
+      // 异步更新数据
+      if (this.PageCount === this.PageIndex) { // 加载完全部了
+        this.finished = true
+        this.loading = false
+        return
+      }
+      this.PageIndex++
+      const data = {
+        PageIndex: this.PageIndex
+      }
+      //      postData('/ReService/SearchPosition', data).then((res) => {
+      //        console.log(res)
+      //        this.resData = this.resData.concat(res.ReturnData)
+      //        this.PageCount = res.PageCount
+      //        this.PageIndex = res.PageIndex
+      //        this.loading = false
+      //      })
+    },
+    onRefresh () {
+      //      setTimeout(() => {
+      //        this.$toast('刷新成功')
+      //        this.isLoading = false
+      //      }, 500)
     }
+
   }
 }
 </script>
@@ -85,7 +159,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .filter {
@@ -170,7 +244,7 @@ export default {
   }
 
   .man-name {
-    @include font-size(20px);
+    @include font-size(18px);
     color: #333;
   }
 

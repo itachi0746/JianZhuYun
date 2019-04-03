@@ -59,11 +59,23 @@ export default {
     },
     clickForget () {
     },
+    /**
+     * 点击登录
+     */
     clickLogin () {
+      if (!this.Mobile || !this.Password) {
+        this.$toast.fail('输入不能为空')
+        return
+      }
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
       let form = new FormData()
       form.append('Mobile', this.Mobile)
       form.append('Password', this.Password)
-
       postData('/ReService/Login', form).then((res) => {
         console.log(res)
         GoToPage('', 'index.html', {})

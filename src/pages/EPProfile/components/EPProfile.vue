@@ -126,7 +126,7 @@ export default {
   }
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .item-list {

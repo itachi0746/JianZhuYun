@@ -67,17 +67,6 @@ export default {
     }
   },
   /**
-   * 判断是空对象
-   * @param obj 对象
-   * @returns {boolean}
-   */
-  isEmptyObject: function (obj) {
-    for (var key in obj) {
-      return false
-    }
-    return true
-  },
-  /**
    * 判断是否已经过指定的分钟
    * @param timeStamp 上一个时间戳(毫秒)
    * @param interval 时间间隔(分钟)
@@ -114,11 +103,11 @@ export default {
   formatTime: function (shijianchuo) {
     //shijianchuo是整数，否则要parseInt转换
     // var time = new Date(shijianchuo)
-    var time = shijianchuo
-    debugger
-    var y = time.getFullYear()
-    var m = time.getMonth() + 1
-    var d = time.getDate()
+
+    let time = shijianchuo
+    let y = time.getFullYear()
+    let m = time.getMonth() + 1
+    let d = time.getDate()
     // var h = time.getHours()
     // var mm = time.getMinutes()
     // var s = time.getSeconds()
@@ -136,17 +125,96 @@ export default {
     return form
   },
   /**
+   * 把数组里的对象转为formdata
+   * @param dataArr
+   */
+  createFormData: function (dataArr) {
+    let form = new FormData()
+    for (let obj of dataArr) {
+      if (!obj.value) {
+        console.log(`${obj.name}不能为空`)
+        return false
+      }
+      form.append(obj.fieldName, obj.value)
+    }
+    return form
+  },
+  /**
    * 格式化后台返回的日期字符串, 返回时间抽
    * @param dateStr
    */
   formatDate: function (dateStr) {
-    var theResult = dateStr
-    var theReg = /\/Date\(-?\d*\)\//g
+    if (!dateStr || typeof dateStr !== 'string') {
+      console.log('参数错误')
+      return
+    }
+    let theResult = dateStr
+    let theReg = /\/Date\(\d*\)\//g
+    let theReg2 = /\/Date\(-?\d*\)\//g
     if (!theReg.test(theResult)) {
+      if (theReg2.test(theResult)) { // 带负号的时间, 为空值
+        return null
+      }
       return theResult
     }
     theResult = 'new ' + theResult.substr(1, theResult.length - 2)
+    console.log(theResult)
+
     theResult = eval(theResult)
+    console.log(theResult)
+
     return theResult
+  },
+  /**
+   * 统一处理时间
+   * @param dateStr
+   */
+  handleTime: function (dateStr) {
+    let theResult = this.formatDate(dateStr)
+    if (theResult === null) {
+      return theResult
+    }
+    theResult = this.formatTime(theResult)
+    return theResult
+  },
+  /**
+   * 判断是空对象
+   * @param obj 对象
+   * @returns {boolean}
+   */
+  isEmptyObject: function (obj) {
+    for (var key in obj) {
+      return false
+    }
+    return true
+  },
+  /**
+   * 判断是不是空的
+   * @param param
+   * @returns {boolean}
+   */
+  isEmpty: function (param) {
+    var me = this
+    var theType = typeof param
+    var empty = false
+    switch (theType)
+    {
+      case 'string':
+        if (param === '') {
+          console.log('参数为空字符串')
+          empty = true
+        }
+        break
+      case 'array':
+        if (param.length === 0) {
+          console.log('参数为空数组')
+          empty = true
+        }
+        break
+      case 'object':
+        empty = me.isEmptyObject(param)
+        break
+    }
+    return empty
   }
 }

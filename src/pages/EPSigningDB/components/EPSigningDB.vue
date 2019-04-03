@@ -1,0 +1,141 @@
+<template>
+  <div class="profile">
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :offset="100"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="job-list">
+          <ul>
+            <li class="job-li">
+              <Item></Item>
+            </li>
+          </ul>
+        </div>
+      </van-list>
+    </van-pull-refresh>
+  </div>
+</template>
+
+<script>
+import myModule from '../../../common'
+import { postData } from '../../../common/server'
+import Header from '../../../component/Header.vue'
+import Item from './Item.vue'
+
+export default {
+  name: 'profile',
+  data () {
+    return {
+      headerName: '签约库',
+      activeNum: 1,
+      headerHeight: null,
+      footerHeight: null,
+      PageIndex: 1, // 记录当前第几页
+      PageCount: null, // 总页数
+      resData: null,
+      loading: false,
+      finished: false,
+      isLoading: false
+    }
+  },
+  components: {
+    Header,
+    Item
+  },
+  mounted () {
+    console.log(myModule)
+  },
+  methods: {
+    /**
+     * 处理header,footer的高度
+     */
+    handleHeight (height) {
+      console.log(height)
+      if (height.headerHeight) {
+        this.headerHeight = height.headerHeight
+      }
+      const WH = myModule.getClientHeight()
+      let body = document.getElementById('body')
+      body.style.height = WH - this.headerHeight + 'px'
+    },
+    onLoad () {
+      // 异步更新数据
+      if (this.PageCount === this.PageIndex) { // 加载完全部了
+        this.finished = true
+        this.loading = false
+        return
+      }
+      this.PageIndex++
+      const data = {
+        PageIndex: this.PageIndex
+      }
+      //      postData('/ReService/SearchPosition', data).then((res) => {
+      //        console.log(res)
+      //        this.resData = this.resData.concat(res.ReturnData)
+      //        this.PageCount = res.PageCount
+      //        this.PageIndex = res.PageIndex
+      //        this.loading = false
+      //      })
+    },
+    onRefresh () {
+      //      setTimeout(() => {
+      //        this.$toast('刷新成功')
+      //        this.isLoading = false
+      //      }, 500)
+    }
+
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+  .body {
+    background-color: #F5F9FA;
+    overflow-y: auto;overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+  }
+  .filter {
+    width: 100%;
+    background-color: #fff;
+  }
+  .filter-cell-box {
+    @include font-size(14px);
+    padding: 10px 0;
+    position: relative;
+  }
+  .filter-cell {
+    text-align: center;
+    color: #666;
+  }
+  .filter-icon {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    color: #666;
+  }
+  .normal-icon {
+    transform: rotate(90deg);
+  }
+  .active-icon {
+    transform: rotate(-90deg);
+  }
+  .job-list {
+    .job-li {
+      width: 100%;
+      /*height: 140px;*/
+      background-color: #fff;
+      margin-bottom: 8px;
+      padding: 19px 23px;
+      @include borderBox();
+      color: #666;
+      @include font-size(16px)
+    }
+  }
+
+</style>

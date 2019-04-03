@@ -1,11 +1,10 @@
 <template>
   <div>
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
       <div class="myOffer-list" v-if="resData">
         <ul>
-          <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickOffer(item.RE32_OFFER_ID
-)">
+          <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickOffer(item.RE32_OFFER_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
               <div class="myOffer-head"></div>
               <div class="myOffer-data">
@@ -47,6 +46,16 @@ export default {
   created () {
     postData('/ReService/MyOffers', {}).then((res) => {
       console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
       this.resData = res.ReturnData
       let theTS = myModule.formatDate(this.resData.RE32_CRT_TIME)
       this.resData.RE32_CRT_TIME = myModule.formatTime(theTS)
@@ -79,7 +88,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
 

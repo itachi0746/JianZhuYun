@@ -77,6 +77,16 @@ export default {
     }
     postData('/ReService/SearchPosition', data).then((res) => {
       console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
       this.resData = res.ReturnData
       this.PageCount = res.PageCount
       this.PageIndex = res.PageIndex
@@ -140,7 +150,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
 

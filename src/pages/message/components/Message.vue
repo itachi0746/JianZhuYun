@@ -4,30 +4,18 @@
     <div class="body" ref="body">
       <div class="message-list">
         <ul>
-          <li class="message-li">
-            <div class="msg-li-box van-hairline--bottom">
-              <div class="msg-head"></div>
-              <div class="msg-data">
-                <div>黄举赫 查看了您</div>
-                <div>39位boss查看</div>
-              </div>
-              <div class="msg-time">
-                2019/3/21
-              </div>
-            </div>
-          </li>
-          <li class="message-li">
-            <div class="msg-li-box van-hairline--bottom">
-              <div class="msg-head"></div>
-              <div class="msg-data">
-                <div>黄举赫 查看了您</div>
-                <div>39位boss查看</div>
-              </div>
-              <div class="msg-time">
-                2019/3/21
-              </div>
-            </div>
-          </li>
+          <!--<li class="message-li">-->
+            <!--<div class="msg-li-box van-hairline&#45;&#45;bottom">-->
+              <!--<div class="msg-head"></div>-->
+              <!--<div class="msg-data">-->
+                <!--<div>黄举赫 查看了您</div>-->
+                <!--<div>39位boss查看</div>-->
+              <!--</div>-->
+              <!--<div class="msg-time">-->
+                <!--2019/3/21-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</li>-->
         </ul>
       </div>
     </div>
@@ -81,7 +69,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .message-li {

@@ -1,6 +1,6 @@
 <template>
   <div v-if="resData">
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
       <div>
         <div class="header">
@@ -14,22 +14,24 @@
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
+        <div class="result" v-if="resData.RE32_STATUS==='BD0903'">
+          <div class="result-logo">
+            <img src="../assets/accept.png" alt="">
+          </div>
+          <div class="result-msg">入职邀请已接受</div>
+          <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
+        </div>
+        <div class="result" v-if="resData.RE32_STATUS==='BD0904'">
+          <div class="result-logo">
+            <img src="../assets/refuse.png" alt="">
+          </div>
+          <div class="result-msg">入职邀请拒绝</div>
+          <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
+        </div>
       </div>
+
     </div>
-    <div class="result" v-if="resData.RE32_STATUS==='BD0903'">
-      <div class="result-logo">
-        <img src="../assets/accept.png" alt="">
-      </div>
-      <div class="result-msg">入职邀请已接受</div>
-      <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
-    </div>
-    <div class="result" v-if="resData.RE32_STATUS==='BD0904'">
-      <div class="result-logo">
-        <img src="../assets/refuse.png" alt="">
-      </div>
-      <div class="result-msg">入职邀请拒绝</div>
-      <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
-    </div>
+
     <van-dialog
       v-model="showDialog"
       show-cancel-button
@@ -37,7 +39,8 @@
     >
       <div class="reason-box">
         <div class="reason-title">理由</div>
-        <textarea v-model="rejectReason" placeholder="请输入您拒绝的原因哦~" class="reason" name="reason" id="reason" cols="" rows=""></textarea>
+        <textarea v-model="rejectReason" placeholder="请输入您拒绝的原因哦~" class="reason" name="reason" id="reason" cols=""
+                  rows=""></textarea>
       </div>
     </van-dialog>
   </div>
@@ -71,6 +74,16 @@ export default {
     this.id = params.id
     postData('/ReService/OfferDetials', {id: this.id}).then((res) => {
       console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
       this.resData = res.ReturnData
       if (!this.resData) {
         return
@@ -84,11 +97,11 @@ export default {
      * 处理header,footer的高度
      */
     handleHeight (height) {
-      //      this.headerHeight = height.headerHeight
-      //      if (this.headerHeight) {
-      //        const WH = myModule.getClientHeight()
-      //        this.$refs.body.style.height = WH - this.headerHeight + 'px'
-      //      }
+      this.headerHeight = height.headerHeight
+      if (this.headerHeight) {
+        const WH = myModule.getClientHeight()
+        this.$refs.body.style.height = WH - this.headerHeight + 'px'
+      }
     },
     /**
      * 点击拒绝
@@ -148,9 +161,10 @@ export default {
     padding: 20px 18px;
     @include font-size(16px);
     color: #666;
-    /*background-color: #F5F9FA;*/
-    /*overflow-y: auto;*/
-    /*-webkit-overflow-scrolling: touch;!* 解决ios滑动不流畅问题 *!*/
+    background-color: #F5F9FA;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
 
   .header {

@@ -67,7 +67,7 @@ export default {
   }
 
   .man-name {
-    @include font-size(20px);
+    @include font-size(18px);
     color: #333;
   }
 

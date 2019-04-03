@@ -86,6 +86,16 @@ export default {
       }
       postData('/Card/ScanResult', data).then((res) => {
         console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+
+            forbidClick: true // 禁用背景点击
+          })
+          return
+        }
         const theData = res.ReturnData
 //        this.$toast.success('上传成功')
         this.$toast.success({

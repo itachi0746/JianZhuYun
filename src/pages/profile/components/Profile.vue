@@ -1,54 +1,59 @@
 <template>
   <div class="profile">
     <Header @sendHeight="handleHeight"></Header>
-    <div class="body" ref="body">
+    <div class="body" ref="body" v-if="resData">
       <div class="header">
         <van-row>
           <van-col span="12">
             <div class="user-data">
-              <div class="user-name">名字</div>
-              <div class="user-remarks">备注</div>
+              <div class="user-name">{{resData.RE23_NAME}}</div>
+              <div class="user-remarks">{{resData.RE23_MEMO}}</div>
               <div class="user-remarks" style="color:greenyellow" @click="clickVerify">实名验证链接</div>
             </div>
           </van-col>
           <van-col span="12">
             <div class="user-head-box">
-              <div class="user-head"></div>
+              <div class="user-head" v-if="resData.RE23_PIC_URL">
+                <img :src="resData.RE23_PIC_URL" alt="">
+              </div>
+              <div class="user-head" v-else>
+                <img src="../../../component/assets/default_head_pr.png" alt="">
+              </div>
             </div>
           </van-col>
         </van-row>
       </div>
       <div class="tab">
         <van-row>
-          <van-col span="6">
+          <!--<van-col span="6">-->
+            <!--<div class="tab-cell">-->
+              <!--<div class="van-hairline&#45;&#45;right">-->
+                <!--<div class="tab-cell-num">0</div>-->
+                <!--<div class="tab-cell-name">沟通过</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</van-col>-->
+          <van-col span="8">
             <div class="tab-cell">
-              <div class="van-hairline--right">
+              <div class="van-hairline--right" @click="clickInterview">
                 <div class="tab-cell-num">0</div>
-                <div class="tab-cell-name">沟通过</div>
+                <div class="tab-cell-name">面试</div>
               </div>
             </div>
           </van-col>
-          <van-col span="6">
-            <div class="tab-cell">
+          <van-col span="8">
+            <div class="tab-cell" @click="clickRecord">
               <div class="van-hairline--right">
-                <div class="tab-cell-num">0</div>
-                <div class="tab-cell-name">沟通过</div>
+                <div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>
+                <div class="tab-cell-name">申请记录</div>
               </div>
             </div>
           </van-col>
-          <van-col span="6">
+          <van-col span="8">
             <div class="tab-cell">
               <div class="van-hairline--right">
                 <div class="tab-cell-num">0</div>
-                <div class="tab-cell-name">沟通过</div>
-              </div>
-            </div>
-          </van-col>
-          <van-col span="6">
-            <div class="tab-cell">
-              <div class="van-hairline--right">
-                <div class="tab-cell-num">0</div>
-                <div class="tab-cell-name">沟通过</div>
+                <div class="tab-cell-name">感兴趣</div>
               </div>
             </div>
           </van-col>
@@ -77,6 +82,7 @@ export default {
       headerHeight: null,
       footerHeight: null,
       activeNum: 3,
+      resData: null,
       items: [
         {name: '我的简历', img: require('../assets/home_icon_jianli.png'), link: 'resume.html'},
         {name: '附件简历', img: require('../assets/home_icon_fujianjianli.png'), link: ''},
@@ -93,6 +99,20 @@ export default {
     console.log(myModule)
   },
   created () {
+    postData('/ReService/Center', {}).then((res) => {
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
+      this.resData = res.ReturnData
+    })
   },
   methods: {
     /**
@@ -127,6 +147,15 @@ export default {
           console.log('没有链接地址')
         }
       })
+    },
+    /**
+     * 申请记录
+     */
+    clickRecord () {
+      GoToPage('', 'record.html', {})
+    },
+    clickInterview () {
+      GoToPage('', 'interview.html', {})
     }
   }
 }
@@ -159,6 +188,10 @@ export default {
     height: 57px;
     border-radius: 50%;
     background-color: #999999;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .tab {
     @include font-size(16px);
@@ -183,7 +216,7 @@ export default {
   }
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .item-list {

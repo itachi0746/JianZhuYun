@@ -1,6 +1,6 @@
 <template>
   <div class="handle">
-    <Header @sendHeight="handleHeight" :headerName="headerName" :canBack="true"></Header>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <van-cell-group v-if="fieldData.length">
         <van-cell v-for="(item,index) in fieldData" :key="index" class="p-class" :value="item.value" is-link

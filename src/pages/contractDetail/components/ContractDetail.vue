@@ -80,11 +80,17 @@ export default {
     this.id = param.id
     postData('/ReService/ContractDetails', {id: this.id}).then((res) => {
       console.log(res)
-      this.resData = res.ReturnData
-      if (!this.resData) {
-        console.log('没有数据')
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
         return
       }
+      this.resData = res.ReturnData
       let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
       this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
     })
@@ -111,7 +117,7 @@ export default {
   }
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .result {

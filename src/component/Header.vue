@@ -2,9 +2,9 @@
   <div id="common-header" ref="common-header" class="common-header">
     <div style="position: relative;">
       <div class="header-name">
-        <van-icon v-show="canBack" class="header-icon2" name="arrow-left" @click="clickBack" />
+        <van-icon v-show="back" class="header-icon2" name="arrow-left" @click="clickBack" />
         {{headerName}}
-        <van-icon v-show="canSearch" class="header-icon" name="search" @click="clickSearch" />
+        <van-icon v-show="search" class="header-icon" name="search" @click="clickSearch" />
       </div>
     </div>
   </div>
@@ -23,11 +23,11 @@ export default {
       type: String,
       default: ''
     },
-    canBack: {
+    back: {
       type: Boolean,
       default: false
     },
-    canSearch: {
+    search: {
       type: Boolean,
       default: false
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="handle">
-    <Header @sendHeight="handleHeight" :headerName="headerName" :canBack="true"></Header>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <div class="header van-hairline--bottom">
         <van-row>

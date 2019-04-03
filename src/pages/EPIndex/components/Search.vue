@@ -9,6 +9,7 @@
       >
         <div slot="action" @click="onSearch">搜索</div>
       </van-search>
+      <van-icon class="right-icon" @click.native="clickBack" name="arrow-left" />
     </header>
   </div>
 </template>
@@ -28,6 +29,9 @@ export default {
   methods: {
     onSearch () {
       console.log('ss')
+    },
+    clickBack () {
+      this.$router.push({name: 'EPIndex', params: { }})
     }
   },
 
@@ -40,5 +44,13 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
+.right-icon {
+  position: absolute;
+  left: 13px;
+  top: 17px;
+  @include font-size(20px)
+}
+.van-search {
+  padding-left: 40px;
+}
 </style>

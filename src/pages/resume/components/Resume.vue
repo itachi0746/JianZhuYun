@@ -1,46 +1,49 @@
 <template>
-  <div class="register">
-    <div>
-      <div v-if="theFieldArr.length">
-        <van-field v-for="(item, index) in theFieldArr" :key="index" :data-code="item.code"
-                   v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
-                   :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+  <div>
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <div class="register" ref="body">
+      <div>
+        <div v-if="theFieldArr.length">
+          <van-field v-for="(item, index) in theFieldArr" :key="index" :data-code="item.code"
+                     v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
+                     :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+        </div>
       </div>
-    </div>
-    <!--日期选择-->
-    <van-popup v-model="showPicker" position="bottom">
-      <van-datetime-picker
-        v-model="theShowDate"
-        :type="datetimeType"
-        :min-date="theMinDate"
-        @confirm="clickConfirm"
-        @cancel="clickCancel"
-      />
-    </van-popup>
-    <!--单选-->
-    <van-popup class="van-popup60" v-model="showRadio">
-      <van-radio-group v-model="radio">
-        <van-cell-group v-if="theRadioData">
-          <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
-                    @click="clickRadio(item)">
-            <van-radio :name="item.Value"/>
-          </van-cell>
-        </van-cell-group>
-      </van-radio-group>
-    </van-popup>
-    <div class="btn-box">
-      <van-button type="info" v-if="activePage>1" class="btnClass mb15" size="large" @click="clickPrev"
-                  :disabled="isDisable">
-        上一页
-      </van-button>
-      <van-button v-if="activePage===1" type="info" class="btnClass" size="large" @click="clickNext"
-                  :disabled="isDisable">
-        下一页
-      </van-button>
-      <van-button v-if="activePage===2" @click="clickSubmit" class="btnClass" type="info" size="large"
-                  :disabled="isDisable">
-        确定
-      </van-button>
+      <!--日期选择-->
+      <van-popup v-model="showPicker" position="bottom">
+        <van-datetime-picker
+          v-model="theShowDate"
+          :type="datetimeType"
+          :min-date="theMinDate"
+          @confirm="clickConfirm"
+          @cancel="clickCancel"
+        />
+      </van-popup>
+      <!--单选-->
+      <van-popup class="van-popup60" v-model="showRadio">
+        <van-radio-group v-model="radio">
+          <van-cell-group v-if="theRadioData">
+            <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
+                      @click="clickRadio(item)">
+              <van-radio :name="item.Value"/>
+            </van-cell>
+          </van-cell-group>
+        </van-radio-group>
+      </van-popup>
+      <div class="btn-box">
+        <van-button type="info" v-if="activePage>1" class="btnClass mb15" size="large" @click="clickPrev"
+                    :disabled="isDisable">
+          上一页
+        </van-button>
+        <van-button v-if="activePage===1" type="info" class="btnClass" size="large" @click="clickNext"
+                    :disabled="isDisable">
+          下一页
+        </van-button>
+        <van-button v-if="activePage===2" @click="clickSubmit" class="btnClass" type="info" size="large"
+                    :disabled="isDisable">
+          确定
+        </van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -48,17 +51,19 @@
 <script>
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
+import Header from '../../../component/Header.vue'
 
 export default {
   name: 'register',
   data () {
     return {
-      radio: '男',
+      headerName: '我的简历',
+      radio: '',
       activePage: 1,
       theWorkTime: new Date(),
       theMinDate: new Date(1970, 0, 1),
       curDate: new Date(),
-      theShowDate: new Date(1970, 0, 1),
+      theShowDate: null,
       datetimeType: 'date',
       isDisable: false,
       theRadioData: null, // 单选数据
@@ -179,11 +184,20 @@ export default {
       showPicker: false // 显示日期选择器弹窗
     }
   },
+  components: {
+    Header
+  },
   watch: {},
   mounted () {
     console.log(myModule)
   },
   created () {
+    this.$toast.loading({
+      mask: false,
+      message: '加载中...',
+      duration: 0,
+      forbidClick: true // 禁用背景点击
+    })
     postData('/ReService/ResumeDetails', {}).then((res) => {
       console.log(res)
       const returnData = res.ReturnData
@@ -195,20 +209,20 @@ export default {
           if (obj.fieldName === key) {
             let theValue = returnData[key]
             if (typeof theValue === 'string' && theValue.indexOf('/Date') !== -1) { // 如果是时间字符串
-              let temp = myModule.formatDate(theValue)
-              theValue = myModule.formatTime(temp)
+//              let temp = myModule.formatDate(theValue)
+              theValue = myModule.handleTime(theValue)
             }
             obj.value = theValue
           }
         }
       }
+    }).then(() => {
+      this.$toast.clear()
     })
   },
   methods: {
     clickConfirm () {
       this.showPicker = false
-      //      console.log(this.theShowDate)
-      //      debugger
       this.theFieldArr[this.curFieldDIdx].value = myModule.formatTime(this.theShowDate)
     },
     clickCancel () {
@@ -228,6 +242,7 @@ export default {
     clickInput (item, index) {
       this.curFieldDIdx = index
       this.theMinDate = item.minDate
+//      this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
       this.theShowDate = item.showDate
       this.datetimeType = item.datetimeType
       const thePopType = item.popType
@@ -243,12 +258,19 @@ export default {
       }
       this.$toast.loading({
         mask: true,
-        message: '加载中...'
+        message: '加载中...',
+        forbidClick: true // 禁用背景点击
       })
       postData('/Share/GetDictVals', {code: theCode}).then((res) => {
         console.log(res)
-        if (!res.ReturnData.length) {
-          console.log('没有数据')
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+
+            forbidClick: true // 禁用背景点击
+          })
           return
         }
         this.theRadioData = res.ReturnData
@@ -305,6 +327,14 @@ export default {
         console.log(err)
         this.$toast.clear()
       })
+    },
+    handleHeight (height) {
+      //      console.log(height)
+      this.headerHeight = height.headerHeight
+      if (this.headerHeight) {
+        const WH = myModule.getClientHeight()
+        this.$refs.body.style.height = WH - this.headerHeight + 'px'
+      }
     }
   }
 }
@@ -315,6 +345,7 @@ export default {
   .register {
     padding: 60px 25px 0;
     color: #323233;
+    @include borderBox()
   }
 
   .van-hairline--top-bottom::after {

@@ -26,7 +26,12 @@
           <ul>
             <li class="company-list-li" v-for="(item, index) in resData" :key="index" @click="clickCompany(item.HRA0_ENTERPRISE_ID)">
               <div class="li-line">
-                <div class="c-head"></div>
+                <div class="c-head" v-if="item.HRA0_LOGO_URL">
+                  <img :src="item.HRA0_LOGO_URL" alt="">
+                </div>
+                <div class="c-head" v-else>
+                  <img src="../../../component/assets/default_head_ep.png" alt="">
+                </div>
                 <div class="c-data">
                   <div class="c-name">{{item.HRA0_ENT_NAME}}</div>
                   <ul class="c-remarks">
@@ -95,6 +100,16 @@ export default {
     }
     postData('/ReService/SearchCompany', data).then((res) => {
       console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
       this.resData = res.ReturnData
       this.PageCount = res.PageCount
       this.PageIndex = res.PageIndex
@@ -157,7 +172,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .filter {
@@ -200,8 +215,12 @@ export default {
       min-width: 46px;
       height: 46px;
       border-radius: 5px;
-      background-color: #999999;
+      /*background-color: #999999;*/
       margin-right: 10px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .c-data {
       flex: 1;

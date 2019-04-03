@@ -1,36 +1,57 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
-    <div class="body" ref="body">
-      <div class="filter van-hairline--bottom">
-        <van-row>
-          <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
-            <div class="filter-cell-box">
-              <div class="van-hairline--right">
-                <div class="filter-cell">{{item.name}}</div>
-                <van-icon class="filter-icon normal-icon" name="play" />
-              </div>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <div class="filter van-hairline--bottom" v-show="false">
+      <van-row>
+        <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
+          <div class="filter-cell-box">
+            <div class="van-hairline--right">
+              <div class="filter-cell">{{item.name}}</div>
+              <van-icon class="filter-icon normal-icon" name="play"/>
             </div>
-          </van-col>
-        </van-row>
-      </div>
-      <div class="job-list">
-        <ul>
-          <li class="job-li">
-            <manItem></manItem>
-          </li>
-          <li class="job-li">
-            <manItem></manItem>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </van-col>
+      </van-row>
     </div>
+    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :offset="100"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="job-list">
+          <ul>
+            <li class="job-li">
+              <manItem></manItem>
+            </li>
+            <li class="job-li">
+              <manItem></manItem>
+            </li>
+          </ul>
+        </div>
+      </van-list>
+    </van-pull-refresh>
+    <!--<div class="body" ref="body">-->
+    <!--<div class="job-list">-->
+    <!--<ul>-->
+    <!--<li class="job-li">-->
+    <!--<manItem></manItem>-->
+    <!--</li>-->
+    <!--<li class="job-li">-->
+    <!--<manItem></manItem>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 import manItem from '../../../component/manItem.vue'
@@ -47,7 +68,13 @@ export default {
         {name: '推荐'},
         {name: '广州'},
         {name: '要求'}
-      ]
+      ],
+      PageIndex: 1, // 记录当前第几页
+      PageCount: null, // 总页数
+      resData: null,
+      loading: false,
+      finished: false,
+      isLoading: false
     }
   },
   components: {
@@ -71,8 +98,35 @@ export default {
       }
       if (this.headerHeight && this.footerHeight) {
         const WH = myModule.getClientHeight()
-        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+//        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+        let body = document.getElementById('body')
+        body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
+    },
+    onLoad () {
+      // 异步更新数据
+      if (this.PageCount === this.PageIndex) { // 加载完全部了
+        this.finished = true
+        this.loading = false
+        return
+      }
+      this.PageIndex++
+      const data = {
+        PageIndex: this.PageIndex
+      }
+//      postData('/ReService/SearchPosition', data).then((res) => {
+//        console.log(res)
+//        this.resData = this.resData.concat(res.ReturnData)
+//        this.PageCount = res.PageCount
+//        this.PageIndex = res.PageIndex
+//        this.loading = false
+//      })
+    },
+    onRefresh () {
+      //      setTimeout(() => {
+      //        this.$toast('刷新成功')
+      //        this.isLoading = false
+      //      }, 500)
     }
   }
 }
@@ -83,33 +137,41 @@ export default {
   .body {
     background-color: #F5F9FA;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
+
   .filter {
     width: 100%;
     background-color: #fff;
   }
+
   .filter-cell-box {
     @include font-size(14px);
     padding: 10px 0;
     position: relative;
   }
+
   .filter-cell {
     text-align: center;
     color: #666;
   }
+
   .filter-icon {
     position: absolute;
     right: 10px;
     top: 2px;
     color: #666;
   }
+
   .normal-icon {
     transform: rotate(90deg);
   }
+
   .active-icon {
     transform: rotate(-90deg);
   }
+
   .job-list {
     .job-li {
       width: 100%;

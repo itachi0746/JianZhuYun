@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
         <van-panel :title="resData.HRA0_ENT_NAME" :desc="resData.HRA0_ENT_ADDR_L1">
@@ -45,6 +45,16 @@ export default {
     this.id = param.id
     postData('/ReService/CompanyDetails', {id: this.id}).then((res) => {
       console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
       this.resData = res.ReturnData
     })
   },
@@ -68,7 +78,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
     @include font-size(16px)
   }
