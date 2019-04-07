@@ -145,7 +145,7 @@ export default {
    */
   formatDate: function (dateStr) {
     if (!dateStr || typeof dateStr !== 'string') {
-      console.log('参数错误')
+      console.log('参数错误:', dateStr)
       return
     }
     let theResult = dateStr

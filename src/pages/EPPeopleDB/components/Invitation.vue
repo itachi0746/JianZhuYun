@@ -106,8 +106,9 @@ export default {
   },
 
   created () {
-    const param = myModule.getUrlParams()
-    this.id = param.id
+//    const param = myModule.getUrlParams()
+//    this.id = param.id
+    this.id = this.$route.params.id
     postData('/EntService/SearchPeople', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {

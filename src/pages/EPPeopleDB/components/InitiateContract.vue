@@ -76,8 +76,9 @@ export default {
     console.log(myModule)
   },
   created () {
-    const param = myModule.getUrlParams()
-    this.id = param.id
+//    const param = myModule.getUrlParams()
+//    this.id = param.id
+    this.id = this.$route.params.id
     postData('/ReService/ContractDetails', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {

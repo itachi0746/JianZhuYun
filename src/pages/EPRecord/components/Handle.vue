@@ -14,7 +14,9 @@
             </van-col>
             <van-col span="5">
               <div class="data-box-r">
-                <div class="data-head"></div>
+                <div class="data-head">
+                  <img src="../../../component/assets/default_head_pr.png" alt="">
+                </div>
                 <van-button class="btnStyle" plain type="primary" @click="clickCheck">查看简历</van-button>
               </div>
             </van-col>
@@ -63,7 +65,8 @@ export default {
     return {
       headerName: '申请处理',
       value: '',
-      id: null
+      id: null,
+      resData: null
     }
   },
 
@@ -121,9 +124,8 @@ export default {
   },
 
   created () {
-    const param = myModule.getUrlParams()
-    this.id = param.id
-    postData('/EntService/ApplyDetials', {id: param.id}).then((res) => {
+    this.id = this.$route.params.id
+    postData('/EntService/ApplyDetials', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -173,7 +175,7 @@ export default {
   .data-head {
     width: 53px;
     height: 53px;
-    background-color: #999999;
+    /*background-color: #999999;*/
     border-radius: 50%;
     margin-bottom: 10px;
   }

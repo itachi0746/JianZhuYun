@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :search="false"></Header>
     <!--<div class="body" ref="body">-->
       <!--<div class="job-list">-->
         <!--<ul>-->
@@ -46,6 +46,7 @@
               <div class="manItem">
                 <div class="man-box">
                   <div class="man-head">
+                    <img src="../../../component/assets/default_head_pr.png" alt="">
                   </div>
                   <div class="man-data">
                     <div class="man-name">
@@ -117,7 +118,9 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
+      for (let obj of this.resData) {
+        obj.RE34_SEND_DATE = myModule.handleTime(obj.RE34_SEND_DATE)
+      }
     })
   },
   methods: {
@@ -226,11 +229,13 @@ export default {
   }
 
   .man-head {
-    width: 46px;
-    height: 46px;
+    min-width: 46px;
+    /*height: 46px;*/
     border-radius: 50%;
-    background-color: #969799;
+    /*background-color: #969799;*/
     margin-right: 10px;
+    display: flex;
+    align-items: center;
   }
 
   .man-data {
@@ -269,6 +274,8 @@ export default {
   .man-tag1-box {
     display: flex;
     @include font-size(14px);
+    word-break: break-all;
+    overflow-wrap: break-word;
   }
 
   .man-tag1 {
