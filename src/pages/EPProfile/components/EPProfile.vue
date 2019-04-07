@@ -2,24 +2,28 @@
   <div class="profile">
     <Header @sendHeight="handleHeight"></Header>
     <div class="body" ref="body">
-      <div class="header">
-        <van-row>
-          <van-col span="12">
-            <div class="user-data">
-              <div class="user-name">名字</div>
-              <div class="user-remarks">个人主页未完善</div>
-            </div>
-          </van-col>
-          <van-col span="12">
-            <div class="user-head-box">
-              <div class="user-head"></div>
-            </div>
-          </van-col>
-        </van-row>
-      </div>
-      <div class="item-list">
-        <van-cell v-for="(item, index) in items" :key="index" :title="item.name" icon="" is-link>
-        </van-cell>
+      <div v-if="resData">
+        <div class="header">
+          <van-row>
+            <van-col span="12">
+              <div class="user-data">
+                <div class="user-name">{{resData.HRA0_ENT_NAME}}</div>
+                <div class="user-remarks">个人主页未完善</div>
+              </div>
+            </van-col>
+            <van-col span="12">
+              <div class="user-head-box">
+                <div class="user-head">
+                  <img src="../../../component/assets/default_head_pr.png" alt="">
+                </div>
+              </div>
+            </van-col>
+          </van-row>
+        </div>
+        <div class="item-list">
+          <van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>
+          </van-cell>
+        </div>
       </div>
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
@@ -28,6 +32,7 @@
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 
@@ -39,12 +44,13 @@ export default {
       headerHeight: null,
       footerHeight: null,
       items: [
-        {name: '人才库'},
-        {name: '发布职位'},
-        {name: '聘用管理'},
-        {name: '浏览记录'},
-        {name: '合同签约'}
-      ]
+        {name: '人才库', link: 'EPPeopleDB.html', param: {pageid: 0}},
+        {name: '发布职位', link: 'EPRelease.html', param: {}},
+        {name: '职位列表', link: 'EPJob.html', param: {}},
+//        {name: '浏览记录', link: '', param: {}},
+        {name: '合同签约', link: 'EPPeopleDB.html', param: {pageid: 3}}
+      ],
+      resData: null
     }
   },
   components: {
@@ -53,6 +59,21 @@ export default {
   },
   mounted () {
     console.log(myModule)
+  },
+  created () {
+    postData('/EntService/Center', {}).then((res) => {
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
+      this.resData = res.ReturnData
+    })
   },
   methods: {
     /**
@@ -69,6 +90,12 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
+    },
+    /**
+     * 点击跳转
+     */
+    clickCell (item) {
+      GoToPage('', item.link, item.param)
     }
   }
 }
@@ -102,6 +129,10 @@ export default {
     height: 57px;
     border-radius: 50%;
     background-color: #999999;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .tab {
     @include font-size(16px);

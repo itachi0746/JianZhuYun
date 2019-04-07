@@ -4,10 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import '@/common/rem.js'
-import { Cell, Row, Col, Button, Tabbar, TabbarItem, Icon, Tag, CellGroup, Popup, Field, Dialog, Radio, RadioGroup } from 'vant'
+import { Cell, Row, Col, Tabbar, TabbarItem, Icon, Button, Dialog, Field, Toast } from 'vant'
 
-Vue.use(Cell).use(Row).use(Col).use(Tabbar).use(TabbarItem).use(Radio).use(RadioGroup)
-  .use(Icon).use(Tag).use(CellGroup).use(Popup).use(Field).use(Dialog).use(Button)
+Vue.use(Cell).use(Row).use(Col).use(Tabbar).use(TabbarItem).use(Icon).use(Button).use(Dialog).use(Field).use(Toast)
 
 Vue.config.productionTip = false
 
@@ -15,6 +14,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: {App},
+  components: { App },
   template: '<App/>'
 })

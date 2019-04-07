@@ -3,24 +3,26 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <van-cell-group v-if="fieldData.length">
-        <van-cell v-for="(item,index) in fieldData" :key="index" class="p-class" :value="item.value" is-link
-                  title-class="t-class" value-class="v-class" @click="clickCell(item)">
+        <van-cell v-for="(item,index) in fieldData" v-show="item.show" :key="index" class="p-class" :value="item.value" is-link
+                  title-class="t-class" value-class="v-class" @click="clickCell(item, index)">
           <template slot="title">
             <span class="custom-text">{{item.name}}</span>
           </template>
         </van-cell>
       </van-cell-group>
-
+      <div class="btn-box">
+        <van-button class="btnStyle" @click="clickFabu" type="info" size="large">发布</van-button>
+      </div>
     </div>
-    <Popup :showPopup="showPopup" :type="popType" @popupHidden="popupHidden"></Popup>
-    <!--<van-popup v-model="showPopup">-->
-      <!---->
-    <!--</van-popup>-->
+    <div v-if="showPopup">
+      <Popup class="van-popup60" :showPopup="showPopup" :popType="popType" @popupHidden="popupHidden" :popData="popData"></Popup>
+    </div>
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import Popup from './Popup.vue'
 
@@ -28,18 +30,23 @@ export default {
   data () {
     return {
       headerName: '发布职位',
+      id: null,
       headerHeight: null,
       showPopup: false,
       popType: null,
       curFieldItem: null,
+      curFieldDIdx: null,
+      popData: null, // 弹窗的数据
+      resData: null,
       fieldData: [
-        {name: '职位名称', type: 'field', value: '请填写'},
-        {name: '职位类型', type: 'radio', value: '请选择'},
-        {name: '工作地点', type: 'field', value: '请填写'},
-        {name: '职位描述', type: 'field', value: '请填写'},
-        {name: '经验要求', type: 'radio', value: '请选择'},
-        {name: '薪资范围', type: 'radio', value: '请选择'},
-        {name: '最低学历', type: 'radio', value: '请选择'}
+        {name: '记录ID', popType: '', value: this.id, code: '', fieldName: 'RE13_ID', show: false},
+        {name: '职位名称', popType: 'field', value: '请填写', code: '', fieldName: 'RE13_NAME', show: true},
+        {name: '职位类型', popType: 'radio', value: '请选择', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true},
+        {name: '工作地点', popType: 'radio', value: '请选择', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true},
+        {name: '职位描述', popType: 'field', value: '请填写', code: '', fieldName: 'RE13_DESC', show: true},
+        {name: '经验要求', popType: 'radio', value: '请选择', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true},
+        {name: '薪资范围', popType: 'radio', value: '请选择', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true},
+        {name: '最低学历', popType: 'radio', value: '请选择', code: 'UDHR021', fieldName: 'RE13_EDU_DEGREE', show: true}
       ]
     }
   },
@@ -59,17 +66,103 @@ export default {
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
     },
-    clickCell (item) {
-      this.showPopup = true
-      this.popType = item.type
+    clickCell (item, index) {
+      this.popType = item.popType
       this.curFieldItem = item
+      this.curFieldDIdx = index
+      const theCode = item.code
+      if (!theCode) {
+        console.log('没有code')
+        this.showPopup = true
+        //        if (thePopType === 'date') {
+//          this.showPicker = true
+//        } else if (thePopType === 'radio') {
+//          this.showRadio = true
+//        }
+        return
+      }
+      this.$toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      postData('/Share/GetDictVals', {code: theCode}).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: true // 禁用背景点击
+          })
+          return
+        }
+        this.showPopup = true
+        this.popData = res.ReturnData
+        this.$toast.clear()
+      })
     },
-    popupHidden (params) {
+    popupHidden (params) { // 获得弹窗的值
       this.showPopup = false
+      if (!params.value) {
+        console.log('弹窗没有值')
+        return
+      }
+      this.curFieldItem.value = params.value
+    },
+    /**
+     * 发布职位
+     */
+    clickFabu () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      let data = new FormData()
+      for (let obj of this.fieldData) {
+        if (obj.name === '记录ID') continue
+        if (!obj.value) {
+          this.$toast.fail('输入不能为空')
+          return
+        }
+        data.append(obj.fieldName, obj.value)
+//        data[obj.fieldName] = obj.value
+      }
+      postData('/EntService/Publish', data).then((res) => {
+        console.log(res)
+        this.$toast.success('发布成功')
+        setTimeout(() => {
+          GoToPage('', 'EPJob.html', {})
+        }, 3000)
+      })
     }
   },
 
-  created () {},
+  created () {
+    const param = myModule.getUrlParams()
+    this.id = param.id
+    postData('/EntService/PositionDetail', {id: this.id}).then((res) => { // 请求已有数据
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+          forbidClick: true // 禁用背景点击
+        })
+        return
+      }
+      this.resData = res.ReturnData
+      for (let obj of this.fieldData) {
+        if (this.resData.hasOwnProperty(obj.fieldName)) {
+          obj.value = this.resData[obj.fieldName]
+        }
+      }
+    })
+  },
 
   mounted () {},
 
@@ -97,6 +190,11 @@ export default {
   .v-class {
     color: $mainColor;
     @include font-size(16px);
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .p-class {
@@ -104,5 +202,16 @@ export default {
   }
   .van-cell__right-icon {
     color: $mainColor;
+  }
+  .van-popup60 {
+    width: 60%;
+  }
+  .btn-box {
+    @include borderBox();
+    width: 100%;
+    padding: 30px 15px 0;
+  }
+  .btnStyle {
+    @include theBtnColor
   }
 </style>

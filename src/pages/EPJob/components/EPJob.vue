@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="filter van-hairline--bottom" v-show="false">
       <van-row>
         <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
@@ -23,50 +23,35 @@
       >
         <div class="job-list" v-if="resData">
           <ul>
-            <li class="job-li" v-for="(item, index) in resData" :key="index" @click="clickLi">
-              <manItem :data="item"></manItem>
+            <li class="job-li" v-for="(item,index) in resData" :key="index" @click="clickJob(item.RE13_ID)">
+              <JobItem :jobData="item"></JobItem>
             </li>
-            <!--<li class="job-li">-->
-              <!--<manItem></manItem>-->
-            <!--</li>-->
           </ul>
         </div>
       </van-list>
     </van-pull-refresh>
-    <!--<div class="body" ref="body">-->
-    <!--<div class="job-list">-->
-    <!--<ul>-->
-    <!--<li class="job-li">-->
-    <!--<manItem></manItem>-->
-    <!--</li>-->
-    <!--<li class="job-li">-->
-    <!--<manItem></manItem>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</div>-->
-    <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
+    <!--<Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>-->
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
-import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
-import manItem from '../../../component/manItem.vue'
+import JobItem from '../../../component/jobItem.vue'
 
 export default {
   name: 'profile',
   data () {
     return {
-      headerName: '首页',
+      headerName: '职位列表',
       activeNum: 0,
       headerHeight: null,
-      footerHeight: null,
+//      footerHeight: null,
       filterItems: [
         {name: '推荐'},
         {name: '广州'},
+        {name: '公司'},
         {name: '要求'}
       ],
       PageIndex: 1, // 记录当前第几页
@@ -78,15 +63,18 @@ export default {
     }
   },
   components: {
-    Footer,
+//    Footer,
     Header,
-    manItem
+    JobItem
   },
   mounted () {
     console.log(myModule)
   },
   created () {
-    postData('/EntService/SearchPeople', {}).then((res) => {
+    const data = {
+      PageIndex: this.PageIndex
+    }
+    postData('/EntService/MyPosition', data).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -98,6 +86,8 @@ export default {
         return
       }
       this.resData = res.ReturnData
+      this.PageCount = res.PageCount
+      this.PageIndex = res.PageIndex
     })
   },
   methods: {
@@ -108,15 +98,17 @@ export default {
       console.log(height)
       if (height.headerHeight) {
         this.headerHeight = height.headerHeight
-      } else {
-        this.footerHeight = height.footerHeight
       }
-      if (this.headerHeight && this.footerHeight) {
-        const WH = myModule.getClientHeight()
-//        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
-        let body = document.getElementById('body')
-        body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
-      }
+      const WH = myModule.getClientHeight()
+      let body = document.getElementById('body')
+      body.style.height = WH - this.headerHeight + 'px'
+    },
+    /**
+     * 点击职位
+     * @param id 职位id
+     */
+    clickJob (id) {
+      GoToPage('', 'EPJobDetail.html', {id: id})
     },
     onLoad () {
       // 异步更新数据
@@ -129,7 +121,7 @@ export default {
       const data = {
         PageIndex: this.PageIndex
       }
-      postData('/ReService/SearchPeople', data).then((res) => {
+      postData('/ReService/MyPosition', data).then((res) => {
         console.log(res)
         this.resData = this.resData.concat(res.ReturnData)
         this.PageCount = res.PageCount
@@ -138,13 +130,10 @@ export default {
       })
     },
     onRefresh () {
-      //      setTimeout(() => {
-      //        this.$toast('刷新成功')
-      //        this.isLoading = false
-      //      }, 500)
-    },
-    clickLi (id) {
-      GoToPage('', 'peopleDetail.html', {id: id})
+//      setTimeout(() => {
+//        this.$toast('刷新成功')
+//        this.isLoading = false
+//      }, 500)
     }
   }
 }
@@ -154,8 +143,7 @@ export default {
 <style lang="scss" scoped>
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
 
