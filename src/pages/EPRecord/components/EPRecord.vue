@@ -61,7 +61,7 @@
                   </div>
                   <div class="action-box">
                     <div class="status">{{item.ReferenceValues.RE34_STATUS}}</div>
-                    <div class="action-btn" v-if="item.RE34_STATUS==='BD0902'">
+                    <div class="action-btn" v-if="item.RE34_STATUS==='BD0902' || item.RE34_STATUS==='BD0903'">
                       <van-button class="btnSize" type="info" @click="clickHandle(item.RE34_RCV_ID)">处理</van-button>
                     </div>
                   </div>

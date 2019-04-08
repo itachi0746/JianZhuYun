@@ -30,7 +30,7 @@
             {{resData.RE34_LETTER}}
           </div>
         </div>
-        <div class="action-box">
+        <div class="action-box" v-if="resData.RE34_STATUS!=='BD0904' && resData.RE34_STATUS!=='BD0909'">
           <van-row class="theRow">
             <van-col span="8">
               <div class="btn-box">
@@ -48,6 +48,20 @@
               </div>
             </van-col>
           </van-row>
+        </div>
+        <div class="result" v-if="resData.RE34_STATUS==='BD0904'">
+          <div class="result-logo">
+            <img src="../assets/accept.png" alt="">
+          </div>
+          <div class="result-msg">已同意</div>
+          <div class="result-data">{{resData.RE34_CHG_TIME}}</div>
+        </div>
+        <div class="result" v-if="resData.RE34_STATUS==='BD0909'">
+          <div class="result-logo">
+            <img src="../assets/refuse.png" alt="">
+          </div>
+          <div class="result-msg">已拒绝</div>
+          <div class="result-data">{{resData.RE34_CHG_TIME}}</div>
         </div>
       </div>
     </div>
@@ -79,9 +93,6 @@ export default {
   methods: {
     handleHeight () {
     },
-    clickBtn () {
-//      this.$router.push({name: 'ResumeDetail', params: {}})
-    },
     clickRefuse () {
       this.$toast.loading({
         mask: false,
@@ -94,9 +105,11 @@ export default {
         type: 'BD0909',
         note: ''
       }
-      postData('/ReService/UpdateApplyStatus', data).then((res) => {
+      postData('/EntService/UpdateApplyStatus', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
+        this.resData.RE34_STATUS = res.ReturnData.RE34_STATUS
+        this.resData.RE34_CHG_TIME = myModule.handleTime(res.ReturnData.RE34_CHG_TIME)
       })
     },
     clickAccept () {
@@ -111,15 +124,20 @@ export default {
         type: 'BD0904',
         note: ''
       }
-      postData('/ReService/UpdateApplyStatus', data).then((res) => {
+      postData('/EntService/UpdateApplyStatus', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
+        this.resData.RE34_STATUS = res.ReturnData.RE34_STATUS
+        this.resData.RE34_CHG_TIME = myModule.handleTime(res.ReturnData.RE34_CHG_TIME)
       })
     },
     clickWait () {
+      this.$router.go(-1)
     },
     clickCheck () {
-      GoToPage('', 'ResumeDetail.html', {id: this.id})
+//      console.log(this.resData.RE34_CANDIDATE_ID)
+//      debugger
+      GoToPage('', 'resumeDetail.html', {id: this.resData.RE34_CANDIDATE_ID})
     }
   },
 
@@ -227,4 +245,26 @@ export default {
     justify-content: center;
     width: 100%;
   }
+  .result {
+    @include font-size(16px);
+    color: #666;
+    margin-top: 20px;
+  }
+  .result-logo {
+    width: 100%;
+    @include defaultFlex;
+    margin-bottom: 10px;
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .result-data {
+    @include font-size(14px);
+    text-align: center;
+  }
+  .result-msg {
+    text-align: center;
+  }
+
 </style>

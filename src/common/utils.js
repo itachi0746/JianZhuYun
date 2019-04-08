@@ -146,7 +146,7 @@ export default {
   formatDate: function (dateStr) {
     if (!dateStr || typeof dateStr !== 'string') {
       console.log('参数错误:', dateStr)
-      return
+      return false
     }
     let theResult = dateStr
     let theReg = /\/Date\(\d*\)\//g
@@ -171,7 +171,7 @@ export default {
    */
   handleTime: function (dateStr) {
     let theResult = this.formatDate(dateStr)
-    if (theResult === null) {
+    if (!theResult) {
       return theResult
     }
     theResult = this.formatTime(theResult)

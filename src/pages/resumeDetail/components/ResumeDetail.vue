@@ -3,8 +3,12 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
 
-      <ResumeItem></ResumeItem>
-
+      <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
+      <!--<div class="action-box">-->
+        <!--<div class="p10">-->
+          <!--<van-button class="btnClass" type="info" size="large" @click.native="moveTo">移动到</van-button>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -13,7 +17,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
-import ResumeItem from '../../../component/resumeItem.vue'
+import ResumeItem from '../../../component/ResumeItem.vue'
 
 export default {
   data () {
@@ -45,7 +49,7 @@ export default {
   created () {
     const param = myModule.getUrlParams()
     this.id = param.id
-    postData('/EntService/ResumeDetials', {id: this.id}).then((res) => {
+    postData('/EntService/peopleDetail', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -62,11 +66,11 @@ export default {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
-        this.$toast.fail({
-          mask: false,
-          message: '暂无数据',
-          forbidClick: true // 禁用背景点击
-        })
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: true // 禁用背景点击
+//        })
         return
       }
       this.workExperienceData = res.ReturnData
@@ -135,6 +139,10 @@ export default {
     height: 53px;
     background-color: #999999;
     border-radius: 50%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .data-name {
     color: #323233;
@@ -200,5 +208,21 @@ export default {
   .result-msg {
     text-align: center;
   }
-
+  .p10 {
+    width: 100%;
+  }
+  .action-box {
+    @include defaultFlex;
+    margin: 40px 0 50px;
+    button {
+      background-color: $mainColor;
+      border-color: $mainColor;
+      /*width: 98px;*/
+      /*height: 43px;*/
+    }
+  }
+  .btnClass {
+    @include theBtnColor;
+    padding: 0 20px;
+  }
 </style>

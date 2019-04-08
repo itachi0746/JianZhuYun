@@ -6,7 +6,9 @@
         <ul>
           <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickInterview(item.RE37_INTERVIEW_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
-              <!--<div class="myOffer-head"></div>-->
+              <div class="myOffer-head">
+                <EpHead></EpHead>
+              </div>
               <div class="myOffer-data">
                 <div>{{item.RE37_SEND_ENT_NAME}}</div>
                 <div>{{item.RE37_SEND_TIME}}</div>
@@ -27,6 +29,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import EpHead from '../../../component/EPHead.vue'
 
 export default {
   name: 'profile',
@@ -38,7 +41,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    EpHead
   },
   mounted () {
     console.log(myModule)
@@ -207,7 +211,7 @@ export default {
     min-width: 47px;
     height: 47px;
     border-radius: 5px;
-    background-color: #999;
+    /*background-color: #999;*/
   }
 
   .myOffer-data {

@@ -3,22 +3,23 @@
     <div class="manItem">
       <div class="man-box" v-if="item">
         <div class="man-head">
+          <UserHead :theUrl="item.RE01_PIC_URL"></UserHead>
         </div>
         <div class="man-data">
           <div class="man-name">
             {{item.RE01_NAME}}
           </div>
-          <div class="man-tag1-box">
+          <div class="man-tag1-box" v-if="false">
             <div class="man-tag1">{{item.RE01_NAME}}</div>
             <!--<div class="man-tag1">申请建筑电工</div>-->
           </div>
           <div class="man-tag1-box">
-            <div class="man-tag1">2019-3-27 08:30</div>
+            <div class="man-tag1">{{item.RE01_CRT_TIME}}</div>
           </div>
         </div>
         <div class="action-box" v-if="actionObj">
           <div class="action-btn">
-            <van-button class="btnSize2" plain type="info" @click="clickBtn1">{{actionObj.act1}}</van-button>
+            <van-button class="btnSize2" plain type="info" @click="clickBtn1(item.RE01_ID)">{{actionObj.act1}}</van-button>
           </div>
           <div class="action-btn">
             <van-button class="btnSize" type="info" @click="clickBtn2(item.RE01_ID,actionObj.act2.routerName)">{{actionObj.act2.name}}</van-button>
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import UserHead from '../../../component/UserHead.vue'
 export default {
   data () {
     return {
@@ -81,11 +83,14 @@ export default {
   watch: {
     pageId () {
       if (this.pageId !== null) {
+        console.log(111)
         this.actionObj = this.actionMap[this.pageId]
       }
     }
   },
-  components: {},
+  components: {
+    UserHead
+  },
 
   computed: {},
 
@@ -101,14 +106,20 @@ export default {
       }
       this.$router.push({name: routerName, params: {id: id, pageId: this.pageId}})
     },
-    clickBtn1 () {
-      GoToPage('', 'ResumeDetail.html', {id: this.id})
+    clickBtn1 (id) {
+      GoToPage('', 'EPResumeDetail.html', {id: id})
     }
   },
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    if (this.pageId !== null) {
+      this.actionObj = this.actionMap[this.pageId]
+    } else {
+      console.warn('pageid为空')
+    }
+  },
 
   beforeDestroy () {}
 }
@@ -125,11 +136,12 @@ export default {
   }
 
   .man-head {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background-color: #969799;
+    min-width: 53px;
+    /*height: 46px;*/
+    /*border-radius: 50%;*/
+    /*background-color: #969799;*/
     margin-right: 10px;
+    @include defaultFlex
   }
 
   .man-data {
@@ -153,7 +165,7 @@ export default {
     }
     .action-btn {
       /*margin-top: 10px;*/
-      /*margin-bottom: 10px;*/
+      margin-bottom: 10px;
       display: flex;
       justify-content: flex-end;
       /*width: 50px;*/
@@ -179,7 +191,7 @@ export default {
   .btnSize {
     height: 25px;
     line-height: 0;
-    padding: 7px 10px;
+    padding: 10px 12px;
     @include theBtnColor
   }
   .btnSize2 {

@@ -3,30 +3,34 @@
     <div v-if="resData" class="header van-hairline--bottom">
       <van-row>
         <van-col span="20">
-          <div class="data-name">{{resData.RE01_NAME}}</div>
+          <div class="data-name">{{resData.RE23_NAME}}</div>
           <div class="data-item-box">
             <div class="data-item">
               <div class="data-item-label">年龄</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_AGE}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_AGE}}</van-tag>
             </div>
             <div class="data-item">
               <div class="data-item-label">籍贯</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_BORN_IN}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_BORN_IN}}</van-tag>
             </div>
             <div class="data-item">
               <div class="data-item-label">手机</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_MOBILE_PHONE}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_MOBILE_PHONE}}</van-tag>
             </div>
             <div class="data-item">
               <div class="data-item-label">身份证</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_IDENTIY_CARD_NO}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_IDENTIY_CARD_NO}}</van-tag>
             </div>
           </div>
         </van-col>
         <van-col span="4">
-          <div class="data-head">
-            <img src="./assets/default_head_pr.png" alt="">
-          </div>
+          <useHead :theUrl="resData.RE23_PIC_URL"></useHead>
+          <!--<div class="data-head" v-if="resData.RE23_PIC_URL">-->
+            <!--<img :src="resData.RE23_PIC_URL" alt="">-->
+          <!--</div>-->
+          <!--<div class="data-head" v-else>-->
+            <!--<img src="./assets/default_head_pr.png" alt="">-->
+          <!--</div>-->
         </van-col>
       </van-row>
     </div>
@@ -46,10 +50,14 @@
         <span>{{workExperienceData.RE02_WORK_DESC}}</span>
       </div>
     </div>
+    <!--<div class="action-box">-->
+      <!--<van-button type="info">移动到</van-button>-->
+    <!--</div>-->
   </div>
 </template>
 
 <script>
+import useHead from './UserHead.vue'
 export default {
   data () {
     return {
@@ -69,7 +77,9 @@ export default {
     }
   },
 
-  components: {},
+  components: {
+    useHead
+  },
 
   computed: {},
 
@@ -139,6 +149,10 @@ export default {
     height: 53px;
     background-color: #999999;
     border-radius: 50%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .data-name {
     color: #323233;
@@ -166,5 +180,15 @@ export default {
   }
   .van-tag::after {
     border-color: #666;
+  }
+  .action-box {
+    @include defaultFlex;
+    margin: 40px 0 50px;
+    button {
+      background-color: $mainColor;
+      border-color: $mainColor;
+      width: 98px;
+      height: 43px;
+    }
   }
 </style>

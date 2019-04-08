@@ -49,13 +49,13 @@ export default {
       finished: false,
       isLoading: false,
       curHeadItem: null, // 当前头部active的
-      pageMap: { // 不同页面对应的接口
-        0: '/EntService/MyResumes',
-        1: '/EntService/MyResumes',
-        2: '/EntService/MyResumes',
-        3: '/EntService/MyResumes',
-        4: '/EntService/MyResumes',
-        5: '/EntService/MyResumes'
+      pageMap: { // 不同页面对应的接口, 不同的文件夹id
+        0: {url: '/EntService/MyResumes', foldId: 'RE0201'},
+        1: {url: '/EntService/MyResumes', foldId: 'RE0202'},
+        2: {url: '/EntService/MyResumes', foldId: 'RE0203'},
+        3: {url: '/EntService/MyResumes', foldId: 'RE0204'},
+        4: {url: '/EntService/MyResumes', foldId: 'RE0205'},
+        5: {url: '/EntService/MyResumes', foldId: 'RE0206'}
       },
       pageId: null // 页面标识
     }
@@ -66,10 +66,9 @@ export default {
   },
   watch: {
     curHeadItem () { // 头部切换, 就请求
-      const theUrl = this.pageMap[this.curHeadItem.id]
       this.pageId = this.curHeadItem.id
-      const data = {}
-      this.getData(theUrl, data)
+      this.resData = null
+      this.getData()
     }
   },
   mounted () {
@@ -83,9 +82,7 @@ export default {
       return
     }
     this.pageId = parseInt(param.pageid)
-    const theUrl = this.pageMap[this.pageId]
-    const data = {}
-//    this.getData(theUrl, data)
+    this.getData()
   },
   methods: {
     /**
@@ -108,16 +105,7 @@ export default {
         return
       }
       this.PageIndex++
-      const data = {
-        PageIndex: this.PageIndex
-      }
-      //      postData('/ReService/SearchPosition', data).then((res) => {
-      //        console.log(res)
-      //        this.resData = this.resData.concat(res.ReturnData)
-      //        this.PageCount = res.PageCount
-      //        this.PageIndex = res.PageIndex
-      //        this.loading = false
-      //      })
+      this.getData()
     },
     onRefresh () {
       //      setTimeout(() => {
@@ -135,11 +123,12 @@ export default {
     },
     /**
      * 请求数据
-     * @param url
-     * @param data
      */
-    getData (url, data) {
-      postData(url, data).then((res) => {
+    getData () {
+      const theUrl = this.pageMap[this.pageId]['url']
+      const foldId = this.pageMap[this.pageId]['foldId']
+      const data = {Folder: foldId, PageIndex: this.PageIndex}
+      postData(theUrl, data).then((res) => {
         console.log(res)
         if (myModule.isEmpty(res.ReturnData)) {
           console.log('暂无数据')
@@ -151,7 +140,19 @@ export default {
           return
         }
         this.resData = res.ReturnData
+        this.PageCount = res.PageCount
+        this.PageIndex = res.PageIndex
+        this.loading = false
+        this.formatTime()
       })
+    },
+    /**
+     * 格式化时间
+     */
+    formatTime () {
+      for (let obj of this.resData) {
+        obj.RE01_CRT_TIME = myModule.handleTime(obj.RE01_CRT_TIME)
+      }
     }
 
   }

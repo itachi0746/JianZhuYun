@@ -10,18 +10,18 @@
         <div class="main">
           {{resData.RE32_OFFER_CONTENT}}
         </div>
-        <div class="btn-box" v-if="resData.RE32_STATUS==='BD0902'">
+        <div class="btn-box" v-if="resData.RE32_STATUS!=='BD0904' && resData.RE32_STATUS!=='BD0909'">
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
-        <div class="result" v-if="resData.RE32_STATUS==='BD0903'">
+        <div class="result" v-if="resData.RE32_STATUS==='BD0904'">
           <div class="result-logo">
             <img src="../assets/accept.png" alt="">
           </div>
           <div class="result-msg">入职邀请已接受</div>
           <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
         </div>
-        <div class="result" v-if="resData.RE32_STATUS==='BD0904'">
+        <div class="result" v-if="resData.RE32_STATUS==='BD0909'">
           <div class="result-logo">
             <img src="../assets/refuse.png" alt="">
           </div>

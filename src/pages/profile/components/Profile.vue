@@ -13,12 +13,13 @@
           </van-col>
           <van-col span="12">
             <div class="user-head-box">
-              <div class="user-head" v-if="resData.RE23_PIC_URL">
-                <img :src="resData.RE23_PIC_URL" alt="">
-              </div>
-              <div class="user-head" v-else>
-                <img src="../../../component/assets/default_head_pr.png" alt="">
-              </div>
+              <!--<div class="user-head" v-if="resData.RE23_PIC_URL">-->
+                <!--<img :src="resData.RE23_PIC_URL" alt="">-->
+              <!--</div>-->
+              <!--<div class="user-head" v-else>-->
+                <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
+              <!--</div>-->
+              <UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>
             </div>
           </van-col>
         </van-row>
@@ -36,7 +37,7 @@
           <van-col span="8">
             <div class="tab-cell">
               <div class="van-hairline--right" @click="clickInterview">
-                <div class="tab-cell-num">0</div>
+                <!--<div class="tab-cell-num">0</div>-->
                 <div class="tab-cell-name">面试</div>
               </div>
             </div>
@@ -44,7 +45,7 @@
           <van-col span="8">
             <div class="tab-cell" @click="clickRecord">
               <div class="van-hairline--right">
-                <div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>
+                <!--<div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>-->
                 <div class="tab-cell-name">申请记录</div>
               </div>
             </div>
@@ -52,7 +53,7 @@
           <van-col span="8">
             <div class="tab-cell">
               <div class="van-hairline--right">
-                <div class="tab-cell-num">0</div>
+                <!--<div class="tab-cell-num">0</div>-->
                 <div class="tab-cell-name">感兴趣</div>
               </div>
             </div>
@@ -74,6 +75,7 @@ import myModule from '../../../common'
 import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
+import UserHead from '../../../component/UserHead.vue'
 
 export default {
   name: 'profile',
@@ -93,7 +95,8 @@ export default {
   },
   components: {
     Footer,
-    Header
+    Header,
+    UserHead
   },
   mounted () {
     console.log(myModule)

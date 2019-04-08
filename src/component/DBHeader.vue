@@ -21,12 +21,12 @@ export default {
     return {
       theActive: null, // 默认当前是人才库
       headData: [
-        {id: 0, name: '人才库'},
-        {id: 1, name: '面试库'},
-        {id: 2, name: '录用库'},
-        {id: 3, name: '签约库'},
-        {id: 4, name: '备用人才库'},
-        {id: 5, name: '历史库'}
+        {id: 0, name: '人才库', foldId: 'RE0201'},
+        {id: 1, name: '面试库', foldId: 'RE0202'},
+        {id: 2, name: '录用库', foldId: 'RE0203'},
+        {id: 3, name: '签约库', foldId: 'RE0204'},
+        {id: 4, name: '备用人才库', foldId: 'RE0205'},
+        {id: 5, name: '历史库', foldId: 'RE0206'}
       ]
     }
   },

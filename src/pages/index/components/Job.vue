@@ -39,7 +39,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
-import JobItem from '../../../component/jobItem.vue'
+import JobItem from '../../../component/JobItem.vue'
 
 export default {
   name: 'profile',

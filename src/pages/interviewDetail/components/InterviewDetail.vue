@@ -40,19 +40,19 @@
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
-        <div class="result" v-if="resData.RE37_STATUS==='BD0903'">
+        <div class="result" v-if="resData.RE37_STATUS==='BD0904'">
           <div class="result-logo">
             <img src="../assets/accept.png" alt="">
           </div>
           <div class="result-msg">面试邀请已接受</div>
-          <div class="result-data">{{resData.RE37_CRT_TIME}}</div>
+          <div class="result-data">{{resData.RE37_CHG_TIME}}</div>
         </div>
-        <div class="result" v-if="resData.RE37_STATUS==='BD0904'">
+        <div class="result" v-if="resData.RE37_STATUS==='BD0909'">
           <div class="result-logo">
             <img src="../assets/refuse.png" alt="">
           </div>
           <div class="result-msg">面试邀请拒绝</div>
-          <div class="result-data">{{resData.RE37_CRT_TIME}}</div>
+          <div class="result-data">{{resData.RE37_CHG_TIME}}</div>
         </div>
       </div>
     </div>
@@ -155,10 +155,7 @@ export default {
       postData('/ReService/RejectInverview', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE37_STATUS = 'BD0904'
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.clear()
+        this.resData.RE37_STATUS = res.ReturnData.RE37_STATUS
       })
     },
     clickAccept () {
@@ -175,10 +172,7 @@ export default {
       postData('/ReService/AcceptInverview', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE37_STATUS = 'BD0903'
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.clear()
+        this.resData.RE37_STATUS = res.ReturnData.RE37_STATUS
       })
     }
   }

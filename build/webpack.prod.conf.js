@@ -124,8 +124,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunks: ['login', 'register', 'profile', 'job', 'company', 'record', 'recordDetail',
         'message', 'offer', 'offerDetail', 'contract', 'contractDetail', 'jobDetail', 'interview',
       'resume', 'companyDetail', 'EPIndex', 'EPRecord', 'EPProfile', 'EPRelease', 'EPRegister',
-      'EPLogin', 'interviewDetail', 'EPJob', 'EPJobDetail', 'EPPeopleDetail',
-      'ResumeDetail', 'EPOfferLetter', 'EPPeopleDB', 'contractAward', 'EPJobList'],
+      'EPLogin', 'interviewDetail', 'EPJob', 'EPJobDetail', 'EPPeopleDetail', 'EPResumeDetail',
+      'resumeDetail', 'EPOfferLetter', 'EPPeopleDB', 'contractAward', 'EPJobList'],
       minChunks: Infinity
     }),
     // extract webpack runtime and module manifest to its own file in order to

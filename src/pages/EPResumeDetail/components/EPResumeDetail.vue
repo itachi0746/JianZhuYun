@@ -3,34 +3,14 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
 
-      <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
-
-      <div class="action-box" v-show="resData.RE23_STATUS!=='BD0904' && resData.RE23_STATUS!=='BD0909'">
-        <div class="btn-box">
-          <van-button type="info" @click.native="clickAccept">同意</van-button>
+      <EPResumeItem :resData="resData" :workExperienceData="workExperienceData"></EPResumeItem>
+      <div class="action-box">
+        <div class="p10">
+          <van-button class="btnClass" type="info" size="large" @click.native="moveTo">移动到</van-button>
         </div>
-        <div class="btn-box">
-          <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
-        </div>
-        <div class="btn-box">
-          <van-button type="info" @click.native="clickWait">放入备用人才</van-button>
-        </div>
-      </div>
-      <div class="result" v-show="resData.RE23_STATUS==='BD0904'">
-        <div class="result-logo">
-          <img src="../assets/accept.png" alt="">
-        </div>
-        <div class="result-msg">已同意</div>
-        <div class="result-data">{{resData.RE23_CHG_TIME}}</div>
-      </div>
-      <div class="result" v-show="resData.RE23_STATUS==='BD0909'">
-        <div class="result-logo">
-          <img src="../assets/refuse.png" alt="">
-        </div>
-        <div class="result-msg">已拒绝</div>
-        <div class="result-data">{{resData.RE23_CHG_TIME}}</div>
       </div>
     </div>
+    <PopRadio v-if="showPop" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
   </div>
 </template>
 
@@ -38,21 +18,32 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
-import ResumeItem from '../../../component/ResumeItem.vue'
+import EPResumeItem from '../../../component/EPResumeItem.vue'
+import PopRadio from '../../../component/PopRadio.vue'
 
 export default {
   data () {
     return {
-      headerName: '面试处理',
+      headerName: '简历详情',
       id: null,
       resData: null,
-      workExperienceData: null
+      workExperienceData: null, // 工作经历
+      showPop: false, // 弹窗开关
+      theRadioData: [
+        {value: 'RE0201', name: '人才库'},
+        {value: 'RE0202', name: '面试库'},
+        {value: 'RE0203', name: '录用库'},
+        {value: 'RE0204', name: '签约库'},
+        {value: 'RE0205', name: '备用人才库'},
+        {value: 'RE0206', name: '历史库'}
+      ] // 弹窗的数据
     }
   },
 
   components: {
     Header,
-    ResumeItem
+    EPResumeItem,
+    PopRadio
   },
 
   computed: {},
@@ -65,48 +56,22 @@ export default {
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
     },
-    clickRefuse () {
-      this.$toast.loading({
-        mask: false,
-        message: '加载中...',
-        duration: 0,
-        forbidClick: true // 禁用背景点击
-      })
-      const data = {
-        id: this.id,
-        type: 'BD0909',
-        note: '',
-        Folder: 'RE0202'
-      }
-      postData('/EntService/UpdateInverviewStatus', data).then((res) => {
-        console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE23_STATUS = res.ReturnData.RE23_STATUS
-      })
-    },
-    clickAccept () {
-      this.$toast.loading({
-        mask: false,
-        message: '加载中...',
-        duration: 0,
-        forbidClick: true // 禁用背景点击
-      })
-      const data = {
-        id: this.id,
-        type: 'BD0904',
-        note: '',
-        Folder: 'RE0202'
-      }
-      postData('/EntService/UpdateInverviewStatus', data).then((res) => {
-        console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE23_STATUS = res.ReturnData.RE23_STATUS
-      })
+    /**
+     *  移动到其他库
+     */
+    moveTo () {
+      this.showPop = true
+//      postData('/EntService/UpdateResumeFolder', data).then((res) => {
+//        console.log(res)
+//        this.$toast.success('提交成功')
+//        this.isSend = true
+//        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
+//      })
     },
     /**
-     * 移动到备用人才库
+     * 监听弹窗关闭
      */
-    clickWait () {
+    closePop (popValue) {
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -115,18 +80,20 @@ export default {
       })
       const data = {
         id: this.id,
-        folder: 'RE0205'
+        folder: popValue.value
       }
       postData('/EntService/UpdateResumeFolder', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
+        this.isSend = true
       })
     }
   },
 
   created () {
-    this.id = this.$route.params.id
-    postData('/EntService/ResumeDetials', {id: this.id}).then((res) => {
+    const param = myModule.getUrlParams()
+    this.id = param.id
+    postData('/EntService/resumeDetail', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -138,17 +105,16 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE23_CHG_TIME = myModule.handleTime(this.resData.RE23_CHG_TIME)
     })
     postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
-        this.$toast.fail({
-          mask: false,
-          message: '暂无数据',
-          forbidClick: true // 禁用背景点击
-        })
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: true // 禁用背景点击
+//        })
         return
       }
       this.workExperienceData = res.ReturnData
@@ -169,14 +135,15 @@ export default {
     color: #666;
   }
   .body {
-    padding: 15px 10px;
+    padding: 15px 18px;
     @include borderBox()
   }
   .header {
     padding-bottom: 20px;
   }
   .item-box {
-    padding: 20px 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     .title {
       color: #323233;
       padding: 5px 0;
@@ -216,6 +183,10 @@ export default {
     height: 53px;
     background-color: #999999;
     border-radius: 50%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .data-name {
     color: #323233;
@@ -244,21 +215,9 @@ export default {
   .van-tag::after {
     border-color: #666;
   }
-  .btnSize2 {
-    height: 25px;
-    line-height: 0;
-    padding: 5px 5px;
-    margin-top: 10px;
-  }
-  .right-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    button {
-      color: $mainColor;
-      border-color: $mainColor;
-    }
+  .action-box {
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   .action-box {
     padding: 25px 20px;
@@ -293,5 +252,21 @@ export default {
   .result-msg {
     text-align: center;
   }
-
+  .p10 {
+    width: 100%;
+  }
+  .action-box {
+    @include defaultFlex;
+    margin: 40px 0 50px;
+    button {
+      background-color: $mainColor;
+      border-color: $mainColor;
+      /*width: 98px;*/
+      /*height: 43px;*/
+    }
+  }
+  .btnClass {
+    @include theBtnColor;
+    padding: 0 20px;
+  }
 </style>

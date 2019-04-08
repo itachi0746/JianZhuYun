@@ -41,14 +41,16 @@
         </van-cell-group>
       </div>
       <div class="action-box">
-        <van-button type="info">确定</van-button>
+        <div class="p10">
+          <van-button class="btnClass" type="info" size="large" @click.native="clickSend">签约并发送</van-button>
+        </div>
       </div>
-      <div class="result" v-show="false">
+      <div class="result" v-if="isSend">
         <div class="result-logo">
           <img src="../assets/accept.png" alt="">
         </div>
-        <div class="result-msg">签约成功</div>
-        <div class="result-data">2019-3-25</div>
+        <div class="result-msg">发送成功</div>
+        <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
       </div>
     </div>
   </div>
@@ -66,7 +68,8 @@ export default {
       headerName: '合同签约',
       headerHeight: null,
       id: null,
-      resData: null
+      resData: null,
+      isSend: false
     }
   },
   components: {
@@ -92,8 +95,9 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
-      this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
+      this.resData.RE33_CRT_TIME = myModule.formatTime(this.resData.RE33_CRT_TIME)
+      this.resData.RE33_START_TIME = myModule.formatTime(this.resData.RE33_START_TIME)
+      this.resData.RE33_END_TIME = myModule.formatTime(this.resData.RE33_END_TIME)
     })
   },
   methods: {
@@ -106,6 +110,23 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
+    },
+    clickSend () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {
+        id: this.id
+      }
+      postData('/EntService/SendSigning', data).then((res) => {
+        console.log(res)
+        this.$toast.success('提交成功')
+        this.isSend = true
+        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
+      })
     }
   }
 }
@@ -180,5 +201,8 @@ export default {
       height: 43px;
     }
   }
-
+  .btnClass {
+    @include theBtnColor;
+    padding: 0 20px;
+  }
 </style>
