@@ -33,12 +33,12 @@ export default {
           name: '公司',
           link: 'company.html'
         },
-        {
-          normal: require('./assets/f3.png'),
-          active: require('./assets/f3_active.png'),
-          name: '消息',
-          link: 'message.html'
-        },
+//        {
+//          normal: require('./assets/f3.png'),
+//          active: require('./assets/f3_active.png'),
+//          name: '消息',
+//          link: 'message.html'
+//        },
         {
           normal: require('./assets/f4.png'),
           active: require('./assets/f4_active.png'),

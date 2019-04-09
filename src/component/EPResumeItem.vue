@@ -4,30 +4,30 @@
     <div v-if="resData" class="header van-hairline--bottom">
       <van-row>
         <van-col span="20">
-          <div class="data-name">{{resData.RE23_NAME}}</div>
+          <div class="data-name">{{resData.RE01_NAME}}</div>
           <div class="data-item-box">
             <div class="data-item">
               <div class="data-item-label">年龄</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_AGE}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_AGE}}</van-tag>
             </div>
             <div class="data-item">
               <div class="data-item-label">籍贯</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_BORN_IN}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_BORN_IN}}</van-tag>
             </div>
             <div class="data-item">
               <div class="data-item-label">手机</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_MOBILE_PHONE}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_MOBILE_PHONE}}</van-tag>
             </div>
             <div class="data-item">
               <div class="data-item-label">身份证</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_IDENTIY_CARD_NO}}</van-tag>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_IDENTIY_CARD_NO}}</van-tag>
             </div>
           </div>
         </van-col>
         <van-col span="4">
-          <useHead :theUrl="resData.RE23_PIC_URL"></useHead>
-          <!--<div class="data-head" v-if="resData.RE23_PIC_URL">-->
-          <!--<img :src="resData.RE23_PIC_URL" alt="">-->
+          <UserHead :theUrl="resData.RE01_PIC_URL"></UserHead>
+          <!--<div class="data-head" v-if="resData.RE01_PIC_URL">-->
+          <!--<img :src="resData.RE01_PIC_URL" alt="">-->
           <!--</div>-->
           <!--<div class="data-head" v-else>-->
           <!--<img src="./assets/default_head_pr.png" alt="">-->
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import useHead from './UserHead.vue'
+import UserHead from './UserHead.vue'
 export default {
   data () {
     return {
@@ -79,7 +79,7 @@ export default {
   },
 
   components: {
-    useHead
+    UserHead
   },
 
   computed: {},

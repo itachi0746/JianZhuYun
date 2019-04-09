@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :search="false"></Header>
     <div class="filter van-hairline--bottom" v-show="false">
       <van-row>
         <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
@@ -86,19 +86,7 @@ export default {
     console.log(myModule)
   },
   created () {
-    postData('/EntService/SearchPeople', {}).then((res) => {
-      console.log(res)
-      if (myModule.isEmpty(res.ReturnData)) {
-        console.log('暂无数据')
-        this.$toast.fail({
-          mask: false,
-          message: '暂无数据',
-          forbidClick: true // 禁用背景点击
-        })
-        return
-      }
-      this.resData = res.ReturnData
-    })
+    this.getData()
   },
   methods: {
     /**
@@ -126,16 +114,7 @@ export default {
         return
       }
       this.PageIndex++
-      const data = {
-        PageIndex: this.PageIndex
-      }
-      postData('/ReService/SearchPeople', data).then((res) => {
-        console.log(res)
-        this.resData = this.resData.concat(res.ReturnData)
-        this.PageCount = res.PageCount
-        this.PageIndex = res.PageIndex
-        this.loading = false
-      })
+      this.getData()
     },
     onRefresh () {
       //      setTimeout(() => {
@@ -145,6 +124,37 @@ export default {
     },
     clickLi (id) {
       GoToPage('', 'peopleDetail.html', {id: id})
+    },
+    getData () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {
+        PageIndex: this.PageIndex
+      }
+      postData('/EntService/SearchPeople', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: true // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+        this.PageCount = res.PageCount
+        this.PageIndex = res.PageIndex
+        this.loading = false
+        this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
+//        for (let obj of this.resData) {
+//          obj.RE32_CHG_TIME = myModule.handleTime(obj.RE32_CHG_TIME)
+//        }
+      })
     }
   }
 }

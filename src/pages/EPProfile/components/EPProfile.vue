@@ -48,6 +48,7 @@ export default {
         {name: '发布职位', link: 'EPRelease.html', param: {}},
         {name: '职位列表', link: 'EPJob.html', param: {}},
 //        {name: '浏览记录', link: '', param: {}},
+        {name: '录用通知', link: 'EPOfferLetter.html', param: {}},
         {name: '合同签约', link: 'EPPeopleDB.html', param: {pageid: 3}}
       ],
       resData: null

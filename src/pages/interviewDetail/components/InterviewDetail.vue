@@ -36,7 +36,7 @@
             <!--</div>-->
           <!--</div>-->
         </div>
-        <div class="btn-box" v-if="resData.RE37_STATUS==='BD0902'">
+        <div class="btn-box" v-if="resData.RE37_STATUS!=='BD0904' && resData.RE37_STATUS!=='BD0909'">
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
@@ -69,7 +69,7 @@ export default {
   name: '',
   data () {
     return {
-      headerName: '记录详情',
+      headerName: '面试详情',
       headerHeight: null,
       resData: null,
       id: null,
@@ -155,7 +155,10 @@ export default {
       postData('/ReService/RejectInverview', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE37_STATUS = res.ReturnData.RE37_STATUS
+        this.resData.RE37_STATUS = 'BD0909'
+        setTimeout(() => {
+          window.history.back()
+        }, 2000)
       })
     },
     clickAccept () {
@@ -172,7 +175,10 @@ export default {
       postData('/ReService/AcceptInverview', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE37_STATUS = res.ReturnData.RE37_STATUS
+        this.resData.RE37_STATUS = 'BD0904'
+        setTimeout(() => {
+          window.history.back()
+        }, 2000)
       })
     }
   }
@@ -249,6 +255,7 @@ export default {
     margin-top: 10px;
   }
   .btn-box {
+    margin-top: 15px;
     padding: 0 55px;
     display: flex;
     justify-content: space-between;

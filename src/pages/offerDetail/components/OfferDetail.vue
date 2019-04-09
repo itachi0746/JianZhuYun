@@ -8,7 +8,7 @@
           <div>{{resData.RE32_CRT_TIME}}</div>
         </div>
         <div class="main">
-          {{resData.RE32_OFFER_CONTENT}}
+          {{resData.RE32_CANDIDATE_MEMO}}
         </div>
         <div class="btn-box" v-if="resData.RE32_STATUS!=='BD0904' && resData.RE32_STATUS!=='BD0909'">
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
@@ -97,11 +97,11 @@ export default {
      * 处理header,footer的高度
      */
     handleHeight (height) {
-      this.headerHeight = height.headerHeight
-      if (this.headerHeight) {
-        const WH = myModule.getClientHeight()
-        this.$refs.body.style.height = WH - this.headerHeight + 'px'
-      }
+//      this.headerHeight = height.headerHeight
+//      if (this.headerHeight) {
+//        const WH = myModule.getClientHeight()
+//        this.$refs.body.style.height = WH - this.headerHeight + 'px'
+//      }
     },
     /**
      * 点击拒绝
@@ -122,10 +122,10 @@ export default {
       postData('/ReService/AcceptOffer', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE32_STATUS = 'BD0903'
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.clear()
+        this.resData.RE32_STATUS = 'BD0904'
+        setTimeout(() => {
+          window.history.back()
+        }, 2000)
       })
     },
     beforeClose (action, done) {
@@ -142,7 +142,10 @@ export default {
         postData('/ReService/RejectOffer', data).then((res) => {
           console.log(res)
           this.$toast.success('提交成功')
-          this.resData.RE32_STATUS = 'BD0904'
+          this.resData.RE32_STATUS = 'BD0909'
+          setTimeout(() => {
+            window.history.back()
+          }, 2000)
         }).catch((err) => {
           console.log(err)
           this.$toast.clear()
@@ -161,7 +164,7 @@ export default {
     padding: 20px 18px;
     @include font-size(16px);
     color: #666;
-    background-color: #F5F9FA;
+    /*background-color: #F5F9FA;*/
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */

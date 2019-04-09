@@ -168,7 +168,7 @@ export default {
       margin-bottom: 10px;
       display: flex;
       justify-content: flex-end;
-      /*width: 50px;*/
+      /*width: 85px;*/
       @include font-size(14px);
 
     }
@@ -189,15 +189,15 @@ export default {
     padding-right: 5px;
   }
   .btnSize {
-    height: 25px;
+    height: 30px;
     line-height: 0;
     padding: 10px 12px;
     @include theBtnColor
   }
   .btnSize2 {
-    height: 25px;
+    height: 30px;
     line-height: 0;
-    padding: 7px 10px;
+    padding: 10px 12px;
   }
 
 </style>

@@ -19,7 +19,9 @@
               <!--<div class="user-head" v-else>-->
                 <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
               <!--</div>-->
-              <UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>
+              <div class="user-head">
+                <UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>
+              </div>
             </div>
           </van-col>
         </van-row>

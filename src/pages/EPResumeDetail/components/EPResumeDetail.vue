@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <PopRadio v-if="showPop" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
+    <PopRadio v-if="showPop" :theRadioData="theRadioData" @closePop="closePop" :showPop="showPop"></PopRadio>
   </div>
 </template>
 
@@ -30,12 +30,12 @@ export default {
       workExperienceData: null, // 工作经历
       showPop: false, // 弹窗开关
       theRadioData: [
-        {value: 'RE0201', name: '人才库'},
-        {value: 'RE0202', name: '面试库'},
-        {value: 'RE0203', name: '录用库'},
-        {value: 'RE0204', name: '签约库'},
-        {value: 'RE0205', name: '备用人才库'},
-        {value: 'RE0206', name: '历史库'}
+        {id: 'RE0201', Value: '人才库'},
+        {id: 'RE0202', Value: '面试库'},
+        {id: 'RE0203', Value: '录用库'},
+        {id: 'RE0204', Value: '签约库'},
+        {id: 'RE0205', Value: '备用人才库'},
+        {id: 'RE0206', Value: '历史库'}
       ] // 弹窗的数据
     }
   },
@@ -71,7 +71,13 @@ export default {
     /**
      * 监听弹窗关闭
      */
-    closePop (popValue) {
+    closePop (obj) {
+      if (!obj.value.id) {
+        console.log('没有返回值')
+        this.showPop = false
+        return
+      }
+      this.showPop = false
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -80,7 +86,7 @@ export default {
       })
       const data = {
         id: this.id,
-        folder: popValue.value
+        folder: obj.value.id
       }
       postData('/EntService/UpdateResumeFolder', data).then((res) => {
         console.log(res)
@@ -93,7 +99,7 @@ export default {
   created () {
     const param = myModule.getUrlParams()
     this.id = param.id
-    postData('/EntService/resumeDetail', {id: this.id}).then((res) => {
+    postData('/EntService/ResumeDetails', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')

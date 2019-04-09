@@ -6,24 +6,24 @@
         </div>
         <div class="man-data">
           <div class="man-name">
-            {{item.RE01_NAME}}
+            {{item.RE32_NAME}}
           </div>
           <div class="man-tag1-box">
             <!--<div class="man-tag1">申请建筑电工</div>-->
-            <div class="man-tag1">{{item.RE01_NAME}}</div>
+            <!--<div class="man-tag1">{{item.RE32_NAME}}</div>-->
 
           </div>
           <div class="man-tag1-box">
-            <div class="man-tag1">2019-3-27 08:30</div>
+            <div class="man-tag1">{{item.RE32_CHG_TIME}}</div>
           </div>
         </div>
         <div class="action-box">
           <div class="action-btn">
-            <div>{{item.RE01_STATUS}}</div>
+            <div>{{item.ReferenceValues.RE32_STATUS}}</div>
             <!--<van-button class="btnSize2" plain type="info" @click="clickBtn1">查看简历</van-button>-->
           </div>
           <div class="action-btn">
-            <van-button class="btnSize" type="info" @click="clickBtn2(item.RE01_ID)">查看</van-button>
+            <van-button class="btnSize" type="info" @click="clickBtn2(item.RE32_ID)">查看</van-button>
           </div>
         </div>
       </div>

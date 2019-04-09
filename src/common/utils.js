@@ -155,13 +155,13 @@ export default {
       if (theReg2.test(theResult)) { // 带负号的时间, 为空值
         return null
       }
-      return theResult
+      return null
     }
     theResult = 'new ' + theResult.substr(1, theResult.length - 2)
-    console.log(theResult)
+    // console.log(theResult)
 
     theResult = eval(theResult)
-    console.log(theResult)
+    // console.log(theResult)
 
     return theResult
   },
@@ -170,6 +170,7 @@ export default {
    * @param dateStr
    */
   handleTime: function (dateStr) {
+    console.log(dateStr)
     let theResult = this.formatDate(dateStr)
     if (!theResult) {
       return theResult

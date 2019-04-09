@@ -12,7 +12,7 @@
                 <div>{{item.RE32_CRT_TIME}}</div>
               </div>
               <div class="myOffer-time">
-                <div class="myOffer-status">{{item.RE32_STATUS}}</div>
+                <div class="myOffer-status">{{item.ReferenceValues.RE32_STATUS}}</div>
                 <van-icon class="" name="arrow"/>
               </div>
             </div>
@@ -57,8 +57,9 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      let theTS = myModule.formatDate(this.resData.RE32_CRT_TIME)
-      this.resData.RE32_CRT_TIME = myModule.formatTime(theTS)
+      for (let obj of this.resData) {
+        obj.RE32_CRT_TIME = myModule.handleTime(obj.RE32_CRT_TIME)
+      }
     })
   },
   methods: {

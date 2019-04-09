@@ -125,6 +125,12 @@ export default {
      * 请求数据
      */
     getData () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
       const theUrl = this.pageMap[this.pageId]['url']
       const foldId = this.pageMap[this.pageId]['foldId']
       const data = {Folder: foldId, PageIndex: this.PageIndex}
@@ -139,7 +145,8 @@ export default {
           })
           return
         }
-        this.resData = res.ReturnData
+        this.$toast.clear()
+        this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
         this.PageCount = res.PageCount
         this.PageIndex = res.PageIndex
         this.loading = false

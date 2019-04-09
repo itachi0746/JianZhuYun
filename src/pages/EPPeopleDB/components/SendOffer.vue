@@ -7,7 +7,7 @@
           <van-row>
             <van-col span="19">
               <div class="data-box">
-                <div class="data-name">{{resData.RE01_NAME}}</div>
+                <div class="data-name">{{resData.RE32_CANDIDATE_NAME}}</div>
                 <!--<div class="data-line">申请职位 建筑电工</div>-->
               </div>
             </van-col>
@@ -49,7 +49,7 @@
             <img src="../assets/accept.png" alt="">
           </div>
           <div class="result-msg">已发送</div>
-          <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
+          <div class="result-data">{{resData.RE32_CHG_TIME}}</div>
         </div>
       </div>
     </div>
@@ -110,7 +110,7 @@ export default {
 //    const param = myModule.getUrlParams()
 //    this.id = param.id
     this.id = this.$route.params.id
-    postData('/EntService/SearchPeople', {id: this.id}).then((res) => {
+    postData('/EntService/OfferDetials', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -212,6 +212,7 @@ export default {
     width: 100%;
   }
   .result {
+    margin-top: 20px;
     @include font-size(16px);
     color: #666;
   }

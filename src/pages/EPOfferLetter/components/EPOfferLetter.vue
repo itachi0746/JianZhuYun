@@ -50,7 +50,7 @@ export default {
     console.log(myModule)
   },
   created () {
-    postData('/EntService/MyResumes', {}).then((res) => {
+    postData('/EntService/MyOffers', {}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -62,6 +62,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
+      this.resData.RE32_CHG_TIME = myModule.handleTime(this.resData.RE32_CHG_TIME)
     })
   },
   methods: {
@@ -85,22 +86,40 @@ export default {
         return
       }
       this.PageIndex++
+      this.getData()
+    },
+    onRefresh () {
+    },
+    getData () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
       const data = {
         PageIndex: this.PageIndex
       }
-      //      postData('/ReService/SearchPosition', data).then((res) => {
-      //        console.log(res)
-      //        this.resData = this.resData.concat(res.ReturnData)
-      //        this.PageCount = res.PageCount
-      //        this.PageIndex = res.PageIndex
-      //        this.loading = false
-      //      })
-    },
-    onRefresh () {
-      //      setTimeout(() => {
-      //        this.$toast('刷新成功')
-      //        this.isLoading = false
-      //      }, 500)
+      postData('/EntService/MyOffers', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: true // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+        this.PageCount = res.PageCount
+        this.PageIndex = res.PageIndex
+        this.loading = false
+        this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
+        for (let obj of this.resData) {
+          obj.RE32_CHG_TIME = myModule.handleTime(obj.RE32_CHG_TIME)
+        }
+      })
     }
 
   }

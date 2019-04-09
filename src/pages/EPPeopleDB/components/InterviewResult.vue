@@ -2,33 +2,33 @@
   <div class="handle">
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
-
-      <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
-
-      <div class="action-box" v-show="resData.RE23_STATUS!=='BD0904' && resData.RE23_STATUS!=='BD0909'">
-        <div class="btn-box">
-          <van-button type="info" @click.native="clickAccept">同意</van-button>
+      <div v-if="resData">
+        <EPResumeItem :resData="resData" :workExperienceData="workExperienceData"></EPResumeItem>
+        <div class="action-box" v-show="resData.RE01_STATUS!=='BD0904' && resData.RE01_STATUS!=='BD0909'">
+          <div class="btn-box">
+            <van-button type="info" @click.native="clickAccept">同意</van-button>
+          </div>
+          <div class="btn-box">
+            <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
+          </div>
+          <div class="btn-box">
+            <van-button type="info" @click.native="clickWait">放入备用人才</van-button>
+          </div>
         </div>
-        <div class="btn-box">
-          <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
+        <div class="result" v-show="resData.RE01_STATUS==='BD0904'">
+          <div class="result-logo">
+            <img src="../assets/accept.png" alt="">
+          </div>
+          <div class="result-msg">已同意</div>
+          <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
         </div>
-        <div class="btn-box">
-          <van-button type="info" @click.native="clickWait">放入备用人才</van-button>
+        <div class="result" v-show="resData.RE01_STATUS==='BD0909'">
+          <div class="result-logo">
+            <img src="../assets/refuse.png" alt="">
+          </div>
+          <div class="result-msg">已拒绝</div>
+          <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
         </div>
-      </div>
-      <div class="result" v-show="resData.RE23_STATUS==='BD0904'">
-        <div class="result-logo">
-          <img src="../assets/accept.png" alt="">
-        </div>
-        <div class="result-msg">已同意</div>
-        <div class="result-data">{{resData.RE23_CHG_TIME}}</div>
-      </div>
-      <div class="result" v-show="resData.RE23_STATUS==='BD0909'">
-        <div class="result-logo">
-          <img src="../assets/refuse.png" alt="">
-        </div>
-        <div class="result-msg">已拒绝</div>
-        <div class="result-data">{{resData.RE23_CHG_TIME}}</div>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
-import ResumeItem from '../../../component/ResumeItem.vue'
+import EPResumeItem from '../../../component/EPResumeItem.vue'
 
 export default {
   data () {
@@ -52,7 +52,7 @@ export default {
 
   components: {
     Header,
-    ResumeItem
+    EPResumeItem
   },
 
   computed: {},
@@ -74,14 +74,17 @@ export default {
       })
       const data = {
         id: this.id,
-        type: 'BD0909',
+        status: 'BD0909',
         note: '',
-        Folder: 'RE0202'
+        folder: ''
       }
       postData('/EntService/UpdateInverviewStatus', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE23_STATUS = res.ReturnData.RE23_STATUS
+        this.resData.RE23_STATUS = 'BD0909'
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: 1})
+        }, 2000)
       })
     },
     clickAccept () {
@@ -93,14 +96,17 @@ export default {
       })
       const data = {
         id: this.id,
-        type: 'BD0904',
+        status: 'BD0904',
         note: '',
-        Folder: 'RE0202'
+        folder: ''
       }
       postData('/EntService/UpdateInverviewStatus', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        this.resData.RE23_STATUS = res.ReturnData.RE23_STATUS
+        this.resData.RE23_STATUS = 'BD0904'
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: 1})
+        }, 2000)
       })
     },
     /**
@@ -120,13 +126,16 @@ export default {
       postData('/EntService/UpdateResumeFolder', data).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: 1})
+        }, 2000)
       })
     }
   },
 
   created () {
     this.id = this.$route.params.id
-    postData('/EntService/ResumeDetials', {id: this.id}).then((res) => {
+    postData('/EntService/ResumeDetails', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
@@ -138,23 +147,23 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE23_CHG_TIME = myModule.handleTime(this.resData.RE23_CHG_TIME)
+      this.resData.RE01_CHG_TIME = myModule.handleTime(this.resData.RE01_CHG_TIME)
     })
-    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
-      console.log(res)
-      if (myModule.isEmpty(res.ReturnData)) {
-        console.log('暂无数据')
-        this.$toast.fail({
-          mask: false,
-          message: '暂无数据',
-          forbidClick: true // 禁用背景点击
-        })
-        return
-      }
-      this.workExperienceData = res.ReturnData
-      this.workExperienceData.RE02_BEGIN_DATE = myModule.handleTime(this.workExperienceData.RE02_BEGIN_DATE)
-      this.workExperienceData.RE02_END_DATE = myModule.handleTime(this.workExperienceData.RE02_END_DATE)
-    })
+//    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
+//      console.log(res)
+//      if (myModule.isEmpty(res.ReturnData)) {
+//        console.log('暂无数据')
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: true // 禁用背景点击
+//        })
+//        return
+//      }
+//      this.workExperienceData = res.ReturnData
+//      this.workExperienceData.RE02_BEGIN_DATE = myModule.handleTime(this.workExperienceData.RE02_BEGIN_DATE)
+//      this.workExperienceData.RE02_END_DATE = myModule.handleTime(this.workExperienceData.RE02_END_DATE)
+//    })
   },
 
   mounted () {},
@@ -276,6 +285,7 @@ export default {
   .result {
     @include font-size(16px);
     color: #666;
+    margin-top: 20px;
   }
   .result-logo {
     width: 100%;

@@ -62,21 +62,21 @@ export default {
       }
       this.resData = res.ReturnData
     })
-    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
-      console.log(res)
-      if (myModule.isEmpty(res.ReturnData)) {
-        console.log('暂无数据')
-//        this.$toast.fail({
-//          mask: false,
-//          message: '暂无数据',
-//          forbidClick: true // 禁用背景点击
-//        })
-        return
-      }
-      this.workExperienceData = res.ReturnData
-      this.workExperienceData.RE02_BEGIN_DATE = myModule.handleTime(this.workExperienceData.RE02_BEGIN_DATE)
-      this.workExperienceData.RE02_END_DATE = myModule.handleTime(this.workExperienceData.RE02_END_DATE)
-    })
+//    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
+//      console.log(res)
+//      if (myModule.isEmpty(res.ReturnData)) {
+//        console.log('暂无数据')
+////        this.$toast.fail({
+////          mask: false,
+////          message: '暂无数据',
+////          forbidClick: true // 禁用背景点击
+////        })
+//        return
+//      }
+//      this.workExperienceData = res.ReturnData
+//      this.workExperienceData.RE02_BEGIN_DATE = myModule.handleTime(this.workExperienceData.RE02_BEGIN_DATE)
+//      this.workExperienceData.RE02_END_DATE = myModule.handleTime(this.workExperienceData.RE02_END_DATE)
+//    })
   },
 
   mounted () {},

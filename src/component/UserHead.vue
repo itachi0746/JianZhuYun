@@ -37,9 +37,9 @@ export default {
 
 <style lang='scss' scoped>
   .data-head {
-    width: 53px;
-    height: 53px;
-    background-color: #999999;
+    width: 100%;
+    height: 100%;
+    /*background-color: #999999;*/
     border-radius: 50%;
     img {
       width: 100%;

@@ -2,7 +2,8 @@
   <div class="manItem">
     <div class="man-box" v-if="data">
       <div class="man-head">
-        <img :src="data.RE23_PIC_URL" alt="">
+        <UserHead :theUrl="data.RE23_PIC_URL"></UserHead>
+        <!--<img :src="data.RE23_PIC_URL" alt="">-->
       </div>
       <div class="man-data">
         <div class="man-name">
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+import UserHead from './UserHead.vue'
 export default {
   data () {
     return {}
@@ -35,7 +37,9 @@ export default {
     }
   },
 
-  components: {},
+  components: {
+    UserHead
+  },
 
   computed: {},
 
@@ -62,7 +66,7 @@ export default {
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background-color: #969799;
+    /*background-color: #969799;*/
     margin-right: 10px;
     img {
       width: 100%;

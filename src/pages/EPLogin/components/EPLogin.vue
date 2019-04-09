@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div>
-      <van-field type="number" v-model="EntId" placeholder="请输入企业ID" right-icon="card"/>
+      <van-field type="number" ref="EntID" v-model="EntId" placeholder="请输入企业ID" right-icon="card"/>
       <div class="fillter"></div>
       <van-field type="text" v-model="Mobile" placeholder="请输入您的用户名" right-icon="clear" @click-right-icon="clickDel" />
       <div class="fillter"></div>
@@ -39,6 +39,9 @@ export default {
   },
   mounted () {
     console.log(myModule)
+    this.$nextTick(() => {
+      this.$refs['EntID'].focus()
+    })
   },
   methods: {
     /**

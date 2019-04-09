@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import {_} from 'vue-underscore'
 export default {
   name: 'DBHeader',
   data () {
@@ -27,7 +28,8 @@ export default {
         {id: 3, name: '签约库', foldId: 'RE0204'},
         {id: 4, name: '备用人才库', foldId: 'RE0205'},
         {id: 5, name: '历史库', foldId: 'RE0206'}
-      ]
+      ],
+      fun: _.debounce(this.clickLiCB, 500)
     }
   },
 
@@ -71,7 +73,14 @@ export default {
       this.$router.go(-1)
     },
     clickLi (item) {
-      this.theActive = item.id
+      this.theActive = item.id // 立即执行
+      this.fun(item) // 延迟执行
+    },
+    /**
+     * 点击回调
+     * @param item
+     */
+    clickLiCB (item) {
       this.$emit('changeTab', {'headItem': item})
     }
   },
