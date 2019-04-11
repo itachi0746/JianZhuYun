@@ -10,26 +10,15 @@
         </div>
       </div>
       <!--日期选择-->
-      <van-popup v-model="showPicker" position="bottom">
-        <van-datetime-picker
-          v-model="theShowDate"
-          :type="datetimeType"
-          :min-date="theMinDate"
-          @confirm="clickConfirm"
-          @cancel="clickCancel"
-        />
-      </van-popup>
+      <PopDate v-if="showPicker"
+               :show-date="theShowDate"
+               :date-type="datetimeType"
+               :min-date="theMinDate"
+               @confirm="clickConfirm"
+               @cancel="clickCancel"></PopDate>
       <!--单选-->
-      <van-popup class="van-popup60" v-model="showRadio">
-        <van-radio-group v-model="radio">
-          <van-cell-group v-if="theRadioData">
-            <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
-                      @click="clickRadio(item)">
-              <van-radio :name="item.Value"/>
-            </van-cell>
-          </van-cell-group>
-        </van-radio-group>
-      </van-popup>
+      <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
+
       <div class="btn-box">
         <van-button type="info" v-if="activePage>1" class="btnClass mb15" size="large" @click="clickPrev"
                     :disabled="isDisable">
@@ -52,13 +41,15 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import PopRadio from '../../../component/PopRadio.vue'
+import PopDate from '../../../component/PopDate.vue'
 
 export default {
-  name: 'register',
   data () {
     return {
       headerName: '我的简历',
       radio: '',
+      id: null,
       activePage: 1,
       theWorkTime: new Date(),
       theMinDate: new Date(1970, 0, 1),
@@ -185,7 +176,9 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    PopRadio,
+    PopDate
   },
   watch: {},
   mounted () {
@@ -198,8 +191,11 @@ export default {
       duration: 0,
       forbidClick: true // 禁用背景点击
     })
-    postData('/ReService/ResumeDetails', {}).then((res) => {
+    const param = myModule.getUrlParams()
+    this.id = param.id
+    postData('/ReService/ResumeDetails', {id: this.id}).then((res) => {
       console.log(res)
+      this.$toast.clear()
       const returnData = res.ReturnData
       if (!returnData.RE23_CANDIDATE_ID) {
         return
@@ -216,16 +212,14 @@ export default {
           }
         }
       }
-    }).then(() => {
-      this.$toast.clear()
     })
   },
   methods: {
-    clickConfirm () {
+    clickConfirm (data) {
       this.showPicker = false
-      this.theFieldArr[this.curFieldDIdx].value = myModule.formatTime(this.theShowDate)
+      this.theFieldArr[this.curFieldDIdx].value = myModule.formatTime(data.value)
     },
-    clickCancel () {
+    clickCancel (data) {
       this.showPicker = false
     },
     clickNext () {
@@ -268,7 +262,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-
+            duration: 2000,
             forbidClick: true // 禁用背景点击
           })
           return
@@ -299,8 +293,22 @@ export default {
      * 点击单选
      * @param item
      */
-    clickRadio (item) {
-      this.radio = item.Value
+//    clickRadio (item) {
+//      this.radio = item.Value
+//      this.theFieldArr[this.curFieldDIdx].value = this.radio
+//      this.showRadio = false
+//      this.theRadioData = null
+//    },
+    /**
+     * 监听弹窗关闭
+     */
+    closePop (obj) {
+      if (!obj.value) {
+        console.log('没有返回值', obj)
+        this.showRadio = false
+        return
+      }
+      this.radio = obj.value.Value
       this.theFieldArr[this.curFieldDIdx].value = this.radio
       this.showRadio = false
       this.theRadioData = null
@@ -311,8 +319,10 @@ export default {
     clickSubmit () {
       // todo 检验输入
       this.$toast.loading({
-        mask: true,
-        message: '加载中...'
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
       })
       let dataObj = {}
       for (let obj of this.theFieldArr) {
@@ -322,10 +332,9 @@ export default {
       postData('/ReService/SaveResume', dataObj).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
-        GoToPage('', 'index.hml')
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.clear()
+        setTimeout(() => {
+          GoToPage('', 'index.html', {})
+        }, 2000)
       })
     },
     handleHeight (height) {

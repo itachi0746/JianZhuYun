@@ -57,6 +57,12 @@ export default {
       this.$refs.input.click()
     },
     clickSubmit () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
       // todo 检验输入
       let form = new FormData()
       form.append('IdCard', this.IdCard)
@@ -69,7 +75,10 @@ export default {
 
       postData('/ReService/Register', form).then((res) => {
         console.log(res)
-        GoToPage('', 'login.html', {})
+        this.$toast.success('注册成功')
+        setTimeout(() => {
+          GoToPage('', 'login.html', {})
+        }, 2000)
       })
     },
     onRead (file) {
@@ -101,7 +110,7 @@ export default {
         this.$toast.success({
 //          mask: true,
           message: '上传成功',
-          duration: 3
+          duration: 2000
         })
         this.IdCard = theData.No
         this.Name = theData.Name
@@ -126,15 +135,8 @@ export default {
         console.log(res)
         this.$toast.success({
           message: '发送成功',
-          duration: 3
+          duration: 2000
         })
-      }).catch((err) => {
-        console.log(err)
-//        this.$toast.fail({
-//          message: '操作失败',
-//          duration: 3
-//        })
-        this.$toast.fail('操作失败')
       })
     }
   }

@@ -15,7 +15,8 @@
             <van-col span="5">
               <div class="data-box-r">
                 <div class="data-head">
-                  <img src="../../../component/assets/default_head_pr.png" alt="">
+                  <UserHead :theUrl="resData.RE34_PIC_URL"></UserHead>
+                  <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
                 </div>
                 <van-button class="btnStyle" plain type="primary" @click="clickCheck">查看简历</van-button>
               </div>
@@ -73,6 +74,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import UserHead from '../../../component/UserHead.vue'
 
 export default {
   data () {
@@ -85,7 +87,8 @@ export default {
   },
 
   components: {
-    Header
+    Header,
+    UserHead
   },
 
   computed: {},
@@ -152,6 +155,9 @@ export default {
           message: '暂无数据',
           forbidClick: true // 禁用背景点击
         })
+        setTimeout(() => {
+          this.$router.replace({name: 'EPRecord', params: {}})
+        }, 1000)
         return
       }
       this.resData = res.ReturnData

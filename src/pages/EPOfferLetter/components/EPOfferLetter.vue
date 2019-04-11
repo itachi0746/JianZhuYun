@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
+    <Header :back="true" @sendHeight="handleHeight" :headerName="headerName" :search="false"></Header>
     <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list
         v-model="loading"

@@ -73,7 +73,8 @@ export default {
       value: '',
       id: null,
       resData: null,
-      isSend: false
+      isSend: false,
+      pageId: 0
     }
   },
 
@@ -103,10 +104,13 @@ export default {
         this.$toast.success('提交成功')
         this.isSend = true
         this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+        }, 2000)
       })
     },
     clickBack () {
-      this.$router.go(-1)
+      GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
     }
   },
 

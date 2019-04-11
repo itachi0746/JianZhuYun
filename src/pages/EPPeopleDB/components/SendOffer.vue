@@ -13,7 +13,7 @@
             </van-col>
             <van-col span="5">
               <div class="data-box-r">
-                <UserHead :theUrl="resData.RE01_PIC_URL"></UserHead>
+                <UserHead :theUrl="resData.RE32_PIC_URL"></UserHead>
                 <!--<div class="data-head">-->
                   <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
                 <!--</div>-->
@@ -30,7 +30,14 @@
             <van-field type="textarea" v-model="value" placeholder="请编辑您的offer邀请内容" />
           </div>
         </div>
-        <div class="action-box">
+        <div class="result" v-if="isSend">
+          <div class="result-logo">
+            <img src="../assets/accept.png" alt="">
+          </div>
+          <div class="result-msg">已发送</div>
+          <!--<div class="result-data">{{resData.RE32_CHG_TIME}}</div>-->
+        </div>
+        <div class="action-box" v-else>
           <van-row class="theRow">
             <van-col span="12">
               <div class="btn-box">
@@ -44,13 +51,7 @@
             </van-col>
           </van-row>
         </div>
-        <div class="result" v-show="isSend">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">已发送</div>
-          <div class="result-data">{{resData.RE32_CHG_TIME}}</div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -69,7 +70,8 @@ export default {
       value: '',
       id: null,
       resData: null,
-      isSend: false
+      isSend: false,
+      pageId: 2
     }
   },
 
@@ -98,11 +100,14 @@ export default {
         console.log(res)
         this.$toast.success('提交成功')
         this.isSend = true
-        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+        }, 2000)
+//        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
       })
     },
     clickBack () {
-      this.$router.go(-1)
+      GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
     }
   },
 

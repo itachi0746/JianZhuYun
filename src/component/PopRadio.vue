@@ -2,14 +2,16 @@
   <div>
     <!--单选弹窗-->
     <van-popup class="van-popup60" v-model="showRadio" @click-overlay="clickOverlayCB">
-      <van-radio-group v-model="radio">
-        <van-cell-group v-if="theRadioData">
-          <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
-                    @click="clickRadio(item)">
-            <van-radio :name="item.Value"/>
-          </van-cell>
-        </van-cell-group>
-      </van-radio-group>
+      <div class="radio-box">
+        <van-radio-group v-model="radio">
+          <van-cell-group v-if="theRadioData">
+            <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
+                      @click="clickRadio(item)">
+              <van-radio :name="item.Value"/>
+            </van-cell>
+          </van-cell-group>
+        </van-radio-group>
+      </div>
     </van-popup>
   </div>
 </template>
@@ -28,16 +30,9 @@ export default {
       default: function () {
         return []
       }
-    },
-    showPop: {
-      type: Boolean,
-      default: false
     }
   },
   watch: {
-    showPop () {
-
-    }
   },
 
   components: {},
@@ -66,5 +61,11 @@ export default {
 <style lang='scss' scoped>
   .van-popup60 {
     width: 60%;
+  }
+  .radio-box {
+    max-height: 300px;
+    overflow-y: auto;
+    /*font-size: 0.32rem;*/
+    overflow-x: hidden;
   }
 </style>

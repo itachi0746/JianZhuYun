@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <PopRadio v-if="showPop" :theRadioData="theRadioData" @closePop="closePop" :showPop="showPop"></PopRadio>
+    <PopRadio v-if="showPop" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
   </div>
 </template>
 
@@ -89,6 +89,7 @@ export default {
       dataArr: null,
       showPop: false,
       theRadioData: null,
+      pageId: 3,
       strData: '记录ID|RE33_SIGN_ID|hidden|D;\n' +
       '求职者ID|RE33_CANDIDATE_ID|hidden|D;\n' +
       '求职者EntId|RE33_CANDIDATE_ENT_ID|hidden|D;\n' +
@@ -153,19 +154,21 @@ export default {
         return
       }
       this.resData = res.ReturnData
+      let theReg = /\/Date\(\d*\)\//g
+      let theReg2 = /\/Date\(-{1}\d*\)\//g // 带负号的日期
       for (let key in this.resData) { // 格式化时间
-        if (this.resData.hasOwnProperty(key)) {
-          if (key.indexOf('TIME') !== -1 || key.indexOf('DATE') !== -1) {
-            this.resData[key] = myModule.handleTime(this.resData[key])
-          }
+//        if (theReg2.test(this.resData[key]) || theReg.test(this.resData[key])) {
+////          debugger
+//          this.resData[key] = myModule.handleTime(this.resData[key])
+//        }
+        if (typeof this.resData[key] !== 'string') {
+          continue
         }
-      }
-      for (let obj of this.dataArr) { // 格式化布尔值(布尔值传进去vant cell组件报错 类型不对)
-        let theValue = this.resData[obj.fieldName]
-        if (typeof theValue === 'boolean') {
-          this.resData[obj.fieldName] = theValue + ''
+        if (this.resData[key].indexOf('/Date') !== -1) {
+//          debugger
+          this.resData[key] = myModule.handleTime(this.resData[key])
         }
-//        console.log(obj.fieldName, this.resData[obj.fieldName])
+        console.log(key, this.resData[key])
       }
     })
   },
@@ -227,7 +230,7 @@ export default {
      * 监听弹窗关闭
      */
     closePop (obj) {
-      if (!obj.value.Key) {
+      if (!obj.value) {
         console.log('没有返回值', obj)
         this.showPop = false
         return
@@ -239,14 +242,24 @@ export default {
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
+      let form = new FormData()
+      for (let obj of this.dataArr) {
+        form.append(obj.fieldName, this.resData[obj.fieldName])
+      }
       const data = {
         id: this.id,
         folder: obj.value.Key
       }
-      postData('/EntService/SendSigning', data).then((res) => {
+      for (let key in data) {
+        form.append(key, data[key])
+      }
+      postData('/EntService/SendSigning', form).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
         this.isSend = true
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+        }, 2000)
       })
     }
   }

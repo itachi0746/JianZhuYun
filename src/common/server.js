@@ -66,15 +66,19 @@ Axios.interceptors.response.use(
       Toast.clear()
       if (res.data.Code === '403') {
         let pathName = window.location.pathname
-        if (pathName.indexOf('/Re') !== -1) {
-          setTimeout(() => {
-            window.location.href = res.data.Result
-          }, 2000)
-        } else {
-          setTimeout(() => {
-            GoToPage('', 'login.html', {})
-          }, 2000)
-        }
+        // console.log(res.data.Result)
+        // debugger
+        window.location.href = res.data.Result
+        // if (pathName.indexOf('/Re') !== -1) {
+        //   setTimeout(() => {
+        //     window.location.href = res.data.Result
+        //   }, 2000)
+        // }
+        // else {
+        //   setTimeout(() => {
+        //     GoToPage('', 'login.html', {})
+        //   }, 2000)
+        // }
 
       }
       return Promise.reject(res.data.Message) // 返回promise对象,把错误信息传下去

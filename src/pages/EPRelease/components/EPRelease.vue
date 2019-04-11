@@ -14,9 +14,13 @@
         <van-button class="btnStyle" @click="clickFabu" type="info" size="large">发布</van-button>
       </div>
     </div>
-    <div v-if="showPopup">
-      <Popup class="van-popup60" :showPopup="showPopup" :popType="popType" @popupHidden="popupHidden" :popData="popData"></Popup>
-    </div>
+    <!--<div v-if="showPopup">-->
+      <!--<Popup class="van-popup60" :showPopup="showPopup" :popType="popType" @popupHidden="popupHidden" :theRadioData="theRadioData"></Popup>-->
+    <!--</div>-->
+    <!--单选-->
+    <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
+    <!--填写-->
+    <PopField v-if="showField" @closePopField="closePopField"></PopField>
   </div>
 </template>
 
@@ -24,6 +28,8 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import PopRadio from '../../../component/PopRadio.vue'
+import PopField from '../../../component/PopField.vue'
 import Popup from './Popup.vue'
 
 export default {
@@ -33,10 +39,12 @@ export default {
       id: null,
       headerHeight: null,
       showPopup: false,
+      showRadio: false, // 单选显示隐藏
+      showField: false, // 填空显示隐藏
       popType: null,
       curFieldItem: null,
       curFieldDIdx: null,
-      popData: null, // 弹窗的数据
+      theRadioData: null, // 单选弹窗的数据
       resData: null,
       fieldData: [
         {name: '记录ID', popType: '', value: this.id, code: '', fieldName: 'RE13_ID', show: false},
@@ -53,7 +61,9 @@ export default {
 
   components: {
     Header,
-    Popup
+    Popup,
+    PopRadio,
+    PopField
   },
 
   computed: {},
@@ -73,12 +83,7 @@ export default {
       const theCode = item.code
       if (!theCode) {
         console.log('没有code')
-        this.showPopup = true
-        //        if (thePopType === 'date') {
-//          this.showPicker = true
-//        } else if (thePopType === 'radio') {
-//          this.showRadio = true
-//        }
+        this.showField = true
         return
       }
       this.$toast.loading({
@@ -94,12 +99,13 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
+            duration: 2000,
             forbidClick: true // 禁用背景点击
           })
           return
         }
-        this.showPopup = true
-        this.popData = res.ReturnData
+        this.showRadio = true
+        this.theRadioData = res.ReturnData
         this.$toast.clear()
       })
     },
@@ -135,9 +141,31 @@ export default {
         console.log(res)
         this.$toast.success('发布成功')
         setTimeout(() => {
-          GoToPage('', 'EPJob.html', {})
+          GoToPage('', 'EPProfile.html', {})
         }, 3000)
       })
+    },
+    /**
+     * 监听弹窗关闭
+     */
+    closePop (obj) {
+      if (!obj.value) {
+        console.log('没有返回值', obj)
+        this.showRadio = false
+        return
+      }
+      this.curFieldItem.value = obj.value.Value
+      this.showRadio = false
+      this.theRadioData = null
+    },
+    closePopField (obj) {
+      if (!obj.value) {
+        console.log('没有返回值', obj)
+        this.showField = false
+        return
+      }
+      this.curFieldItem.value = obj.value
+      this.showField = false
     }
   },
 
@@ -148,11 +176,11 @@ export default {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
-        this.$toast.fail({
-          mask: false,
-          message: '暂无数据',
-          forbidClick: true // 禁用背景点击
-        })
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: true // 禁用背景点击
+//        })
         return
       }
       this.resData = res.ReturnData

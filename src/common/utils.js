@@ -132,8 +132,8 @@ export default {
     let form = new FormData()
     for (let obj of dataArr) {
       if (!obj.value) {
-        console.log(`${obj.name}不能为空`)
-        return false
+        console.log(`${obj.name} 不能为空`)
+        // return false
       }
       form.append(obj.fieldName, obj.value)
     }
@@ -146,17 +146,25 @@ export default {
   formatDate: function (dateStr) {
     if (!dateStr || typeof dateStr !== 'string') {
       console.log('参数错误:', dateStr)
-      return false
+      return
     }
     let theResult = dateStr
     let theReg = /\/Date\(\d*\)\//g
-    let theReg2 = /\/Date\(-?\d*\)\//g
-    if (!theReg.test(theResult)) {
-      if (theReg2.test(theResult)) { // 带负号的时间, 为空值
-        return null
-      }
-      return null
+    let theReg2 = /\/Date\(-{1}\d*\)\//g
+    if (theReg2.test(theResult)) { // 带负号的时间, 返回为空值
+      console.log(`时间格式不正确: ${theResult}`)
+      return
     }
+    if (!theReg.test(theResult)) {
+      console.log(`时间格式不正确: ${theResult}`)
+      return
+    }
+    // if (!theReg.test(theResult)) {
+    //   if (theReg2.test(theResult)) { // 带负号的时间, 为空值
+    //     return null
+    //   }
+    //   return null
+    // }
     theResult = 'new ' + theResult.substr(1, theResult.length - 2)
     // console.log(theResult)
 
@@ -170,7 +178,7 @@ export default {
    * @param dateStr
    */
   handleTime: function (dateStr) {
-    console.log(dateStr)
+    // console.log(dateStr)
     let theResult = this.formatDate(dateStr)
     if (!theResult) {
       return theResult

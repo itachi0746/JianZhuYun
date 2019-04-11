@@ -69,7 +69,6 @@ export default {
       this.$router.push({name: 'Search', params: { }})
     },
     clickBack () {
-      console.log('back')
       this.$router.go(-1)
     },
     clickLi (item) {

@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <div v-if="pageId!==null">
-      <Header @changeTab="changeTab" :back="true" :active="pageId" @sendHeight="handleHeight" :search="false"></Header>
+      <DBHeader @changeTab="changeTab" :back="true" :active="pageId" @sendHeight="handleHeight" :search="false"></DBHeader>
     </div>
     <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list
@@ -33,7 +33,7 @@
 <script>
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
-import Header from '../../../component/DBHeader.vue'
+import DBHeader from '../../../component/DBHeader.vue'
 import Item from './Item.vue'
 
 export default {
@@ -61,7 +61,7 @@ export default {
     }
   },
   components: {
-    Header,
+    DBHeader,
     Item
   },
   watch: {

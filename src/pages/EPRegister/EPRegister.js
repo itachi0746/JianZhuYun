@@ -4,9 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import '@/common/rem.js'
-import { Row, Col, Button, Cell, Field, Icon, Uploader, Toast, Popup, DatetimePicker } from 'vant'
+import { Row, Col, Button, Cell, Field, Icon, Uploader, Toast, Popup, DatetimePicker, RadioGroup, Radio, CellGroup } from 'vant'
 
-Vue.use(Row).use(Col).use(Button).use(Cell).use(Field).use(Icon).use(Uploader).use(Toast).use(Popup).use(DatetimePicker)
+Vue.use(Row).use(Col).use(Button).use(Cell).use(Field).use(Icon).use(Uploader)
+  .use(Toast).use(Popup).use(DatetimePicker).use(Radio).use(RadioGroup).use(CellGroup)
 
 Vue.config.productionTip = false
 

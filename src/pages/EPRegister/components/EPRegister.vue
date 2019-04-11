@@ -4,31 +4,32 @@
       <div v-if="theFieldArr.length">
         <div v-for="(item, index) in theFieldArr" :key="index">
           <div class="field-box" v-if="item.isCode">
-            <van-field :data-code="item.code"
+            <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"
                        v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
                        :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder">
-              <van-button class="active" @click="clickFaSong" slot="button" size="small" clearable type="primary">发送验证码
+              <van-button class="active" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码
               </van-button>
             </van-field>
           </div>
           <div v-else>
-            <van-field :data-code="item.code"
+            <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"
                        v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
                        :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
           </div>
         </div>
       </div>
       <!--日期选择-->
-      <van-popup v-model="showPicker" position="bottom">
-        <van-datetime-picker
-          v-model="theShowDate"
-          :type="datetimeType"
-          :min-date="theMinDate"
-          :max-date="theMaxDate"
-          @confirm="clickConfirm"
-          @cancel="clickCancel"
-        />
-      </van-popup>
+      <PopDate
+        v-if="theShowDate"
+        :date-type="datetimeType"
+        :min-date="theMinDate"
+        :max-date="theMaxDate"
+        @confirm="clickConfirm"
+        @cancel="clickCancel"
+      ></PopDate>
+      <!--单选-->
+      <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
+
       <div class="mt30">
         <!--<van-button @click="clickSubmit" :class="['btnStyle', {'active': isActiveBtn}]" type="default" size="large"-->
                     <!--:disabled="isDisable">确定-->
@@ -44,6 +45,8 @@
 <script>
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
+import PopDate from '../../../component/PopDate.vue'
+import PopRadio from '../../../component/PopRadio.vue'
 
 export default {
   name: 'register',
@@ -52,14 +55,17 @@ export default {
       isActiveBtn: false,
       isDisable: false,
       theFieldArr: [
-        {name: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'Name'},
-        {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile'},
-        {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true},
-        {name: '企业法人', code: '', value: '', placeHolder: '请输入企业法人', type: 'text', popType: '', fieldName: 'LP'},
-        {name: '注册时间', code: '', value: '', placeHolder: '请输入注册时间', type: 'text', popType: 'date', fieldName: 'RC', showDate: new Date(), minDate: new Date(1970, 0, 1), datetimeType: 'date'},
-        {name: '注册资本', code: '', value: '', placeHolder: '请输入注册资本', type: 'text', popType: '', fieldName: 'RT'},
-        {name: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'text', popType: '', fieldName: 'PassWord1'},
-        {name: '密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'text', popType: '', fieldName: 'PassWord2'}
+        {name: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'SSA7_COMPANY', required: true, clearable: true},
+        {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
+        {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true},
+        {name: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
+        {name: '企业性质', code: 'SS06_ENT_PROPERTY', value: '', placeHolder: '请选择企业性质', type: 'text', popType: 'radio', fieldName: 'SSA7_PROPERTY', required: false, clearable: true},
+        {name: '注册类型', code: 'SS05_REG_TYPE', value: '', placeHolder: '请选择注册类型', type: 'text', popType: 'radio', fieldName: 'SSA7_REG_TYPE', required: false, clearable: true},
+//        {name: '企业法人', code: '', value: '', placeHolder: '请输入企业法人', type: 'text', popType: '', fieldName: 'LP', required: false, clearable: true},
+//        {name: '注册时间', code: '', value: '', placeHolder: '请输入注册时间', type: 'text', popType: 'date', fieldName: 'RC',, required: false, clearable: true, showDate: new Date(), minDate: new Date(1970, 0, 1), datetimeType: 'date'},
+//        {name: '注册资本', code: '', value: '', placeHolder: '请输入注册资本', type: 'text', popType: '', fieldName: 'RT', required: false},
+        {name: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true},
+        {name: '密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true}
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -77,20 +83,31 @@ export default {
   mounted () {
     console.log(myModule)
   },
+  components: {
+    PopDate,
+    PopRadio
+  },
   methods: {
     clickIcon () {
       this.$refs.input.click()
     },
-    clickConfirm () {
+    clickConfirm (data) {
       this.showPicker = false
-      //      console.log(this.theShowDate)
-      //      debugger
-      this.theFieldArr[this.curFieldDIdx].value = myModule.formatTime(this.theShowDate)
+      this.theFieldArr[this.curFieldDIdx].value = myModule.formatTime(data.value)
     },
     clickCancel () {
       this.showPicker = false
     },
     clickSubmit () {
+      if (!this.checkPSW()) {
+        console.log('两次输入的密码不一致')
+        this.$toast.fail('两次输入的密码不一致')
+        return
+      }
+      if (!this.checkRequired()) {
+        this.$toast.fail('必填值不能为空')
+        return
+      }
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -104,12 +121,37 @@ export default {
       }
       postData('/EntService/Register', form).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
-        GoToPage('', 'login.html', {})
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.clear()
+        this.$toast.success('注册成功')
+        setTimeout(() => {
+          GoToPage('', 'EPLogin.html', {})
+        }, 2000)
       })
+    },
+    /**
+     * 检查密码是否相同
+     */
+    checkPSW () {
+      let psw1, psw2
+      for (let obj of this.theFieldArr) {
+        if (obj.fieldName === 'SSA7_REG_PWD') {
+          psw1 = obj.value
+        } else if (obj.fieldName === 'SSA7_REG_PWD2') {
+          psw2 = obj.value
+        }
+      }
+      return psw1 === psw2
+    },
+    checkRequired () {
+      for (let obj of this.theFieldArr) {
+        if (!obj.required) {
+          continue
+        }
+        if (!obj.value) {
+          console.log('必填值不能为空', obj.fieldName)
+          return false
+        }
+      }
+      return true
     },
     onRead (file) {
       this.$toast.loading({
@@ -146,7 +188,7 @@ export default {
 //        this.FileUrl = theData.FileUrl
       })
     },
-    clickFaSong () {
+    clickSend () {
       this.$toast.loading({
         //        mask: true,
         message: '加载中...',
@@ -154,7 +196,7 @@ export default {
       })
       let mobile = null
       for (let obj of this.theFieldArr) {
-        if (obj.fieldName === 'Mobile') {
+        if (obj.fieldName === 'SSA7_BINDING_PHONE') {
           if (!obj.value) {
             this.$toast.fail({
               mask: false,
@@ -167,6 +209,10 @@ export default {
           break
         }
       }
+      if (!mobile) {
+        console.log(`手机号码错误 ${mobile}`)
+        return
+      }
       const data = {
         Phone: mobile,
         CodeType: 'Register'
@@ -175,11 +221,8 @@ export default {
         console.log(res)
         this.$toast.success({
           message: '发送成功',
-          duration: 3
+          duration: 2000
         })
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.fail('操作失败')
       })
     },
     /**
@@ -242,6 +285,19 @@ export default {
       }).then(() => {
         this.$toast.clear()
       })
+    },
+    /**
+     * 监听弹窗关闭
+     */
+    closePop (obj) {
+      if (!obj.value) {
+        console.log('没有返回值', obj)
+        this.showRadio = false
+        return
+      }
+      this.theFieldArr[this.curFieldDIdx].value = obj.value.Value
+      this.showRadio = false
+      this.theRadioData = null
     }
   }
 }

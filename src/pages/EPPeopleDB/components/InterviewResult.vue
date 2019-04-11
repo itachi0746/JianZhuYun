@@ -46,7 +46,8 @@ export default {
       headerName: '面试处理',
       id: null,
       resData: null,
-      workExperienceData: null
+      workExperienceData: null,
+      pageId: 1
     }
   },
 
@@ -83,7 +84,7 @@ export default {
         this.$toast.success('提交成功')
         this.resData.RE23_STATUS = 'BD0909'
         setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: 1})
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
         }, 2000)
       })
     },
@@ -105,7 +106,7 @@ export default {
         this.$toast.success('提交成功')
         this.resData.RE23_STATUS = 'BD0904'
         setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: 1})
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
         }, 2000)
       })
     },
@@ -127,7 +128,7 @@ export default {
         console.log(res)
         this.$toast.success('提交成功')
         setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: 1})
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
         }, 2000)
       })
     }

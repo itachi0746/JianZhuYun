@@ -45,8 +45,15 @@ export default {
     console.log(myModule)
   },
   created () {
+    this.$toast.loading({
+      mask: false,
+      message: '加载中...',
+      duration: 0,
+      forbidClick: true // 禁用背景点击
+    })
     postData('/ReService/MySends', {}).then((res) => {
       console.log(res)
+      this.$toast.clear()
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
         this.$toast.fail({
@@ -58,14 +65,6 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      if (myModule.isEmpty(this.resData)) {
-        console.log('暂无数据')
-        return
-      }
-      //      if (!res.ReturnData || !this.resData.length) {
-      //        console.log('暂无数据')
-      //        return
-      //      }
       for (let item of this.resData) {
         if (!item.RE34_SEND_DATE) {
           console.log('发送日期为空')

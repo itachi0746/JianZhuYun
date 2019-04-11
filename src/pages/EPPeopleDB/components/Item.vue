@@ -83,7 +83,6 @@ export default {
   watch: {
     pageId () {
       if (this.pageId !== null) {
-        console.log(111)
         this.actionObj = this.actionMap[this.pageId]
       }
     }

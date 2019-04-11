@@ -89,12 +89,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      if (!this.resData) {
-        console.log('暂无数据')
-        return
-      }
       this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
-//      this.handleDetail(res.ReturnData.ReferenceValues)
     })
   },
   methods: {

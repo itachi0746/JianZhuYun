@@ -87,6 +87,7 @@ export default {
       footerHeight: null,
       activeNum: 3,
       resData: null,
+      id: null,
       items: [
         {name: '我的简历', img: require('../assets/home_icon_jianli.png'), link: 'resume.html'},
         {name: '附件简历', img: require('../assets/home_icon_fujianjianli.png'), link: ''},
@@ -117,6 +118,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
+      this.id = res.ReturnData.RE23_CANDIDATE_ID
     })
   },
   methods: {
@@ -137,7 +139,7 @@ export default {
     },
     clickItem (link) {
       if (link) {
-        GoToPage('', link)
+        GoToPage('', link, {id: this.id})
       }
     },
     /**
