@@ -31,7 +31,14 @@
             <van-field type="textarea" v-model="value" placeholder="请编辑您的面试邀请内容" />
           </div>
         </div>
-        <div class="action-box">
+        <div class="result" v-if="isSend">
+          <div class="result-logo">
+            <img src="../assets/accept.png" alt="">
+          </div>
+          <div class="result-msg">已发送</div>
+          <!--<div class="result-data">{{resData.RE01_CHG_TIME}}</div>-->
+        </div>
+        <div class="action-box" v-else>
           <div class="p10">
             <van-button class="btnClass" type="info" size="large" @click.native="clickSend">发送</van-button>
           </div>
@@ -48,13 +55,7 @@
             <!--</van-col>-->
           <!--</van-row>-->
         </div>
-        <div class="result" v-if="isSend">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">已发送</div>
-          <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -103,7 +104,7 @@ export default {
         console.log(res)
         this.$toast.success('提交成功')
         this.isSend = true
-        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
+//        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
         setTimeout(() => {
           GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
         }, 2000)

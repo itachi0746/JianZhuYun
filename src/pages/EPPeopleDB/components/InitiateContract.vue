@@ -151,6 +151,9 @@ export default {
 
           forbidClick: true // 禁用背景点击
         })
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+        }, 2000)
         return
       }
       this.resData = res.ReturnData

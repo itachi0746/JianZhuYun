@@ -4,9 +4,11 @@
     <div class="register" ref="body">
       <div>
         <div v-if="theFieldArr.length">
-          <van-field v-for="(item, index) in theFieldArr" :key="index" :data-code="item.code"
-                     v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
-                     :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+          <div v-for="(item, index) in theFieldArr" :key="index" v-if="pagingCondition(index)">
+            <van-field :data-code="item.code"
+                       :data-index="index" @click="clickInput(item, index)"
+                       :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+          </div>
         </div>
       </div>
       <!--日期选择-->
@@ -267,14 +269,13 @@ export default {
           })
           return
         }
+        this.$toast.clear()
         this.theRadioData = res.ReturnData
         if (thePopType === 'date') {
           this.showPicker = true
         } else if (thePopType === 'radio') {
           this.showRadio = true
         }
-      }).then(() => {
-        this.$toast.clear()
       })
     },
     /**
@@ -352,7 +353,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .register {
-    padding: 60px 25px 0;
+    padding: 30px 25px 0;
     color: #323233;
     @include borderBox()
   }

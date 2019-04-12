@@ -15,6 +15,10 @@
               <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_BORN_IN}}</van-tag>
             </div>
             <div class="data-item">
+              <div class="data-item-label">籍贯</div>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_SEX}}</van-tag>
+            </div>
+            <div class="data-item">
               <div class="data-item-label">手机</div>
               <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_MOBILE_PHONE}}</van-tag>
             </div>

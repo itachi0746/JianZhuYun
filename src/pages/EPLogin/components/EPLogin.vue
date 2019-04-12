@@ -1,18 +1,19 @@
 <template>
   <div class="login">
     <div>
-      <van-field type="number" ref="EntID" v-model="EntId" placeholder="请输入企业ID" right-icon="card"/>
-      <div class="fillter"></div>
-      <van-field type="text" v-model="Mobile" placeholder="请输入您的用户名" right-icon="clear" @click-right-icon="clickDel" />
-      <div class="fillter"></div>
-      <van-field :type="pswInputType" v-model="Password" placeholder="请输入您的密码" right-icon="eye" @click-right-icon="clickEye" />
-      <div class="fillter"></div>
+      <!--<van-field type="number" ref="EntID" v-model="EntId" placeholder="请输入企业ID" right-icon="card"/>-->
+      <!--<div class="fillter"></div>-->
+      <!--<van-field type="text" v-model="Mobile" placeholder="请输入您的用户名" right-icon="clear" @click-right-icon="clickDel" />-->
+      <!--<div class="fillter"></div>-->
+      <!--<van-field :type="pswInputType" v-model="Password" placeholder="请输入您的密码" right-icon="eye" @click-right-icon="clickEye" />-->
+      <!--<div class="fillter"></div>-->
       <!--<div v-if="theFieldArr.length">-->
         <!--<van-field v-for="(item, index) in theFieldArr" :key="index" :data-code="item.code"-->
                    <!--:data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item.clickRightIcon)"-->
                    <!--:type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>-->
       <!--</div>-->
-      <!--<Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item" @click-input="clickInput" @click-right-icon="clickRightIcon"></Field>-->
+      <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
+             @clickRightIcon="clickRightIcon" @clickInput="clickInput"></Field>
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
           <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
@@ -35,9 +36,6 @@ import Field from '../../../component/Field.vue'
 export default {
   data () {
     return {
-      EntId: '', // 企业ID
-      Mobile: '', // 用户名
-      Password: '',
       theFieldArr: [
         {
           name: '企业ID',
@@ -48,7 +46,7 @@ export default {
           popType: '',
           fieldName: 'EntId',
           required: true,
-          clearable: false,
+          clearable: true,
           rightIcon: 'card'
         },
         {
@@ -73,11 +71,7 @@ export default {
           fieldName: 'Password',
           required: true,
           clearable: true,
-          rightIcon: 'eye',
-          clickRightIcon: function () {
-            console.log(1)
-            this.type = this.type === 'password' ? 'text' : 'password'
-          }
+          rightIcon: 'eye'
         }
       ],
       isDisable: true,
@@ -90,39 +84,22 @@ export default {
   },
   mounted () {
     console.log(myModule)
-    this.$nextTick(() => {
-      this.$refs['EntID'].focus()
-    })
   },
   methods: {
-    /**
-     * 清除输入
-     */
-    clickDel () {
-      this.Mobile = ''
-    },
-    /**
-     * 显示或者隐藏密码
-     */
-    clickEye () {
-      if (this.pswInputType === 'password') {
-        this.pswInputType = 'text'
-      } else {
-        this.pswInputType = 'password'
-      }
-    },
     clickRegister () {
       GoToPage('', 'EPRegister.html', {})
     },
     clickForget () {
     },
-    clickRightIcon (method) {
-      debugger
-      method()
+    clickRightIcon (item) {
+      if (item.rightIcon === 'eye') {
+        item.type = item.type === 'password' ? 'text' : 'password'
+      }
     },
     clickLogin () {
-      if (!this.Mobile || !this.PassWord || !this.EntId) {
-        this.$toast.fail('输入不能为空')
+      if (!myModule.checkRequired(this.theFieldArr)) {
+        this.$toast.fail('必填项不能为空')
+        return
       }
       this.$toast.loading({
         mask: false,
@@ -130,10 +107,8 @@ export default {
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      let form = new FormData()
-      form.append('Mobile', this.Mobile)
-      form.append('Password', this.Password)
-      form.append('EntId', this.EntId)
+
+      let form = myModule.createFormData(this.theFieldArr)
 
       postData('/EntService/Login', form).then((res) => {
         console.log(res)
@@ -170,7 +145,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-
+            duration: 2000,
             forbidClick: true // 禁用背景点击
           })
           return
@@ -181,8 +156,6 @@ export default {
         } else if (thePopType === 'radio') {
           this.showRadio = true
         }
-      }).then(() => {
-        this.$toast.clear()
       })
     }
   }

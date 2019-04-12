@@ -65,6 +65,7 @@ export default {
   .radio-box {
     max-height: 300px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
     /*font-size: 0.32rem;*/
     overflow-x: hidden;
   }

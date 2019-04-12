@@ -225,5 +225,34 @@ export default {
         break
     }
     return empty
+  },
+  /**
+   * 检查密码是否相同
+   */
+  checkPSW (theFieldArr) {
+    let psw1, psw2
+    for (let obj of theFieldArr) {
+      if (obj.fieldName === '密码1') {
+        psw1 = obj.value
+      } else if (obj.fieldName === '密码2') {
+        psw2 = obj.value
+      }
+    }
+    return psw1 === psw2
+  },
+  /**
+   * 检查必填项
+   */
+  checkRequired (theFieldArr) {
+    for (let obj of theFieldArr) {
+      if (!obj.required) {
+        continue
+      }
+      if (!obj.value) {
+        console.log('必填值不能为空', obj.fieldName)
+        return false
+      }
+    }
+    return true
   }
 }

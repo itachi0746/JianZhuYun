@@ -138,8 +138,14 @@ export default {
       }
     },
     clickItem (link) {
+      let data = {}
       if (link) {
-        GoToPage('', link, {id: this.id})
+        if (link === 'resume.html') {
+          data = {id: this.id}
+          GoToPage('', link, data)
+        } else {
+          GoToPage('', link, {})
+        }
       }
     },
     /**

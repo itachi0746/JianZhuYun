@@ -152,7 +152,7 @@ export default {
         console.log('暂无数据')
         this.$toast.fail({
           mask: false,
-          message: '暂无数据',
+          message: '暂无数据, 正在为您跳转',
           forbidClick: true // 禁用背景点击
         })
         setTimeout(() => {

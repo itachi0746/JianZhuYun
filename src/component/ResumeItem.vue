@@ -10,6 +10,10 @@
               <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_AGE}}</van-tag>
             </div>
             <div class="data-item">
+              <div class="data-item-label">性别</div>
+              <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_SEX}}</van-tag>
+            </div>
+            <div class="data-item">
               <div class="data-item-label">籍贯</div>
               <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_BORN_IN}}</van-tag>
             </div>

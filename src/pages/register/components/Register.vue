@@ -1,23 +1,23 @@
 <template>
   <div class="register">
     <div>
-      <!--<van-field class="cell-mb" v-model="IdCard" placeholder="请输入您的身份证号码" right-icon="scan"-->
-      <!--@click-right-icon="clickIcon"/>-->
-      <!--<input ref="upload" type="file" v-show="false" @onchange="uploadImg(event)">-->
-      <div style="position: relative;width: 100%;">
-        <van-field class="cell-mb" v-model="IdCard" placeholder="请输入您的身份证号码"/>
-        <van-uploader class="theUploadClass" :after-read="onRead" v-show="true">
-          <van-icon ref="upload" name="scan" :size="'25px'"/>
-        </van-uploader>
-      </div>
-      <van-field type="text" class="cell-mb" v-model="Name" placeholder="请输入您的姓名"/>
-      <van-field type="number" class="cell-mb" v-model="Mobile" placeholder="请输入您的手机号码"/>
-      <van-field class="cell-mb" v-model="Code" placeholder="请输入验证码">
-        <van-button class="active" @click="clickFaSong" slot="button" size="small" clearable type="primary">发送验证码
-        </van-button>
-      </van-field>
-      <van-field class="cell-mb" v-model="PassWord1" placeholder="请设置密码(6-20位数字与字母组合)"/>
-      <van-field class="cell-mb" v-model="PassWord2" placeholder="请确认您的密码"/>
+      <!--<div style="position: relative;width: 100%;">-->
+        <!--<van-field class="cell-mb" v-model="IdCard" placeholder="请输入您的身份证号码"/>-->
+        <!--<van-uploader class="theUploadClass" :after-read="onRead" v-show="true">-->
+          <!--<van-icon ref="upload" name="scan" :size="'25px'"/>-->
+        <!--</van-uploader>-->
+      <!--</div>-->
+      <!--<van-field type="text" class="cell-mb" v-model="Name" placeholder="请输入您的姓名"/>-->
+      <!--<van-field type="number" class="cell-mb" v-model="Mobile" placeholder="请输入您的手机号码"/>-->
+      <!--<van-field class="cell-mb" v-model="Code" placeholder="请输入验证码">-->
+        <!--<van-button class="active" @click="clickFaSong" slot="button" size="small" clearable type="primary">发送验证码-->
+        <!--</van-button>-->
+      <!--</van-field>-->
+      <!--<van-field class="cell-mb" v-model="PassWord1" placeholder="请设置密码(6-20位数字与字母组合)"/>-->
+      <!--<van-field class="cell-mb" v-model="PassWord2" placeholder="请确认您的密码"/>-->
+      <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
+             @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend" @onRead="onRead"></Field>
+
       <div class="mt30">
         <!--<van-button @click="clickSubmit" :class="['btnStyle', {'active': isActiveBtn}]" type="default" size="large"-->
                     <!--:disabled="isDisable">确定-->
@@ -33,6 +33,7 @@
 <script>
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
+import Field from '../../../component/Field.vue'
 
 export default {
   name: 'register',
@@ -46,32 +47,42 @@ export default {
       PassWord2: '',
       FileUrl: '', // 图片地址
       isActiveBtn: false,
-      isDisable: false
+      isDisable: false,
+      theFieldArr: [
+        {name: '身份证号码', code: '', value: '', placeHolder: '请输入您的身份证号码', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
+        {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'Name', required: true, clearable: true},
+        {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
+        {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'number', popType: '', fieldName: 'Code', required: true, clearable: true, isCode: true},
+        {name: '密码', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '文件地址', code: '', value: '', placeHolder: '', type: 'hidden', popType: '', fieldName: 'FileUrl', required: false, clearable: false}
+      ]
     }
   },
   mounted () {
     console.log(myModule)
   },
+  components: {
+    Field
+  },
   methods: {
-    clickIcon () {
-      this.$refs.input.click()
-    },
     clickSubmit () {
+      if (!myModule.checkPSW(this.theFieldArr)) {
+        console.log('两次输入的密码不一致')
+        this.$toast.fail('两次输入的密码不一致')
+        return
+      }
+      if (!myModule.checkRequired(this.theFieldArr)) {
+        this.$toast.fail('必填项不能为空')
+        return
+      }
       this.$toast.loading({
         mask: false,
         message: '加载中...',
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      // todo 检验输入
-      let form = new FormData()
-      form.append('IdCard', this.IdCard)
-      form.append('Name', this.Name)
-      form.append('Mobile', this.Mobile)
-      form.append('Code', this.Code)
-      form.append('PassWord1', this.PassWord1)
-      form.append('PassWord2', this.PassWord2)
-      form.append('FileUrl', this.FileUrl)
+      let form = myModule.createFormData(this.theFieldArr)
 
       postData('/ReService/Register', form).then((res) => {
         console.log(res)
@@ -80,6 +91,11 @@ export default {
           GoToPage('', 'login.html', {})
         }, 2000)
       })
+    },
+    clickRightIcon (item) {
+      if (item.rightIcon === 'eye') {
+        item.type = item.type === 'password' ? 'text' : 'password'
+      }
     },
     onRead (file) {
       this.$toast.loading({
@@ -112,23 +128,56 @@ export default {
           message: '上传成功',
           duration: 2000
         })
-        this.IdCard = theData.No
-        this.Name = theData.Name
-        this.FileUrl = theData.FileUrl
+        for (let obj of this.theFieldArr) {
+          if (obj.fieldName === 'IdCard') {
+            obj.value = theData.No
+          } else if (obj.fieldName === 'Name') {
+            obj.value = theData.Name
+          } else if (obj.fieldName === 'FileUrl') {
+            obj.value = theData.FileUrl
+          }
+        }
       })
     },
-    clickFaSong () {
+    // 发验证码
+    clickSend () {
       this.$toast.loading({
         //        mask: true,
         message: '加载中...',
         duration: 0
       })
-      if (!this.Mobile) {
-        this.$toast.fail('请输入手机号码')
+      let mobile = null
+      for (let obj of this.theFieldArr) {
+        if (obj.name === '手机号码') {
+          if (!obj.value) {
+            this.$toast.fail({
+              mask: false,
+              message: '输入不能为空',
+              forbidClick: true // 禁用背景点击
+            })
+            return
+          }
+          mobile = obj.value
+          break
+        }
+      }
+      if (!mobile) {
+        console.log(`手机号码错误 ${mobile}`)
+        return
+      }
+      let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/
+      if (!reg.test(mobile)) { // 正则验证
+        console.log(`手机号码不正确: ${mobile}`)
+        this.$toast.fail({
+          mask: false,
+          message: '手机号码不正确',
+          duration: 2000,
+          forbidClick: true // 禁用背景点击
+        })
         return
       }
       const data = {
-        Phone: this.Mobile,
+        Phone: mobile,
         CodeType: 'Register'
       }
       postData('/MesssageService/SendCode', data).then((res) => {
@@ -137,6 +186,53 @@ export default {
           message: '发送成功',
           duration: 2000
         })
+      })
+    },
+    /**
+     * 点击input
+     */
+    clickInput (obj) {
+      let index = obj.index, item = obj.item
+      this.curFieldDIdx = index
+      this.theMinDate = item.minDate
+      this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
+      this.datetimeType = item.datetimeType
+      const thePopType = item.popType
+      const theCode = item.code
+      if (!theCode) {
+        console.log('没有code')
+        if (thePopType === 'date') {
+          this.showPicker = true
+        } else if (thePopType === 'radio') {
+          this.showRadio = true
+        }
+        return
+      }
+      this.$toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      postData('/Share/GetDictVals', {code: theCode}).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+
+            forbidClick: true // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+        this.theRadioData = res.ReturnData
+        if (thePopType === 'date') {
+          this.showPicker = true
+        } else if (thePopType === 'radio') {
+          this.showRadio = true
+        }
       })
     }
   }

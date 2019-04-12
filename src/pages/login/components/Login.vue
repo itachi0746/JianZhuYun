@@ -1,10 +1,9 @@
 <template>
   <div class="login">
     <div>
-      <van-field type="number" v-model="Mobile" placeholder="请输入您的手机号码" right-icon="clear" @click-right-icon="clickDel" />
-      <div class="fillter"></div>
-      <van-field :type="pswInputType" v-model="Password" placeholder="请输入您的密码" right-icon="eye" @click-right-icon="clickEye" />
-      <div class="fillter"></div>
+      <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
+             @clickRightIcon="clickRightIcon"></Field>
+
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
           <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
@@ -22,6 +21,7 @@
 <script>
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
+import Field from '../../../component/Field.vue'
 
 export default {
   name: 'login',
@@ -31,29 +31,20 @@ export default {
       Password: '',
       isDisable: true,
       isActiveBtn: false,
-      pswInputType: 'password'
+      pswInputType: 'password',
+      theFieldArr: [
+        {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
+        {name: '密码', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password', required: true, clearable: true, rightIcon: 'eye'}
+      ]
     }
   },
   mounted () {
     console.log(myModule)
   },
+  components: {
+    Field
+  },
   methods: {
-    /**
-     * 清除输入
-     */
-    clickDel () {
-      this.Mobile = ''
-    },
-    /**
-     * 显示或者隐藏密码
-     */
-    clickEye () {
-      if (this.pswInputType === 'password') {
-        this.pswInputType = 'text'
-      } else {
-        this.pswInputType = 'password'
-      }
-    },
     clickRegister () {
       GoToPage('', 'register.html', {})
     },
@@ -63,23 +54,28 @@ export default {
      * 点击登录
      */
     clickLogin () {
-      if (!this.Mobile || !this.Password) {
-        this.$toast.fail('输入不能为空')
+      if (!myModule.checkRequired(this.theFieldArr)) {
+        this.$toast.fail('必填项不能为空')
         return
       }
+
       this.$toast.loading({
         mask: false,
         message: '加载中...',
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      let form = new FormData()
-      form.append('Mobile', this.Mobile)
-      form.append('Password', this.Password)
+      let form = myModule.createFormData(this.theFieldArr)
+
       postData('/ReService/Login', form).then((res) => {
         console.log(res)
         GoToPage('', 'index.html', {})
       })
+    },
+    clickRightIcon (item) {
+      if (item.rightIcon === 'eye') {
+        item.type = item.type === 'password' ? 'text' : 'password'
+      }
     }
   }
 }

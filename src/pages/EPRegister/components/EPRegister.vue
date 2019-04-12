@@ -2,21 +2,23 @@
   <div class="register">
     <div>
       <div v-if="theFieldArr.length">
-        <div v-for="(item, index) in theFieldArr" :key="index">
-          <div class="field-box" v-if="item.isCode">
-            <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"
-                       v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
-                       :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder">
-              <van-button class="active" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码
-              </van-button>
-            </van-field>
-          </div>
-          <div v-else>
-            <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"
-                       v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"
-                       :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
-          </div>
-        </div>
+        <!--<div v-for="(item, index) in theFieldArr" :key="index">-->
+          <!--<div class="field-box" v-if="item.isCode">-->
+            <!--<van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"-->
+                       <!--v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"-->
+                       <!--:type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder">-->
+              <!--<van-button class="active" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码-->
+              <!--</van-button>-->
+            <!--</van-field>-->
+          <!--</div>-->
+          <!--<div v-else>-->
+            <!--<van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"-->
+                       <!--v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"-->
+                       <!--:type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>-->
+          <!--</div>-->
+        <!--</div>-->
+        <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
+               @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"></Field>
       </div>
       <!--日期选择-->
       <PopDate
@@ -47,6 +49,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import PopDate from '../../../component/PopDate.vue'
 import PopRadio from '../../../component/PopRadio.vue'
+import Field from '../../../component/Field.vue'
 
 export default {
   name: 'register',
@@ -61,11 +64,8 @@ export default {
         {name: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
         {name: '企业性质', code: 'SS06_ENT_PROPERTY', value: '', placeHolder: '请选择企业性质', type: 'text', popType: 'radio', fieldName: 'SSA7_PROPERTY', required: false, clearable: true},
         {name: '注册类型', code: 'SS05_REG_TYPE', value: '', placeHolder: '请选择注册类型', type: 'text', popType: 'radio', fieldName: 'SSA7_REG_TYPE', required: false, clearable: true},
-//        {name: '企业法人', code: '', value: '', placeHolder: '请输入企业法人', type: 'text', popType: '', fieldName: 'LP', required: false, clearable: true},
-//        {name: '注册时间', code: '', value: '', placeHolder: '请输入注册时间', type: 'text', popType: 'date', fieldName: 'RC',, required: false, clearable: true, showDate: new Date(), minDate: new Date(1970, 0, 1), datetimeType: 'date'},
-//        {name: '注册资本', code: '', value: '', placeHolder: '请输入注册资本', type: 'text', popType: '', fieldName: 'RT', required: false},
-        {name: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true},
-        {name: '密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true}
+        {name: '密码1', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'eye'}
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -85,11 +85,14 @@ export default {
   },
   components: {
     PopDate,
-    PopRadio
+    PopRadio,
+    Field
   },
   methods: {
-    clickIcon () {
-      this.$refs.input.click()
+    clickRightIcon (item) {
+      if (item.rightIcon === 'eye') {
+        item.type = item.type === 'password' ? 'text' : 'password'
+      }
     },
     clickConfirm (data) {
       this.showPicker = false
@@ -99,13 +102,13 @@ export default {
       this.showPicker = false
     },
     clickSubmit () {
-      if (!this.checkPSW()) {
+      if (!myModule.checkPSW(this.theFieldArr)) {
         console.log('两次输入的密码不一致')
         this.$toast.fail('两次输入的密码不一致')
         return
       }
-      if (!this.checkRequired()) {
-        this.$toast.fail('必填值不能为空')
+      if (!myModule.checkRequired(this.theFieldArr)) {
+        this.$toast.fail('必填项不能为空')
         return
       }
       this.$toast.loading({
@@ -115,10 +118,6 @@ export default {
         forbidClick: true // 禁用背景点击
       })
       let form = myModule.createFormData(this.theFieldArr)
-      if (!form) {
-        this.$toast.fail('输入不能为空')
-        return
-      }
       postData('/EntService/Register', form).then((res) => {
         console.log(res)
         this.$toast.success('注册成功')
@@ -130,29 +129,29 @@ export default {
     /**
      * 检查密码是否相同
      */
-    checkPSW () {
-      let psw1, psw2
-      for (let obj of this.theFieldArr) {
-        if (obj.fieldName === 'SSA7_REG_PWD') {
-          psw1 = obj.value
-        } else if (obj.fieldName === 'SSA7_REG_PWD2') {
-          psw2 = obj.value
-        }
-      }
-      return psw1 === psw2
-    },
-    checkRequired () {
-      for (let obj of this.theFieldArr) {
-        if (!obj.required) {
-          continue
-        }
-        if (!obj.value) {
-          console.log('必填值不能为空', obj.fieldName)
-          return false
-        }
-      }
-      return true
-    },
+//    checkPSW () {
+//      let psw1, psw2
+//      for (let obj of this.theFieldArr) {
+//        if (obj.fieldName === '密码1') {
+//          psw1 = obj.value
+//        } else if (obj.fieldName === '密码2') {
+//          psw2 = obj.value
+//        }
+//      }
+//      return psw1 === psw2
+//    },
+//    checkRequired () {
+//      for (let obj of this.theFieldArr) {
+//        if (!obj.required) {
+//          continue
+//        }
+//        if (!obj.value) {
+//          console.log('必填值不能为空', obj.fieldName)
+//          return false
+//        }
+//      }
+//      return true
+//    },
     onRead (file) {
       this.$toast.loading({
 //        mask: true,
@@ -188,6 +187,7 @@ export default {
 //        this.FileUrl = theData.FileUrl
       })
     },
+    // 发验证码
     clickSend () {
       this.$toast.loading({
         //        mask: true,
@@ -196,7 +196,7 @@ export default {
       })
       let mobile = null
       for (let obj of this.theFieldArr) {
-        if (obj.fieldName === 'SSA7_BINDING_PHONE') {
+        if (obj.name === '手机号码') {
           if (!obj.value) {
             this.$toast.fail({
               mask: false,
@@ -211,6 +211,17 @@ export default {
       }
       if (!mobile) {
         console.log(`手机号码错误 ${mobile}`)
+        return
+      }
+      let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/
+      if (!reg.test(mobile)) { // 正则验证
+        console.log(`手机号码不正确: ${mobile}`)
+        this.$toast.fail({
+          mask: false,
+          message: '手机号码不正确',
+          duration: 2000,
+          forbidClick: true // 禁用背景点击
+        })
         return
       }
       const data = {
@@ -239,10 +250,9 @@ export default {
     },
     /**
      * 点击input
-     * @param item
-     * @param index
      */
-    clickInput (item, index) {
+    clickInput (obj) {
+      let index = obj.index, item = obj.item
       this.curFieldDIdx = index
       this.theMinDate = item.minDate
       this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
@@ -276,14 +286,13 @@ export default {
           })
           return
         }
+        this.$toast.clear()
         this.theRadioData = res.ReturnData
         if (thePopType === 'date') {
           this.showPicker = true
         } else if (thePopType === 'radio') {
           this.showRadio = true
         }
-      }).then(() => {
-        this.$toast.clear()
       })
     },
     /**
