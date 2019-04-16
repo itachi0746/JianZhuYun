@@ -9,18 +9,18 @@
           <div class="job-pay">{{jobData.ReferenceValues.RE13_SALARY_REQUIRED}}</div>
         </van-col>
       </van-row>
-      <div class="job-remarks" v-show="false">
-        <ul>
-          <li class="job-remarks-li">备注</li>
-          <li class="job-remarks-li">备注</li>
-        </ul>
-      </div>
+      <!--<div class="job-remarks" v-show="false">-->
+        <!--<ul>-->
+          <!--<li class="job-remarks-li">备注</li>-->
+          <!--<li class="job-remarks-li">备注</li>-->
+        <!--</ul>-->
+      <!--</div>-->
       <div class="job-tag" v-if="tagData.length">
         <van-tag v-for="(item,index) in tagData" :key="index" color="#F1F1F1" text-color="#999999" size="medium">{{item}}</van-tag>
       </div>
       <div class="job-HR">
         <div class="HR-head" v-show="false"></div>
-        <div class="HR-name">{{jobData.ReferenceValues.RE13_CRT_USR}}</div>
+        <div class="HR-name">{{jobData.ReferenceValues.RE13_ENT_ID}}</div>
       </div>
     </div>
   </div>
@@ -30,7 +30,10 @@
 export default {
   data () {
     return {
-//      tagData: []
+      dataArr: [
+        {name: '工作经验', fieldName: 'RE13_WORK_YEAR'},
+        {name: '工作地点', fieldName: 'RE13_WORK_PLACE'}
+      ]
     }
   },
   props: {
@@ -40,21 +43,24 @@ export default {
     }
   },
   watch: {
-    jobData () {
-      let ReferenceValues = this.jobData.ReferenceValues
-      debugger
-      this.tagData = []
-      this.tagData.push(ReferenceValues.RE13_WORK_PLACE)
-      this.tagData.push(ReferenceValues.RE13_WORK_YEAR)
-    }
+//    jobData () {
+//      let ReferenceValues = this.jobData.ReferenceValues
+//      this.tagData = []
+//      this.tagData.push(ReferenceValues.RE13_WORK_PLACE)
+//      this.tagData.push(ReferenceValues.RE13_WORK_YEAR)
+//    }
   },
   computed: {
     tagData () {
       let arr = []
       if (this.jobData) {
         let ReferenceValues = this.jobData.ReferenceValues
-        arr.push(ReferenceValues.RE13_WORK_PLACE)
-        arr.push(ReferenceValues.RE13_WORK_YEAR)
+        for (let obj of this.dataArr) {
+          let theKey = obj.fieldName
+          if (ReferenceValues[theKey] && ReferenceValues[theKey] !== 'null') {
+            arr.push(ReferenceValues[theKey])
+          }
+        }
       }
       return arr
     }
@@ -97,6 +103,7 @@ export default {
     color: #999;
     span {
       margin-right: 5px;
+      margin-bottom: 5px;
     }
   }
   .job-HR {

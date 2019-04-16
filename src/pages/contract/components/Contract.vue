@@ -6,7 +6,9 @@
         <ul>
           <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickContact(item.RE33_SIGN_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
-              <div class="myOffer-head"></div>
+              <div class="myOffer-head">
+                <EPHead :theUrl="item.RE33_PIC_URL"></EPHead>
+              </div>
               <div class="myOffer-data">
                 <div>{{item.RE33_CO_NAME}}</div>
                 <div>{{item.RE33_CRT_TIME}}</div>
@@ -27,6 +29,7 @@
 import myModule from '../../../common'
 import {postData} from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import EPHead from '../../../component/EPHead.vue'
 
 export default {
   name: 'message',
@@ -38,7 +41,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    EPHead
   },
   mounted () {
     console.log(myModule)
@@ -57,8 +61,9 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
-      this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
+      for (let obj of this.resData) {
+        obj = myModule.formatObj(obj)
+      }
     })
   },
   methods: {
@@ -101,10 +106,10 @@ export default {
   }
   .myOffer-head {
     margin-right: 16px;
-    min-width: 47px;
-    height: 47px;
+    min-width: 51px;
+    height: 51px;
     border-radius: 5px;
-    background-color: #999;
+    /*background-color: #999;*/
   }
   .myOffer-data {
     display: flex;

@@ -3,27 +3,17 @@
     <Header @sendHeight="handleHeight"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <div class="header">
-          <van-row>
-            <van-col span="12">
-              <div class="user-data">
-                <div class="user-name">{{resData.HRA0_ENT_NAME}}</div>
-                <div class="user-remarks">个人主页未完善</div>
-              </div>
-            </van-col>
-            <van-col span="12">
-              <div class="user-head-box">
-                <div class="user-head">
-                  <img src="../../../component/assets/default_head_pr.png" alt="">
-                </div>
-              </div>
-            </van-col>
-          </van-row>
-        </div>
+        <ProfileItem
+          :enterprise="true"
+          :theName="resData.HRA0_ENT_NAME"
+          theMemo=""
+          :theUrl="resData.HRA0_PIC_URL"
+        ></ProfileItem>
         <div class="item-list">
           <van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>
           </van-cell>
         </div>
+        <Logout :enterprise="true"></Logout>
       </div>
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
@@ -35,6 +25,8 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
+import ProfileItem from '../../../component/ProfileItem.vue'
+import Logout from '../../../component/Logout.vue'
 
 export default {
   name: 'profile',
@@ -49,14 +41,16 @@ export default {
         {name: '职位列表', link: 'EPJob.html', param: {}},
 //        {name: '浏览记录', link: '', param: {}},
         {name: '录用通知', link: 'EPOfferLetter.html', param: {}},
-        {name: '合同签约', link: 'EPPeopleDB.html', param: {pageid: 3}}
+        {name: '合同签约', link: 'EPContract.html', param: {}}
       ],
       resData: null
     }
   },
   components: {
     Footer,
-    Header
+    Header,
+    ProfileItem,
+    Logout
   },
   mounted () {
     console.log(myModule)
@@ -97,6 +91,12 @@ export default {
      */
     clickCell (item) {
       GoToPage('', item.link, item.param)
+    },
+    /**
+     * 切换身份
+     */
+    changeRole () {
+      GoToPage('', 'login.html', {})
     }
   }
 }
@@ -109,8 +109,8 @@ export default {
     @include font-size(30px);
     color: #ffffff;
     width: 100%;
-    height: 150px;
-    padding: 50px 30px 0;
+    /*height: 150px;*/
+    padding: 50px 30px 20px;
     background-color: $mainColor;
   }
   .user-data {
@@ -170,5 +170,9 @@ export default {
     top: 13px;
     height: 0.4rem;
     min-width: 1em;
+  }
+  .action-box {
+    margin-top: 10px;
+    padding: 0 30px;
   }
 </style>

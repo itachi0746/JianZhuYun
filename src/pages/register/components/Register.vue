@@ -1,20 +1,6 @@
 <template>
   <div class="register">
     <div>
-      <!--<div style="position: relative;width: 100%;">-->
-        <!--<van-field class="cell-mb" v-model="IdCard" placeholder="请输入您的身份证号码"/>-->
-        <!--<van-uploader class="theUploadClass" :after-read="onRead" v-show="true">-->
-          <!--<van-icon ref="upload" name="scan" :size="'25px'"/>-->
-        <!--</van-uploader>-->
-      <!--</div>-->
-      <!--<van-field type="text" class="cell-mb" v-model="Name" placeholder="请输入您的姓名"/>-->
-      <!--<van-field type="number" class="cell-mb" v-model="Mobile" placeholder="请输入您的手机号码"/>-->
-      <!--<van-field class="cell-mb" v-model="Code" placeholder="请输入验证码">-->
-        <!--<van-button class="active" @click="clickFaSong" slot="button" size="small" clearable type="primary">发送验证码-->
-        <!--</van-button>-->
-      <!--</van-field>-->
-      <!--<van-field class="cell-mb" v-model="PassWord1" placeholder="请设置密码(6-20位数字与字母组合)"/>-->
-      <!--<van-field class="cell-mb" v-model="PassWord2" placeholder="请确认您的密码"/>-->
       <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
              @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend" @onRead="onRead"></Field>
 
@@ -162,7 +148,7 @@ export default {
         }
       }
       if (!mobile) {
-        console.log(`手机号码错误 ${mobile}`)
+        console.log(`字段数据中没有设置手机号码 ${mobile}`)
         return
       }
       let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/

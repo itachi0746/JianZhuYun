@@ -103,7 +103,8 @@ export default {
   },
 
   created () {
-    this.enterprise ? this.theFooterItems = this.icons2 : this.theFooterItems = this.icons
+    this.theFooterItems = this.enterprise ? this.icons2 : this.icons
+    console.log()
   },
 
   mounted () {

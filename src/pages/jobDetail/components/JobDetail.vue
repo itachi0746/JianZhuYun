@@ -61,10 +61,11 @@ export default {
         RE13_EDU_DEGREE: '学历要求',
         RE13_POSITION_TYPE: '职位类别',
         RE13_SALARY_REQUIRED: '薪资要求',
-        RE13_STATUS: '状态',
+//        RE13_STATUS: '状态',
         RE13_WORK_PLACE: '工作地点',
         RE13_WORK_PROP: '工作性质',
-        RE13_WORK_YEAR: '工作年限'
+        RE13_WORK_YEAR: '工作年限',
+        RE13_ENT_ID: '公司名称'
       },
       detailData: []
     }
@@ -97,7 +98,8 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.handleDetail(res.ReturnData.ReferenceValues)
+//      this.handleDetail(this.dataMap)
+      this.detailData = myModule.handleMapData(this.dataMap, this.resData)
     })
   },
   methods: {
@@ -123,10 +125,13 @@ export default {
     handleDetail (dataObj) {
       let me = this
       for (let key in dataObj) {
-//        console.log(key)
+        if (!me.resData.ReferenceValues[key]) { // 空则跳过
+          console.log(`${key} 没有值: ${me.resData.ReferenceValues[key]}`)
+          continue
+        }
         const obj = {
-          key: me.dataMap[key],
-          value: dataObj[key]
+          key: dataObj[key],
+          value: me.resData.ReferenceValues[key]
         }
         this.detailData.push(obj)
       }

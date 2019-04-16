@@ -5,9 +5,8 @@
       <div>
         <div v-if="theFieldArr.length">
           <div v-for="(item, index) in theFieldArr" :key="index" v-if="pagingCondition(index)">
-            <van-field :data-code="item.code"
-                       :data-index="index" @click="clickInput(item, index)"
-                       :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+            <Field :index="index" :item="item" @clickInput="clickInput"></Field>
+
           </div>
         </div>
       </div>
@@ -45,6 +44,7 @@ import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import PopRadio from '../../../component/PopRadio.vue'
 import PopDate from '../../../component/PopDate.vue'
+import Field from '../../../component/Field.vue'
 
 export default {
   data () {
@@ -61,9 +61,21 @@ export default {
       isDisable: false,
       theRadioData: null, // 单选数据
       theFieldArr: [
-        {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'RE23_NAME'},
+        {
+          name: '姓名',
+          label: '姓名',
+          code: '',
+          value: '',
+          placeHolder: '请输入您的姓名',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_NAME',
+          required: true,
+          clearable: true
+        },
         {
           name: '出生日期',
+          label: '出生日期',
           code: '',
           value: '',
           placeHolder: '出生日期',
@@ -72,84 +84,160 @@ export default {
           showDate: new Date(1970, 0, 1),
           minDate: new Date(1970, 0, 1),
           datetimeType: 'date',
-          fieldName: 'RE23_BIRTHDAY'
+          fieldName: 'RE23_BIRTHDAY',
+          required: false,
+          clearable: true
         },
         {
           name: '性别',
+          label: '性别',
           code: 'UDHR027',
           value: '',
           placeHolder: '性别',
           type: 'text',
           popType: 'radio',
-          fieldName: 'RE23_SEX'
+          fieldName: 'RE23_SEX',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '年龄',
+          label: '年龄',
+          code: '',
+          value: '',
+          placeHolder: '年龄',
+          type: 'number',
+          popType: '',
+          fieldName: 'RE23_AGE',
+          required: false,
+          clearable: true
         },
         {
           name: '婚姻状况',
+          label: '婚姻状况',
           code: 'UDHR007',
           value: '',
           placeHolder: '婚姻状况',
           type: 'text',
           popType: 'radio',
-          fieldName: 'RE23_MARITAL_STATUS'
+          fieldName: 'RE23_MARITAL_STATUS',
+          required: false,
+          clearable: true
         },
-        {name: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS'},
+        {
+          name: '学历',
+          label: '学历',
+          code: 'UDHR021',
+          value: '',
+          placeHolder: '学历',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_EDUCATION',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '现居住地', label: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS', required: false, clearable: true
+        },
         {
           name: '期待工作性质',
+          label: '期待工作性质',
           code: 'UDRE003',
           value: '',
           placeHolder: '期待工作性质',
           type: 'text',
           popType: 'radio',
-          fieldName: 'RE23_WORK_PROP'
+          fieldName: 'RE23_WORK_PROP',
+          required: false,
+          clearable: true
         },
         {
           name: '期待工作地点',
+          label: '期待工作地点',
           code: '',
           value: '',
           placeHolder: '期待工作地点',
           type: 'text',
           popType: '',
-          fieldName: 'RE23_WORK_PLACE'
+          fieldName: 'RE23_WORK_PLACE',
+          required: false,
+          clearable: true
         },
         {
           name: '期待职能',
+          label: '期待职能',
           code: 'UDRE004',
           value: '',
           placeHolder: '期待职能',
           type: 'text',
           popType: 'radio',
-          fieldName: 'RE23_EXPECTED_FX'
+          fieldName: 'RE23_EXPECTED_FX',
+          required: false,
+          clearable: true
         },
         {
           name: '期待年薪',
+          label: '期待年薪',
           code: '',
           value: '',
           placeHolder: '期待年薪',
           type: 'text',
           popType: '',
-          fieldName: 'RE23_ANNUAL_SALARY_E'
+          fieldName: 'RE23_ANNUAL_SALARY_E',
+          required: false,
+          clearable: true
         },
         {
           name: '目前薪酬',
+          label: '目前薪酬',
           code: '',
           value: '',
           placeHolder: '目前薪酬',
           type: 'text',
           popType: '',
-          fieldName: 'RE23_ANNUAL_SALARY_C'
+          fieldName: 'RE23_ANNUAL_SALARY_C',
+          required: false,
+          clearable: true
         },
         {
           name: '驾驶证书',
+          label: '驾驶证书',
           code: '',
           value: '',
           placeHolder: '驾驶证书',
           type: 'text',
           popType: '',
-          fieldName: 'RE23_DRIVING_LICENSE'
+          fieldName: 'RE23_DRIVING_LICENSE',
+          required: false,
+          clearable: true
         },
-        {name: '工作经历', code: '', value: '', placeHolder: '工作经历', type: 'textarea', popType: '', fieldName: 'RE24_WORK_EXPERIENCE'},
+        {
+          name: '工作经验',
+          label: '工作经验',
+          code: 'UDRE014',
+          value: '',
+          placeHolder: '工作经验',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_WORK_YEARS',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '工作经历',
+          label: '工作经历',
+          code: '',
+          value: '',
+          placeHolder: '工作经历',
+          type: 'textarea',
+          popType: '',
+          fieldName: 'RE24_WORK_EXPERIENCE',
+          required: false,
+          clearable: true
+        },
         {
           name: '到岗时间',
+          label: '到岗时间',
           code: '',
           value: '',
           placeHolder: '到岗时间',
@@ -158,17 +246,22 @@ export default {
           showDate: new Date(),
           minDate: new Date(),
           datetimeType: 'date',
-          fieldName: 'RE23_CAN_WORK_TIME'
+          fieldName: 'RE23_CAN_WORK_TIME',
+          required: false,
+          clearable: true
           //          datetimeType: 'year-month'
         },
         {
           name: '',
+          label: '',
           code: '',
           value: '',
           placeHolder: '',
           type: 'hidden',
           popType: '',
-          fieldName: 'RE23_CANDIDATE_ID'
+          fieldName: 'RE23_CANDIDATE_ID',
+          required: false,
+          clearable: true
         }
       ],
       curFieldDIdx: null, // 当前字段index
@@ -180,7 +273,8 @@ export default {
   components: {
     Header,
     PopRadio,
-    PopDate
+    PopDate,
+    Field
   },
   watch: {},
   mounted () {
@@ -207,8 +301,9 @@ export default {
           if (obj.fieldName === key) {
             let theValue = returnData[key]
             if (typeof theValue === 'string' && theValue.indexOf('/Date') !== -1) { // 如果是时间字符串
-//              let temp = myModule.formatDate(theValue)
               theValue = myModule.handleTime(theValue)
+            } else if (theValue === 'null' || theValue === null) {
+              theValue = ''
             }
             obj.value = theValue
           }
@@ -232,14 +327,13 @@ export default {
     },
     /**
      * 点击input
-     * @param item
-     * @param index
      */
-    clickInput (item, index) {
+    clickInput (obj) {
+      let index = obj.index, item = obj.item
       this.curFieldDIdx = index
       this.theMinDate = item.minDate
-//      this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
-      this.theShowDate = item.showDate
+      this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
+//      this.theShowDate = item.showDate
       this.datetimeType = item.datetimeType
       const thePopType = item.popType
       const theCode = item.code
@@ -294,12 +388,12 @@ export default {
      * 点击单选
      * @param item
      */
-//    clickRadio (item) {
-//      this.radio = item.Value
-//      this.theFieldArr[this.curFieldDIdx].value = this.radio
-//      this.showRadio = false
-//      this.theRadioData = null
-//    },
+    //    clickRadio (item) {
+    //      this.radio = item.Value
+    //      this.theFieldArr[this.curFieldDIdx].value = this.radio
+    //      this.showRadio = false
+    //      this.theRadioData = null
+    //    },
     /**
      * 监听弹窗关闭
      */
@@ -325,16 +419,18 @@ export default {
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      let dataObj = {}
-      for (let obj of this.theFieldArr) {
-        dataObj[obj.fieldName] = obj.value
-      }
-//      console.log(dataObj)
-      postData('/ReService/SaveResume', dataObj).then((res) => {
+      let form = myModule.createFormData(this.theFieldArr)
+
+      //      let dataObj = {}
+//      for (let obj of this.theFieldArr) {
+//        dataObj[obj.fieldName] = obj.value
+//      }
+      //      console.log(dataObj)
+      postData('/ReService/SaveResume', form).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
         setTimeout(() => {
-          GoToPage('', 'index.html', {})
+//          GoToPage('', 'index.html', {})
         }, 2000)
       })
     },

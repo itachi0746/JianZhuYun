@@ -50,20 +50,7 @@ export default {
     console.log(myModule)
   },
   created () {
-    postData('/EntService/MyOffers', {}).then((res) => {
-      console.log(res)
-      if (myModule.isEmpty(res.ReturnData)) {
-        console.log('暂无数据')
-        this.$toast.fail({
-          mask: false,
-          message: '暂无数据',
-          forbidClick: true // 禁用背景点击
-        })
-        return
-      }
-      this.resData = res.ReturnData
-      this.resData.RE32_CHG_TIME = myModule.handleTime(this.resData.RE32_CHG_TIME)
-    })
+    this.getData()
   },
   methods: {
     /**
@@ -117,7 +104,7 @@ export default {
         this.loading = false
         this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
         for (let obj of this.resData) {
-          obj.RE32_CHG_TIME = myModule.handleTime(obj.RE32_CHG_TIME)
+          obj.RE32_CRT_TIME = myModule.handleTime(obj.RE32_CRT_TIME)
         }
       })
     }

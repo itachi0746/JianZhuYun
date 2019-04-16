@@ -2,8 +2,9 @@
   <div class="handle">
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
-
-      <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
+      <div v-if="resData">
+        <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
+      </div>
       <!--<div class="action-box">-->
         <!--<div class="p10">-->
           <!--<van-button class="btnClass" type="info" size="large" @click.native="moveTo">移动到</van-button>-->
@@ -47,6 +48,12 @@ export default {
   },
 
   created () {
+    this.$toast.loading({
+      mask: false,
+      message: '加载中...',
+      duration: 0,
+      forbidClick: true // 禁用背景点击
+    })
     const param = myModule.getUrlParams()
     this.id = param.id
     postData('/EntService/peopleDetail', {id: this.id}).then((res) => {
@@ -60,17 +67,18 @@ export default {
         })
         return
       }
+      this.$toast.clear()
       this.resData = res.ReturnData
     })
 //    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
 //      console.log(res)
 //      if (myModule.isEmpty(res.ReturnData)) {
 //        console.log('暂无数据')
-////        this.$toast.fail({
-////          mask: false,
-////          message: '暂无数据',
-////          forbidClick: true // 禁用背景点击
-////        })
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: true // 禁用背景点击
+//        })
 //        return
 //      }
 //      this.workExperienceData = res.ReturnData

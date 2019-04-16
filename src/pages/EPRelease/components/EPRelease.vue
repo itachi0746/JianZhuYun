@@ -47,10 +47,11 @@ export default {
       theRadioData: null, // 单选弹窗的数据
       resData: null,
       fieldData: [
-        {name: '记录ID', popType: '', value: this.id, code: '', fieldName: 'RE13_ID', show: false},
+        {name: '记录ID', popType: '', value: '', code: '', fieldName: 'RE13_ID', show: false},
         {name: '职位名称', popType: 'field', value: '请填写', code: '', fieldName: 'RE13_NAME', show: true},
         {name: '职位类型', popType: 'radio', value: '请选择', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true},
         {name: '工作地点', popType: 'radio', value: '请选择', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true},
+        {name: '工作性质', popType: 'radio', value: '请选择', code: 'UDRE003', fieldName: 'RE13_WORK_PROP', show: true},
         {name: '职位描述', popType: 'field', value: '请填写', code: '', fieldName: 'RE13_DESC', show: true},
         {name: '经验要求', popType: 'radio', value: '请选择', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true},
         {name: '薪资范围', popType: 'radio', value: '请选择', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true},
@@ -129,20 +130,24 @@ export default {
       })
       let data = new FormData()
       for (let obj of this.fieldData) {
-        if (obj.name === '记录ID') continue
-        if (!obj.value) {
-          this.$toast.fail('输入不能为空')
-          return
+        if (obj.name === '职位名称') {
+          if (!obj.value) {
+            this.$toast.fail('职位名称不能为空')
+            return
+          }
         }
+//        if (!obj.value) {
+//          this.$toast.fail('输入不能为空')
+//          return
+//        }
         data.append(obj.fieldName, obj.value)
-//        data[obj.fieldName] = obj.value
       }
       postData('/EntService/Publish', data).then((res) => {
         console.log(res)
         this.$toast.success('发布成功')
         setTimeout(() => {
-          GoToPage('', 'EPProfile.html', {})
-        }, 3000)
+          GoToPage('', 'EPJob.html', {})
+        }, 2000)
       })
     },
     /**
@@ -171,7 +176,11 @@ export default {
 
   created () {
     const param = myModule.getUrlParams()
-    this.id = param.id
+    try {
+      this.id = param.id
+    } catch (err) {
+      this.id = ''
+    }
     postData('/EntService/PositionDetail', {id: this.id}).then((res) => { // 请求已有数据
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {

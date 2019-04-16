@@ -3,40 +3,43 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <div class="header van-hairline--bottom">
-          <van-row>
-            <van-col span="20">
-              <div class="data-name">{{resData.RE23_NAME}}</div>
-              <div class="data-item-box">
-                <div class="data-item">
-                  <div class="data-item-label">年龄</div>
-                  <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_AGE}}</van-tag>
-                </div>
-                <div class="data-item">
-                  <div class="data-item-label">性别</div>
-                  <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_SEX}}</van-tag>
-                </div>
-                <div class="data-item">
-                  <div class="data-item-label">籍贯</div>
-                  <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_BORN_IN}}</van-tag>
-                </div>
-                <div class="data-item">
-                  <div class="data-item-label">婚姻状况</div>
-                  <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_MARITAL_STATUS}}</van-tag>
-                </div>
-                <div class="data-item">
-                  <div class="data-item-label">工作经验</div>
-                  <van-tag class="theTag" plain text-color="#333333">{{resData.RE23_WORK_YEARS}}</van-tag>
-                </div>
-              </div>
-            </van-col>
-            <van-col span="4">
-              <div class="data-head">
-                <img :src="resData.RE23_PIC_URL" alt="">
-              </div>
-            </van-col>
-          </van-row>
-        </div>
+        <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
+
+        <!--<div class="header van-hairline&#45;&#45;bottom">-->
+          <!--<van-row>-->
+            <!--<van-col span="20">-->
+              <!--<div class="data-name">{{resData.RE23_NAME}}</div>-->
+              <!--<div class="data-item-box">-->
+                <!--<div class="data-item">-->
+                  <!--<div class="data-item-label">年龄</div>-->
+                  <!--<van-tag class="theTag" plain text-color="#333333">{{resData.RE23_AGE}}</van-tag>-->
+                <!--</div>-->
+                <!--<div class="data-item">-->
+                  <!--<div class="data-item-label">性别</div>-->
+                  <!--<van-tag class="theTag" plain text-color="#333333">{{resData.RE23_SEX}}</van-tag>-->
+                <!--</div>-->
+                <!--<div class="data-item">-->
+                  <!--<div class="data-item-label">籍贯</div>-->
+                  <!--<van-tag class="theTag" plain text-color="#333333">{{resData.RE23_BORN_IN}}</van-tag>-->
+                <!--</div>-->
+                <!--<div class="data-item">-->
+                  <!--<div class="data-item-label">婚姻状况</div>-->
+                  <!--<van-tag class="theTag" plain text-color="#333333">{{resData.RE23_MARITAL_STATUS}}</van-tag>-->
+                <!--</div>-->
+                <!--<div class="data-item">-->
+                  <!--<div class="data-item-label">工作经验</div>-->
+                  <!--<van-tag class="theTag" plain text-color="#333333">{{resData.RE23_WORK_YEARS}}</van-tag>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</van-col>-->
+            <!--<van-col span="4">-->
+              <!--<div class="data-head">-->
+                <!--&lt;!&ndash;<img :src="resData.RE23_PIC_URL" alt="">&ndash;&gt;-->
+                <!--<UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>-->
+              <!--</div>-->
+            <!--</van-col>-->
+          <!--</van-row>-->
+        <!--</div>-->
         <van-cell-group>
           <van-cell title="期望工作地点" :value="resData.RE23_WORK_PLACE" />
           <van-cell title="期望工作性质" :value="resData.RE23_WORK_PROP" />
@@ -53,6 +56,8 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import UserHead from '../../../component/UserHead.vue'
+import ResumeItem from '../../../component/ResumeItem.vue'
 
 export default {
   data () {
@@ -63,7 +68,9 @@ export default {
   },
 
   components: {
-    Header
+    Header,
+    UserHead,
+    ResumeItem
   },
 
   computed: {},

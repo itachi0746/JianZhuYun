@@ -11,5 +11,10 @@ export default {
 </script>
 
 <style>
-
+.van-field__body {
+  height: 100%;
+}
+  textarea {
+    height: 100%;
+  }
 </style>

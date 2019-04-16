@@ -252,4 +252,7 @@ export default {
   .van-field--min-height .van-field__control {
     height: 100%;
   }
+  .textareaClass {
+    height: 100%;
+  }
 </style>

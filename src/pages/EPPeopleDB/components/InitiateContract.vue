@@ -3,55 +3,8 @@
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" id="body" ref="body">
       <div v-if="resData">
-        <div v-if="dataArr">
-          <div class="mb-box">
-            <van-cell-group>
-              <div class="title">
-                <div class="title-box van-hairline--bottom">甲方</div>
-              </div>
-              <div v-for="(item,index) in dataArr" :key="index">
-                <div v-if="item.groupName==='B'">
-                  <van-cell :title="item.name" :value="resData[item.fieldName]" :class="{'hidden': item.hidden}" title-class="title-class" value-class="value-class" />
-                </div>
-              </div>
-            </van-cell-group>
-          </div>
-          <div class="mb-box">
-            <van-cell-group>
-              <div class="title">
-                <div class="title-box van-hairline--bottom">乙方</div>
-              </div>
-              <div v-for="(item,index) in dataArr" :key="index">
-                <div v-if="item.groupName==='A'">
-                  <van-cell :title="item.name" :value="resData[item.fieldName]" :class="{'hidden': item.hidden}" title-class="title-class" value-class="value-class" />
-                </div>
-              </div>
-            </van-cell-group>
-          </div>
-          <div class="mb-box">
-            <van-cell-group>
-              <div class="title">
-                <div class="title-box van-hairline--bottom">合同内容</div>
-              </div>
-              <div v-for="(item,index) in dataArr" :key="index">
-                <div v-if="item.groupName==='C'">
-                  <van-cell :title="item.name" :value="resData[item.fieldName]" :class="{'hidden': item.hidden}" title-class="title-class" value-class="value-class" />
-                </div>
-              </div>
-            </van-cell-group>
-          </div>
-          <div class="hidden">
-            <van-cell-group>
-              <div class="title">
-                <div class="title-box van-hairline--bottom"></div>
-              </div>
-              <div v-for="(item,index) in dataArr" :key="index">
-                <div v-if="item.groupName==='D'">
-                  <van-cell :title="item.name" :value="resData[item.fieldName]" :class="{'hidden': item.hidden}" title-class="title-class" value-class="value-class" />
-                </div>
-              </div>
-            </van-cell-group>
-          </div>
+        <div>
+          <ContractItem :resData="resData"></ContractItem>
         </div>
         <div class="result" v-if="isSend">
           <div class="result-logo">
@@ -76,6 +29,7 @@ import myModule from '../../../common'
 import {postData} from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import PopRadio from '../../../component/PopRadio.vue'
+import ContractItem from '../../../component/ContractItem.vue'
 
 export default {
   name: '',
@@ -131,7 +85,8 @@ export default {
   },
   components: {
     Header,
-    PopRadio
+    PopRadio,
+    ContractItem
   },
   mounted () {
     console.log(myModule)
@@ -157,13 +112,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      let theReg = /\/Date\(\d*\)\//g
-      let theReg2 = /\/Date\(-{1}\d*\)\//g // 带负号的日期
       for (let key in this.resData) { // 格式化时间
-//        if (theReg2.test(this.resData[key]) || theReg.test(this.resData[key])) {
-////          debugger
-//          this.resData[key] = myModule.handleTime(this.resData[key])
-//        }
         if (typeof this.resData[key] !== 'string') {
           continue
         }

@@ -15,20 +15,25 @@
             <van-button type="info" @click.native="clickWait">放入备用人才</van-button>
           </div>
         </div>
-        <div class="result" v-show="resData.RE01_STATUS==='BD0904'">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">已同意</div>
-          <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
-        </div>
-        <div class="result" v-show="resData.RE01_STATUS==='BD0909'">
-          <div class="result-logo">
-            <img src="../assets/refuse.png" alt="">
-          </div>
-          <div class="result-msg">已拒绝</div>
-          <div class="result-data">{{resData.RE01_CHG_TIME}}</div>
-        </div>
+        <ResultItem
+          :statusCode="resData.RE34_STATUS"
+          :status="resData.ReferenceValues.RE34_STATUS"
+          :theTime="resData.RE34_CHG_TIME"
+        ></ResultItem>
+        <!--<div class="result" v-show="resData.RE01_STATUS==='BD0904'">-->
+          <!--<div class="result-logo">-->
+            <!--<img src="../assets/accept.png" alt="">-->
+          <!--</div>-->
+          <!--<div class="result-msg">已同意</div>-->
+          <!--<div class="result-data">{{resData.RE01_CRT_TIME}}</div>-->
+        <!--</div>-->
+        <!--<div class="result" v-show="resData.RE01_STATUS==='BD0909'">-->
+          <!--<div class="result-logo">-->
+            <!--<img src="../assets/refuse.png" alt="">-->
+          <!--</div>-->
+          <!--<div class="result-msg">已拒绝</div>-->
+          <!--<div class="result-data">{{resData.RE01_CRT_TIME}}</div>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -39,6 +44,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import EPResumeItem from '../../../component/EPResumeItem.vue'
+import ResultItem from '../../../component/ResultItem.vue'
 
 export default {
   data () {
@@ -53,7 +59,8 @@ export default {
 
   components: {
     Header,
-    EPResumeItem
+    EPResumeItem,
+    ResultItem
   },
 
   computed: {},
@@ -81,8 +88,13 @@ export default {
       }
       postData('/EntService/UpdateInverviewStatus', data).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE23_STATUS = 'BD0909'
+        this.$toast.success({
+          mask: false,
+          message: '提交成功',
+          forbidClick: true, // 禁用背景点击
+          duration: 2000 // 持续展示 toast
+        })
+        //        this.resData.RE23_STATUS = 'BD0909'
         setTimeout(() => {
           GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
         }, 2000)
@@ -103,8 +115,13 @@ export default {
       }
       postData('/EntService/UpdateInverviewStatus', data).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE23_STATUS = 'BD0904'
+        this.$toast.success({
+          mask: false,
+          message: '提交成功',
+          forbidClick: true, // 禁用背景点击
+          duration: 2000 // 持续展示 toast
+        })
+        //        this.resData.RE23_STATUS = 'BD0904'
         setTimeout(() => {
           GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
         }, 2000)

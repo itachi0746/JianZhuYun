@@ -3,10 +3,11 @@
     <div class="manItem">
       <div class="man-box">
         <div class="man-head">
+          <UserHead :theUrl="item.RE32_PIC_URL"></UserHead>
         </div>
         <div class="man-data">
           <div class="man-name">
-            {{item.RE32_NAME}}
+            {{item.RE32_CANDIDATE_NAME}}
           </div>
           <div class="man-tag1-box">
             <!--<div class="man-tag1">申请建筑电工</div>-->
@@ -14,7 +15,7 @@
 
           </div>
           <div class="man-tag1-box">
-            <div class="man-tag1">{{item.RE32_CHG_TIME}}</div>
+            <div class="man-tag1">{{item.RE32_CRT_TIME}}</div>
           </div>
         </div>
         <div class="action-box">
@@ -23,7 +24,7 @@
             <!--<van-button class="btnSize2" plain type="info" @click="clickBtn1">查看简历</van-button>-->
           </div>
           <div class="action-btn">
-            <van-button class="btnSize" type="info" @click="clickBtn2(item.RE32_ID)">查看</van-button>
+            <van-button class="btnSize" type="info" @click="clickBtn2(item.RE32_OFFER_ID)">查看</van-button>
           </div>
         </div>
       </div>
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+import UserHead from '../../../component/UserHead.vue'
 export default {
   data () {
     return {
@@ -44,7 +46,9 @@ export default {
       default: null
     }
   },
-  components: {},
+  components: {
+    UserHead
+  },
 
   computed: {},
 

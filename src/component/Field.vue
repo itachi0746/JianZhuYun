@@ -22,7 +22,7 @@
       <div v-else>
         <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
                    :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
-                   :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+                   :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder" :label="item.label"/>
 
       </div>
     </div>

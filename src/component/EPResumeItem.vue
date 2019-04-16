@@ -6,36 +6,14 @@
         <van-col span="20">
           <div class="data-name">{{resData.RE01_NAME}}</div>
           <div class="data-item-box">
-            <div class="data-item">
-              <div class="data-item-label">年龄</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_AGE}}</van-tag>
-            </div>
-            <div class="data-item">
-              <div class="data-item-label">籍贯</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_BORN_IN}}</van-tag>
-            </div>
-            <div class="data-item">
-              <div class="data-item-label">籍贯</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_SEX}}</van-tag>
-            </div>
-            <div class="data-item">
-              <div class="data-item-label">手机</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_MOBILE_PHONE}}</van-tag>
-            </div>
-            <div class="data-item">
-              <div class="data-item-label">身份证</div>
-              <van-tag class="theTag" plain text-color="#333333">{{resData.RE01_IDENTIY_CARD_NO}}</van-tag>
+            <div class="data-item" v-for="(item, index) in detailData" :key="index">
+              <div class="data-item-label">{{item.key}}</div>
+              <van-tag class="theTag" plain text-color="#333333">{{item.value}}</van-tag>
             </div>
           </div>
         </van-col>
         <van-col span="4">
           <UserHead :theUrl="resData.RE01_PIC_URL"></UserHead>
-          <!--<div class="data-head" v-if="resData.RE01_PIC_URL">-->
-          <!--<img :src="resData.RE01_PIC_URL" alt="">-->
-          <!--</div>-->
-          <!--<div class="data-head" v-else>-->
-          <!--<img src="./assets/default_head_pr.png" alt="">-->
-          <!--</div>-->
         </van-col>
       </van-row>
     </div>
@@ -63,12 +41,19 @@
 
 <script>
 import UserHead from './UserHead.vue'
+import myModule from '../common'
+
 export default {
   data () {
     return {
-      //      id: null,
-      //      resData: null,
-      //      workExperienceData: null
+      dataMap: {
+        RE01_AGE: '年龄',
+        RE01_SEX: '性别',
+        RE01_BORN_IN: '籍贯',
+        RE01_MOBILE_PHONE: '手机',
+        RE01_IDENTIY_CARD_NO: '身份证'
+      },
+      detailData: []
     }
   },
   props: {
@@ -94,7 +79,9 @@ export default {
 
   },
 
-  mounted () {},
+  mounted () {
+    this.detailData = myModule.handleMapData(this.dataMap, this.resData)
+  },
 
   beforeDestroy () {}
 }

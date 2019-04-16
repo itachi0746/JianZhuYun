@@ -135,6 +135,11 @@ export default {
         console.log(`${obj.name} 不能为空`)
         // return false
       }
+      try {
+        obj.value = obj.value.trim() // 去除空格
+      } catch (err) {
+        console.log(err)
+      }
       form.append(obj.fieldName, obj.value)
     }
     return form
@@ -254,5 +259,59 @@ export default {
       }
     }
     return true
-  }
+  },
+  /**
+   * 登录后清除历史记录
+   */
+  clearHistory () {
+    try {
+      if (jsBridge) {
+        jsBridge.clearHistory()
+        console.log('清除历史记录')
+      } else {
+        console.log('没有jsBridge')
+      }
+    } catch (e) {
+      console.log(e)
+      console.log('没有jsBridge')
+    }
+  },
+  /**
+   * 格式化数据对象的时间戳字符串, null字符串
+   */
+  formatObj (obj) {
+    for (let key in obj) { // 格式化时间
+      if (typeof obj[key] !== 'string') {
+        continue
+      }
+      if (obj[key].indexOf('/Date') !== -1) {
+        obj[key] = this.handleTime(obj[key])
+      }
+      if (obj[key] === 'null' || obj[key] === null) { // 格式化null
+        obj[key] = ''
+      }
+    }
+    return obj
+  },
+  /**
+   * 处理要显示的数据
+   * @param mapObj 字段映射
+   * @param dataObj 数据对象
+   */
+  handleMapData (mapObj, dataObj) {
+    let resultArr = []
+    for (let key in mapObj) {
+      if (!dataObj[key]) { // 空则跳过
+        console.log(`字段 ${key} 没有值: ${dataObj[key]}`)
+        continue
+      }
+      const obj = {
+        key: mapObj[key],
+        value: dataObj[key]
+      }
+      resultArr.push(obj)
+    }
+    return resultArr
+  },
+
 }

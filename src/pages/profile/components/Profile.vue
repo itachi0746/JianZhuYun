@@ -2,29 +2,13 @@
   <div class="profile">
     <Header @sendHeight="handleHeight"></Header>
     <div class="body" ref="body" v-if="resData">
-      <div class="header">
-        <van-row>
-          <van-col span="12">
-            <div class="user-data">
-              <div class="user-name">{{resData.RE23_NAME}}</div>
-              <div class="user-remarks">{{resData.RE23_MEMO}}</div>
-              <div class="user-remarks" style="color:greenyellow" @click="clickVerify">实名验证链接</div>
-            </div>
-          </van-col>
-          <van-col span="12">
-            <div class="user-head-box">
-              <!--<div class="user-head" v-if="resData.RE23_PIC_URL">-->
-                <!--<img :src="resData.RE23_PIC_URL" alt="">-->
-              <!--</div>-->
-              <!--<div class="user-head" v-else>-->
-                <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
-              <!--</div>-->
-              <div class="user-head">
-                <UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>
-              </div>
-            </div>
-          </van-col>
-        </van-row>
+      <div v-if="resData">
+        <ProfileItem
+          :enterprise="false"
+          :theName="resData.RE23_NAME"
+          :theMemo="resData.RE23_MEMO"
+          :theUrl="resData.RE23_PIC_URL"
+        ></ProfileItem>
       </div>
       <div class="tab">
         <van-row>
@@ -67,6 +51,7 @@
           <img class="cell-icon" :src="item.img" alt="">
         </van-cell>
       </div>
+      <Logout :enterprise="false"></Logout>
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
   </div>
@@ -78,6 +63,8 @@ import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 import UserHead from '../../../component/UserHead.vue'
+import ProfileItem from '../../../component/ProfileItem.vue'
+import Logout from '../../../component/Logout.vue'
 
 export default {
   name: 'profile',
@@ -85,7 +72,7 @@ export default {
     return {
       headerHeight: null,
       footerHeight: null,
-      activeNum: 3,
+      activeNum: 2,
       resData: null,
       id: null,
       items: [
@@ -99,7 +86,9 @@ export default {
   components: {
     Footer,
     Header,
-    UserHead
+    UserHead,
+    ProfileItem,
+    Logout
   },
   mounted () {
     console.log(myModule)
@@ -169,6 +158,12 @@ export default {
     },
     clickInterview () {
       GoToPage('', 'interview.html', {})
+    },
+    /**
+     * 切换身份
+     */
+    changeRole () {
+      GoToPage('', 'EPLogin.html', {})
     }
   }
 }
@@ -181,8 +176,8 @@ export default {
     @include font-size(30px);
     color: #ffffff;
     width: 100%;
-    height: 150px;
-    padding: 50px 30px 0;
+    /*height: 150px;*/
+    padding: 50px 30px 20px;
     background-color: $mainColor;
   }
   .user-data {
@@ -190,7 +185,8 @@ export default {
     flex-direction: column;
   }
   .user-remarks {
-    @include font-size(16px)
+    @include font-size(16px);
+    margin-top: 10px;
   }
   .user-head-box {
     display: flex;

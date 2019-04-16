@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :search="true"></Header>
     <div class="filter van-hairline--bottom" v-show="false">
       <van-row>
         <van-col :span="24/filterItems.length" v-for="(item, index) in filterItems" :key="index">
@@ -42,7 +42,6 @@ import Header from '../../../component/Header.vue'
 import JobItem from '../../../component/JobItem.vue'
 
 export default {
-  name: 'profile',
   data () {
     return {
       headerName: '职位',

@@ -26,29 +26,6 @@
           </div>
         </div>
       </div>
-      <!--<div class="man-box">-->
-        <!--<div class="man-head">-->
-        <!--</div>-->
-        <!--<div class="man-data">-->
-          <!--<div class="man-name">-->
-            <!--namggg-->
-          <!--</div>-->
-          <!--<div class="man-tag1-box">-->
-            <!--<div class="man-tag1">申请建筑电工</div>-->
-          <!--</div>-->
-          <!--<div class="man-tag1-box">-->
-            <!--<div class="man-tag1">2019-3-27 08:30</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="action-box">-->
-          <!--<div class="action-btn">-->
-            <!--<van-button class="btnSize2" plain type="info" @click="clickBtn1">查看简历</van-button>-->
-          <!--</div>-->
-          <!--<div class="action-btn">-->
-            <!--<van-button class="btnSize" type="info" @click="clickBtn2('ee',actionObj.act2.routerName)">邀请面试</van-button>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
     </div>
 
   </div>

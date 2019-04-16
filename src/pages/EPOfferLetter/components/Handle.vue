@@ -7,54 +7,42 @@
           <van-row>
             <van-col span="19">
               <div class="data-box">
-                <div class="data-name">{{resData.RE01_NAME}}</div>
-                <div class="data-line">申请职位 建筑电工</div>
+                <div class="data-name">{{resData.RE32_CANDIDATE_NAME}}</div>
+                <!--<div class="data-line">申请职位 建筑电工</div>-->
                 <!--<div class="data-line">2019-3-1 08：55</div>-->
               </div>
             </van-col>
             <van-col span="5">
               <div class="data-box-r">
                 <div class="data-head">
-                  <img src="../../../component/assets/default_head_pr.png" alt="">
+                  <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
+                  <UserHead :theUrl="resData.RE32_PIC_URL"></UserHead>
                 </div>
                 <!--<van-button class="btnStyle" plain type="primary" @click="clickBtn">查看简历</van-button>-->
               </div>
             </van-col>
           </van-row>
         </div>
-        <div class="main" v-show="false">
-          <div class="main-title">
-            自荐信
-          </div>
+        <div class="main">
+          <!--<div class="main-title">-->
+            <!--自荐信-->
+          <!--</div>-->
           <div class="main-field">
-            {{value}}
+            {{resData.RE32_CANDIDATE_MEMO}}
           </div>
         </div>
-        <div class="action-box">
-          <div class="p10">
-            <van-button class="btnClass" type="info" size="large" @click.native="clickSend">发送</van-button>
-          </div>
-
-          <!--<van-row class="theRow">-->
-            <!--<van-col span="12">-->
-              <!--<div class="btn-box">-->
-                <!--<van-button class="btnClass" type="info" @click.native="clickSend">发送</van-button>-->
-              <!--</div>-->
-            <!--</van-col>-->
-            <!--<van-col span="12">-->
-              <!--<div class="btn-box">-->
-                <!--<van-button class="btnClass" type="info" @click.native="clickBack">返回</van-button>-->
-              <!--</div>-->
-            <!--</van-col>-->
-          <!--</van-row>-->
-        </div>
-        <div class="result" v-show="isSend">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">已同意</div>
-          <!--<div class="result-data">2019-3-25</div>-->
-        </div>
+        <!--<div class="action-box">-->
+          <!--<div class="p10">-->
+            <!--<van-button class="btnClass" type="info" size="large" @click.native="clickSend">发送</van-button>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="result" v-show="isSend">-->
+          <!--<div class="result-logo">-->
+            <!--<img src="../assets/accept.png" alt="">-->
+          <!--</div>-->
+          <!--<div class="result-msg">已同意</div>-->
+          <!--&lt;!&ndash;<div class="result-data">2019-3-25</div>&ndash;&gt;-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -64,12 +52,13 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import UserHead from '../../../component/UserHead.vue'
 
 export default {
   data () {
     return {
-      headerName: '发送offer',
-      value: '恭喜您通过我司的招聘要求，请与于今年3月29日前来报到...',
+      headerName: '查看详情',
+      value: '',
       id: null,
       resData: null,
       isSend: false
@@ -77,7 +66,8 @@ export default {
   },
 
   components: {
-    Header
+    Header,
+    UserHead
   },
 
   computed: {},
@@ -85,31 +75,19 @@ export default {
   methods: {
     handleHeight () {
     },
-    clickSend () {
-      postData('/EntService/SendOffer', {id: this.id}).then((res) => {
-        console.log(res)
-        this.$toast.success('提交成功')
-        this.isSend = true
-        //        if (myModule.isEmpty(res.ReturnData)) {
-//          console.log('暂无数据')
-//          this.$toast.fail({
-//            mask: false,
-//            message: '暂无数据',
-//            forbidClick: true // 禁用背景点击
-//          })
-//          return
-//        }
-      })
-    },
     clickBack () {
       this.$router.go(-1)
     }
   },
 
   created () {
-    const param = myModule.getUrlParams()
-    this.id = param.id
-    postData('/EntService/SearchPeople', {id: this.id}).then((res) => {
+    this.id = this.$route.params.id
+//    debugger
+    const data = {
+      From: 'RE32',
+      id: this.id
+    }
+    postData('/EntService/OfferDetials', data).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')

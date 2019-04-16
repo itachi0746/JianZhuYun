@@ -7,7 +7,7 @@
           <van-cell-group v-if="theRadioData">
             <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
                       @click="clickRadio(item)">
-              <van-radio :name="item.Value"/>
+              <van-radio :name="item.Value" @click="clickRadio(item)"/>
             </van-cell>
           </van-cell-group>
         </van-radio-group>

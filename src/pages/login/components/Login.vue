@@ -7,7 +7,7 @@
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
           <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
-          <van-col span="8" class="tac" @click.native="clickForget">忘记密码</van-col>
+          <van-col span="8" class="tac" @click.native="clickSwitch">企业登录</van-col>
         </van-row>
       </van-cell>
     </div>
@@ -48,7 +48,8 @@ export default {
     clickRegister () {
       GoToPage('', 'register.html', {})
     },
-    clickForget () {
+    clickSwitch () {
+      GoToPage('', 'EPLogin.html', {})
     },
     /**
      * 点击登录
@@ -69,6 +70,8 @@ export default {
 
       postData('/ReService/Login', form).then((res) => {
         console.log(res)
+        this.$toast.success('登录成功')
+        myModule.clearHistory()
         GoToPage('', 'index.html', {})
       })
     },

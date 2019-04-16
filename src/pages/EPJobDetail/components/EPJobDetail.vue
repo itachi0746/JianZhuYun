@@ -61,7 +61,7 @@ export default {
         RE13_EDU_DEGREE: '学历要求',
         RE13_POSITION_TYPE: '职位类别',
         RE13_SALARY_REQUIRED: '薪资要求',
-        RE13_STATUS: '状态',
+//        RE13_STATUS: '状态',
         RE13_WORK_PLACE: '工作地点',
         RE13_WORK_PROP: '工作性质',
         RE13_WORK_YEAR: '工作年限'
@@ -97,7 +97,8 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.handleDetail(res.ReturnData.ReferenceValues)
+//      this.handleDetail(res.ReturnData.ReferenceValues)
+      this.detailData = myModule.handleMapData(this.dataMap, this.resData)
     })
   },
   methods: {
@@ -135,20 +136,10 @@ export default {
      * 编辑职位
      */
     clickEdit () {
-//      this.$toast.loading({
-//        forbidClick: true, // 禁用背景点击
-//        message: '加载中...',
-//        duration: 0
-//      })
       const data = {
         id: this.id
       }
       GoToPage('', 'EPRelease.html', data)
-
-      //      postData('/ReService/SendResume', data).then((res) => {
-//        console.log(res)
-//        GoToPage('', 'EPRelease.html', {})
-//      })
     },
     beforeClose (action, done) {
       if (action === 'confirm') {

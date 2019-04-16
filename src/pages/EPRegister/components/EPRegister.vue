@@ -2,33 +2,17 @@
   <div class="register">
     <div>
       <div v-if="theFieldArr.length">
-        <!--<div v-for="(item, index) in theFieldArr" :key="index">-->
-          <!--<div class="field-box" v-if="item.isCode">-->
-            <!--<van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"-->
-                       <!--v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"-->
-                       <!--:type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder">-->
-              <!--<van-button class="active" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码-->
-              <!--</van-button>-->
-            <!--</van-field>-->
-          <!--</div>-->
-          <!--<div v-else>-->
-            <!--<van-field :data-code="item.code" :required="item.required" :clearable="item.clearable"-->
-                       <!--v-if="pagingCondition(index)" :data-index="index" @click="clickInput(item, index)"-->
-                       <!--:type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>-->
-          <!--</div>-->
-        <!--</div>-->
         <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
                @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"></Field>
       </div>
       <!--日期选择-->
-      <PopDate
-        v-if="theShowDate"
-        :date-type="datetimeType"
-        :min-date="theMinDate"
-        :max-date="theMaxDate"
-        @confirm="clickConfirm"
-        @cancel="clickCancel"
-      ></PopDate>
+      <PopDate v-if="showPicker"
+               :show-date="theShowDate"
+               :date-type="datetimeType"
+               :min-date="theMinDate"
+               :max-date="theMaxDate"
+               @confirm="clickConfirm"
+               @cancel="clickCancel"></PopDate>
       <!--单选-->
       <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
 
@@ -58,14 +42,17 @@ export default {
       isActiveBtn: false,
       isDisable: false,
       theFieldArr: [
-        {name: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'SSA7_COMPANY', required: true, clearable: true},
-        {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
-        {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true},
-        {name: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
-        {name: '企业性质', code: 'SS06_ENT_PROPERTY', value: '', placeHolder: '请选择企业性质', type: 'text', popType: 'radio', fieldName: 'SSA7_PROPERTY', required: false, clearable: true},
-        {name: '注册类型', code: 'SS05_REG_TYPE', value: '', placeHolder: '请选择注册类型', type: 'text', popType: 'radio', fieldName: 'SSA7_REG_TYPE', required: false, clearable: true},
-        {name: '密码1', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true, rightIcon: 'eye'},
-        {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'eye'}
+        {name: '公司名称', label: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'SSA7_COMPANY', required: true, clearable: true},
+        {name: '手机号码', label: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
+        {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true},
+        {name: '所属行业', label: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
+        {name: '企业性质', label: '企业性质', code: 'SS06_ENT_PROPERTY', value: '', placeHolder: '请选择企业性质', type: 'text', popType: 'radio', fieldName: 'SSA7_PROPERTY', required: false, clearable: true},
+        {name: '注册类型', label: '注册类型', code: 'SS05_REG_TYPE', value: '', placeHolder: '请选择注册类型', type: 'text', popType: 'radio', fieldName: 'SSA7_REG_TYPE', required: false, clearable: true},
+        {name: '企业法人', label: '企业法人', code: '', value: '', placeHolder: '请填写企业法人', type: 'text', popType: '', fieldName: 'HRA0_ENT_LP', required: true, clearable: true},
+        {name: '注册时间', label: '注册时间', code: '', value: '', placeHolder: '请填写注册时间', type: 'text', popType: 'date', fieldName: 'HRA0_ENT_RT', required: true, clearable: true, datetimeType: 'date', showDate: new Date(1970, 0, 1), minDate: new Date(1970, 0, 1), maxDate: new Date()},
+        {name: '注册资本', label: '注册资本', code: '', value: '', placeHolder: '请填写注册资本', type: 'text', popType: '', fieldName: 'HRA0_ENT_RC', required: true, clearable: true},
+        {name: '密码1', label: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'eye'}
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -333,6 +320,7 @@ export default {
 
   .mt30 {
     margin-top: 30px;
+    margin-bottom: 20px;
   }
 
   .btnStyle {

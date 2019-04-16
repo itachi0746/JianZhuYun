@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PeopleDetail from '../components/EPPeopleDetail.vue'
+import EPPeopleDetail from '../components/EPPeopleDetail.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/resumeDetail',
-      name: 'PeopleDetail',
-      component: PeopleDetail
+      path: '/',
+      name: 'EPPeopleDetail',
+      component: EPPeopleDetail
     }
   ]
 })

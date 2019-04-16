@@ -1,22 +1,21 @@
 <template>
   <div class="manItem">
-    <div class="man-box" v-if="data">
+    <div class="man-box" v-if="resData">
       <div class="man-head">
-        <UserHead :theUrl="data.RE23_PIC_URL"></UserHead>
-        <!--<img :src="data.RE23_PIC_URL" alt="">-->
+        <UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>
+        <!--<img :src="detailData.RE23_PIC_URL" alt="">-->
       </div>
       <div class="man-data">
         <div class="man-name">
-          {{data.RE23_NAME}}
+          {{resData.RE23_NAME}}
         </div>
         <div class="man-tag1-box">
-          <div class="man-tag1 van-hairline--right">{{data.RE23_WORK_PLACE}}</div>
-          <div class="man-tag1 van-hairline--right">{{data.RE23_WORK_YEARS}}</div>
-          <div class="man-tag1 van-hairline--right">{{data.RE23_EDUCATION}}</div>
-          <div class="man-tag1 van-hairline--right">{{data.RE23_SALARY_E1}}</div>
+          <div v-for="(item,index) in detailData" :key="index" class="man-tag1 van-hairline--right">
+            {{item.value}}
+          </div>
         </div>
         <div class="man-tag1-box">
-          <div class="man-tag1 van-hairline--right">{{data.RE23_EXPECTED_POSITION}}</div>
+          <!--<div class="man-tag1 van-hairline&#45;&#45;right">{{detailData.RE23_EXPECTED_POSITION}}</div>-->
           <!--<div class="man-tag1 van-hairline&#45;&#45;right">全城科技有限公司</div>-->
         </div>
       </div>
@@ -26,12 +25,22 @@
 
 <script>
 import UserHead from './UserHead.vue'
+import myModule from '../common'
+
 export default {
   data () {
-    return {}
+    return {
+      dataMap: {
+        RE23_WORK_PLACE: '期望工作地点',
+        RE23_WORK_YEARS: '工作经验',
+        RE23_EDUCATION: '学历',
+        RE23_ANNUAL_SALARY_E: '期待年薪'
+      },
+      detailData: []
+    }
   },
   props: {
-    data: {
+    resData: {
       type: Object,
       default: null
     }
@@ -43,11 +52,33 @@ export default {
 
   computed: {},
 
-  methods: {},
+  methods: {
+    /**
+     * 处理数据
+     * @param dataObj
+     */
+    handleDetail (dataObj) {
+      let me = this
+      for (let key in dataObj) {
+        if (!me.resData[key]) { // 空则跳过
+          console.log(`字段${key} 没有值: ${me.resData[key]}`)
+          continue
+        }
+        const obj = {
+          key: dataObj[key],
+          value: me.resData[key]
+        }
+        this.detailData.push(obj)
+      }
+    }
+  },
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    this.detailData = myModule.handleMapData(this.dataMap, this.resData)
+//    this.handleDetail(this.dataMap)
+  },
 
   beforeDestroy () {}
 }

@@ -40,20 +40,11 @@
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
-        <div class="result" v-if="resData.RE37_STATUS==='BD0904'">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">面试邀请已接受</div>
-          <div class="result-data">{{resData.RE37_CHG_TIME}}</div>
-        </div>
-        <div class="result" v-if="resData.RE37_STATUS==='BD0909'">
-          <div class="result-logo">
-            <img src="../assets/refuse.png" alt="">
-          </div>
-          <div class="result-msg">面试邀请拒绝</div>
-          <div class="result-data">{{resData.RE37_CHG_TIME}}</div>
-        </div>
+        <ResultItem
+          :statusCode="resData.RE37_STATUS"
+          :status="resData.ReferenceValues.RE37_STATUS"
+          :theTime="resData.RE37_CHG_TIME"
+        ></ResultItem>
       </div>
     </div>
 
@@ -64,6 +55,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import ResultItem from '../../../component/ResultItem.vue'
 
 export default {
   name: '',
@@ -86,7 +78,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    ResultItem
   },
   mounted () {
     console.log(myModule)
@@ -107,7 +100,8 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE37_SEND_TIME = myModule.handleTime(this.resData.RE37_SEND_TIME)
+      this.resData = myModule.formatObj(this.resData)
+//      this.resData.RE37_SEND_TIME = myModule.handleTime(this.resData.RE37_SEND_TIME)
 //      this.handleDetail(res.ReturnData.ReferenceValues)
     })
   },
@@ -154,11 +148,7 @@ export default {
       }
       postData('/ReService/RejectInverview', data).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE37_STATUS = 'BD0909'
-        setTimeout(() => {
-          window.history.back()
-        }, 2000)
+        this.actionCB()
       })
     },
     clickAccept () {
@@ -174,12 +164,19 @@ export default {
       }
       postData('/ReService/AcceptInverview', data).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE37_STATUS = 'BD0904'
-        setTimeout(() => {
-          window.history.back()
-        }, 2000)
+        this.actionCB()
       })
+    },
+    actionCB () {
+      this.$toast.success({
+        mask: false,
+        message: '提交成功',
+        forbidClick: true, // 禁用背景点击
+        duration: 2000 // 持续展示 toast
+      })
+      setTimeout(() => {
+        window.history.back()
+      }, 2000)
     }
   }
 }
@@ -296,6 +293,7 @@ export default {
   .result {
     @include font-size(16px);
     color: #666;
+    margin-top: 20px;
   }
 
   .result-logo {

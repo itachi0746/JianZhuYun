@@ -9,10 +9,11 @@
           </van-cell>
         </van-panel>
         <van-panel class="mb20" title="工商信息">
-          <van-cell title-class="title-class" title="公司全称" :value="resData.HRA0_ENT_NAME" />
-          <van-cell title-class="title-class" title="企业法人" :value="resData.HRA0_ENT_LP" />
-          <van-cell title-class="title-class" title="注册时间" :value="resData.HRA0_ENT_RT" />
-          <van-cell title-class="title-class" title="注册资本" :value="resData.HRA0_ENT_RC" />
+          <!--<van-cell title-class="title-class" title="公司全称" :value="resData.HRA0_ENT_NAME" />-->
+          <!--<van-cell title-class="title-class" title="企业法人" :value="resData.HRA0_ENT_LP" />-->
+          <!--<van-cell title-class="title-class" title="注册时间" :value="resData.HRA0_ENT_RT" />-->
+          <!--<van-cell title-class="title-class" title="注册资本" :value="resData.HRA0_ENT_RC" />-->
+          <van-cell v-for="(item,index) in detailData" :key="index" title-class="title-class" :title="item.key" :value="item.value" />
         </van-panel>
       </div>
     </div>
@@ -25,13 +26,22 @@ import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 
 export default {
-  name: 'profile',
   data () {
     return {
       headerName: '公司详情',
       headerHeight: null,
       resData: null,
-      id: null
+      id: null,
+      dataMap: {
+        HRA0_ENT_NAME: '公司全称',
+        HRA0_ENT_LP: '企业法人',
+        HRA0_ENT_RT: '注册时间',
+        HRA0_ENT_RC: '注册资本',
+        SSA7_INDUSTRY: '所属行业',
+        SSA7_PROPERTY: '企业性质',
+        SSA7_REG_TYPE: '注册类型'
+      },
+      detailData: []
     }
   },
   components: {
@@ -56,6 +66,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
+      this.detailData = myModule.handleMapData(this.dataMap, this.resData)
     })
   },
   methods: {

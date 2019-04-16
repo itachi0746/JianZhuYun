@@ -50,20 +50,11 @@
             </van-col>
           </van-row>
         </div>
-        <div class="result" v-if="resData.RE34_STATUS==='BD0904'">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">已同意</div>
-          <div class="result-data">{{resData.RE34_CHG_TIME}}</div>
-        </div>
-        <div class="result" v-if="resData.RE34_STATUS==='BD0909'">
-          <div class="result-logo">
-            <img src="../assets/refuse.png" alt="">
-          </div>
-          <div class="result-msg">已拒绝</div>
-          <div class="result-data">{{resData.RE34_CHG_TIME}}</div>
-        </div>
+        <ResultItem
+          :statusCode="resData.RE34_STATUS"
+          :status="resData.ReferenceValues.RE34_STATUS"
+          :theTime="resData.RE34_CHG_TIME"
+        ></ResultItem>
       </div>
     </div>
 
@@ -75,6 +66,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import UserHead from '../../../component/UserHead.vue'
+import ResultItem from '../../../component/ResultItem.vue'
 
 export default {
   data () {
@@ -88,7 +80,8 @@ export default {
 
   components: {
     Header,
-    UserHead
+    UserHead,
+    ResultItem
   },
 
   computed: {},

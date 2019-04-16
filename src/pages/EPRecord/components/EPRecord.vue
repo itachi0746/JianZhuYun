@@ -1,37 +1,6 @@
 <template>
   <div class="profile">
     <Header @sendHeight="handleHeight" :headerName="headerName" :search="false"></Header>
-    <!--<div class="body" ref="body">-->
-      <!--<div class="job-list">-->
-        <!--<ul>-->
-          <!--<li class="job-li">-->
-            <!--<div class="manItem">-->
-              <!--<div class="man-box">-->
-                <!--<div class="man-head">-->
-                <!--</div>-->
-                <!--<div class="man-data">-->
-                  <!--<div class="man-name">-->
-                    <!--蔡明宏-->
-                  <!--</div>-->
-                  <!--<div class="man-tag1-box">-->
-                    <!--<div class="man-tag1">申请建筑电工</div>-->
-                  <!--</div>-->
-                  <!--<div class="man-tag1-box">-->
-                    <!--<div class="man-tag1">2019-3-27 08:30</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="action-box">-->
-                  <!--<div class="status">未接受</div>-->
-                  <!--<div class="action-btn">-->
-                    <!--<van-button class="btnSize" type="info" @click="clickHandle">处理</van-button>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
     <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list
         v-model="loading"

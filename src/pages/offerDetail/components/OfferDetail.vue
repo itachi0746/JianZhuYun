@@ -2,7 +2,7 @@
   <div v-if="resData">
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <div>
+      <div v-if="resData">
         <div class="header">
           <div>{{resData.RE32_SEND_ENT_NAME}}</div>
           <div>{{resData.RE32_CRT_TIME}}</div>
@@ -14,20 +14,25 @@
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
-        <div class="result" v-if="resData.RE32_STATUS==='BD0904'">
-          <div class="result-logo">
-            <img src="../assets/accept.png" alt="">
-          </div>
-          <div class="result-msg">入职邀请已接受</div>
-          <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
-        </div>
-        <div class="result" v-if="resData.RE32_STATUS==='BD0909'">
-          <div class="result-logo">
-            <img src="../assets/refuse.png" alt="">
-          </div>
-          <div class="result-msg">入职邀请拒绝</div>
-          <div class="result-data">{{resData.RE32_CRT_TIME}}</div>
-        </div>
+        <ResultItem
+          :statusCode="resData.RE32_STATUS"
+          :status="resData.ReferenceValues.RE32_STATUS"
+          :theTime="resData.RE32_CRT_TIME"
+        ></ResultItem>
+        <!--<div class="result" v-if="resData.RE32_STATUS==='BD0904'">-->
+          <!--<div class="result-logo">-->
+            <!--<img src="../assets/accept.png" alt="">-->
+          <!--</div>-->
+          <!--<div class="result-msg">入职邀请已接受</div>-->
+          <!--<div class="result-data">{{resData.RE32_CRT_TIME}}</div>-->
+        <!--</div>-->
+        <!--<div class="result" v-if="resData.RE32_STATUS==='BD0909'">-->
+          <!--<div class="result-logo">-->
+            <!--<img src="../assets/refuse.png" alt="">-->
+          <!--</div>-->
+          <!--<div class="result-msg">入职邀请拒绝</div>-->
+          <!--<div class="result-data">{{resData.RE32_CRT_TIME}}</div>-->
+        <!--</div>-->
       </div>
 
     </div>
@@ -50,6 +55,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import ResultItem from '../../../component/ResultItem.vue'
 
 export default {
   name: 'message',
@@ -64,7 +70,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    ResultItem
   },
   mounted () {
     console.log(myModule)
@@ -121,8 +128,13 @@ export default {
       }
       postData('/ReService/AcceptOffer', data).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
-        this.resData.RE32_STATUS = 'BD0904'
+        this.$toast.success({
+          mask: false,
+          message: '提交成功',
+          forbidClick: true, // 禁用背景点击
+          duration: 2000 // 持续展示 toast
+        })
+        //        this.resData.RE32_STATUS = 'BD0904'
         setTimeout(() => {
           window.history.back()
         }, 2000)
@@ -141,8 +153,13 @@ export default {
         }
         postData('/ReService/RejectOffer', data).then((res) => {
           console.log(res)
-          this.$toast.success('提交成功')
-          this.resData.RE32_STATUS = 'BD0909'
+          this.$toast.success({
+            mask: false,
+            message: '提交成功',
+            forbidClick: true, // 禁用背景点击
+            duration: 2000 // 持续展示 toast
+          })
+          //          this.resData.RE32_STATUS = 'BD0909'
           setTimeout(() => {
             window.history.back()
           }, 2000)

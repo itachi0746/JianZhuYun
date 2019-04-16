@@ -23,8 +23,8 @@
       >
         <div class="job-list" v-if="resData">
           <ul>
-            <li class="job-li" v-for="(item, index) in resData" :key="index" @click="clickLi">
-              <manItem :data="item"></manItem>
+            <li class="job-li" v-for="(item, index) in resData" :key="index" @click="clickLi(item.RE23_CANDIDATE_ID)">
+              <manItem :resData="item"></manItem>
             </li>
             <!--<li class="job-li">-->
               <!--<manItem></manItem>-->
@@ -123,7 +123,7 @@ export default {
       //      }, 500)
     },
     clickLi (id) {
-      GoToPage('', 'peopleDetail.html', {id: id})
+      GoToPage('', 'EPPeopleDetail.html', {id: id})
     },
     getData () {
       this.$toast.loading({

@@ -1,23 +1,12 @@
 <template>
   <div class="login">
     <div>
-      <!--<van-field type="number" ref="EntID" v-model="EntId" placeholder="请输入企业ID" right-icon="card"/>-->
-      <!--<div class="fillter"></div>-->
-      <!--<van-field type="text" v-model="Mobile" placeholder="请输入您的用户名" right-icon="clear" @click-right-icon="clickDel" />-->
-      <!--<div class="fillter"></div>-->
-      <!--<van-field :type="pswInputType" v-model="Password" placeholder="请输入您的密码" right-icon="eye" @click-right-icon="clickEye" />-->
-      <!--<div class="fillter"></div>-->
-      <!--<div v-if="theFieldArr.length">-->
-        <!--<van-field v-for="(item, index) in theFieldArr" :key="index" :data-code="item.code"-->
-                   <!--:data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item.clickRightIcon)"-->
-                   <!--:type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>-->
-      <!--</div>-->
       <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
              @clickRightIcon="clickRightIcon" @clickInput="clickInput"></Field>
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
           <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
-          <van-col span="8" class="tac" @click.native="clickForget">忘记密码</van-col>
+          <van-col span="8" class="tac" @click.native="clickSwitch">个人登录</van-col>
         </van-row>
       </van-cell>
     </div>
@@ -89,7 +78,8 @@ export default {
     clickRegister () {
       GoToPage('', 'EPRegister.html', {})
     },
-    clickForget () {
+    clickSwitch () {
+      GoToPage('', 'login.html', {})
     },
     clickRightIcon (item) {
       if (item.rightIcon === 'eye') {
@@ -112,6 +102,8 @@ export default {
 
       postData('/EntService/Login', form).then((res) => {
         console.log(res)
+        this.$toast.success('登录成功')
+        myModule.clearHistory()
         GoToPage('', 'EPIndex.html', {})
       })
     },
