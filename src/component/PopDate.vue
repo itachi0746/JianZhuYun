@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--日期选择-->
-    <van-popup v-model="showPicker" position="bottom">
+    <van-popup v-model="showPicker" position="bottom" @click-overlay="clickOverlayCB">
       <van-datetime-picker
         v-model="theShowDate"
         :type="dateType"
@@ -54,6 +54,10 @@ export default {
       this.$emit('confirm', {value: this.theShowDate})
     },
     clickCancel () {
+      this.showPicker = false
+      this.$emit('cancel', {value: null})
+    },
+    clickOverlayCB () {
       this.showPicker = false
       this.$emit('cancel', {value: null})
     }

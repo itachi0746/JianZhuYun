@@ -43,8 +43,6 @@ export default {
       isDisable: false,
       theFieldArr: [
         {name: '公司名称', label: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'SSA7_COMPANY', required: true, clearable: true},
-        {name: '手机号码', label: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
-        {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true},
         {name: '所属行业', label: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
         {name: '企业性质', label: '企业性质', code: 'SS06_ENT_PROPERTY', value: '', placeHolder: '请选择企业性质', type: 'text', popType: 'radio', fieldName: 'SSA7_PROPERTY', required: false, clearable: true},
         {name: '注册类型', label: '注册类型', code: 'SS05_REG_TYPE', value: '', placeHolder: '请选择注册类型', type: 'text', popType: 'radio', fieldName: 'SSA7_REG_TYPE', required: false, clearable: true},
@@ -52,7 +50,9 @@ export default {
         {name: '注册时间', label: '注册时间', code: '', value: '', placeHolder: '请填写注册时间', type: 'text', popType: 'date', fieldName: 'HRA0_ENT_RT', required: true, clearable: true, datetimeType: 'date', showDate: new Date(1970, 0, 1), minDate: new Date(1970, 0, 1), maxDate: new Date()},
         {name: '注册资本', label: '注册资本', code: '', value: '', placeHolder: '请填写注册资本', type: 'text', popType: '', fieldName: 'HRA0_ENT_RC', required: true, clearable: true},
         {name: '密码1', label: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true, rightIcon: 'eye'},
-        {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'eye'}
+        {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '手机号码', label: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
+        {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true},
       ],
       activePage: 1,
       datetimeType: 'date',

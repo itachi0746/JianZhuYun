@@ -2,7 +2,7 @@
   <div>
     <div v-if="item.isCode">
       <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField"
-                 :data-index="index" @click="clickInput(item, index)"
+                 :data-index="index" @click="clickInput(item, index)" :label="item.label"
                  :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder">
         <van-button class="active" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码
         </van-button>
@@ -11,7 +11,7 @@
     <div v-else>
       <div v-if="item.isIDCard">
         <div style="position: relative;width: 100%;">
-          <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
+          <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled" :label="item.label"
                      :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
                      :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
           <van-uploader class="theUploadClass" :after-read="onRead" v-show="true">

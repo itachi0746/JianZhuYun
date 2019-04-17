@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="van-hairline--bottom">
+    <header class="van-hairline--bottom" ref="search-header">
       <van-row>
         <van-col span="3">
           <div class="back" @click="clickBack">后退</div>
@@ -38,16 +38,30 @@ export default {
 
   methods: {
     onSearch () {
+      if (!this.value) {
+        console.log(`输入为空: ${this.value}`)
+        this.$toast.fail('搜索值不能为空')
+        return
+      }
+      this.value = this.value.trim()
       this.$emit('search', this.value)
     },
     clickBack () {
       this.$router.back()
+    },
+    handleHeight () {
+      setTimeout(() => {
+        const headerHeight = this.$refs['search-header'].offsetHeight
+        this.$emit('sendHeight', {'headerHeight': headerHeight})
+      }, 300)
     }
   },
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    this.handleHeight()
+  },
 
   beforeDestroy () {}
 }
