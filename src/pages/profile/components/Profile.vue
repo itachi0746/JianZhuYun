@@ -47,7 +47,7 @@
         </van-row>
       </div>
       <div class="item-list">
-        <van-cell v-for="(item, index) in items" :key="index" @click="clickItem(item.link)" :title="item.name" icon="" is-link>
+        <van-cell v-for="(item, index) in items" class="cell-padding" :key="index" @click="clickItem(item.link)" :title="item.name" icon="" is-link>
           <img class="cell-icon" :src="item.img" alt="">
         </van-cell>
       </div>
@@ -234,8 +234,11 @@ export default {
   .cell-icon {
     position: absolute;
     left: 13px;
-    top: 13px;
+    top: 19px;
     height: 0.4rem;
     min-width: 1em;
+  }
+  .cell-padding {
+    padding: 17px 15px;
   }
 </style>

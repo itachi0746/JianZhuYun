@@ -145,6 +145,21 @@ export default {
     return form
   },
   /**
+   * 把对象转为formdata
+   * @param dataObj
+   */
+  createFormData2: function (dataObj) {
+    let form = new FormData()
+    for (let key in dataObj) {
+      if (!dataObj[key]) {
+        console.log(`${key} 为空: ${dataObj[key]}`)
+        // return false
+      }
+      form.append(key, dataObj[key])
+    }
+    return form
+  },
+  /**
    * 格式化后台返回的日期字符串, 返回时间抽
    * @param dateStr
    */
@@ -235,11 +250,12 @@ export default {
    * 检查密码是否相同
    */
   checkPSW (theFieldArr) {
+    debugger
     let psw1, psw2
     for (let obj of theFieldArr) {
-      if (obj.fieldName === '密码1') {
+      if (obj.name === '密码1') {
         psw1 = obj.value
-      } else if (obj.fieldName === '密码2') {
+      } else if (obj.name === '密码2') {
         psw2 = obj.value
       }
     }
@@ -303,7 +319,7 @@ export default {
     for (let key in mapObj) {
       if (!dataObj[key]) { // 空则跳过
         console.log(`字段 ${key} 没有值: ${dataObj[key]}`)
-        continue
+        // continue
       }
       const obj = {
         key: mapObj[key],
@@ -313,5 +329,27 @@ export default {
     }
     return resultArr
   },
-
+  /**
+   * 计算字段数组中, 必填项是否已有值
+   * @param arr
+   */
+  computeRequired (arr) {
+    for (let obj of arr) {
+      if (!obj.required) {
+        continue
+      }
+      if (!obj.value) {
+        return true
+      }
+    }
+    return false
+  },
+  /**
+   * 检查字段 手机的值
+   * @param theValue
+   */
+  checkPhoneNum (theValue) {
+    let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/
+    return reg.test(theValue)
+  }
 }

@@ -1,16 +1,11 @@
 <template>
   <div class="register">
     <div>
-      <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
+      <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item" @changeValue="changeValue"
              @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend" @onRead="onRead"></Field>
 
       <div class="mt30">
-        <!--<van-button @click="clickSubmit" :class="['btnStyle', {'active': isActiveBtn}]" type="default" size="large"-->
-                    <!--:disabled="isDisable">确定-->
-        <!--</van-button>-->
-        <van-button @click="clickSubmit" :class="['btnStyle2']" type="info" size="large">
-          确定
-        </van-button>
+        <BigButton :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
       </div>
     </div>
   </div>
@@ -20,6 +15,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Field from '../../../component/Field.vue'
+import BigButton from '../../../component/BigButton.vue'
 
 export default {
   name: 'register',
@@ -32,15 +28,13 @@ export default {
       PassWord1: '',
       PassWord2: '',
       FileUrl: '', // 图片地址
-      isActiveBtn: false,
-      isDisable: false,
       theFieldArr: [
         {name: '身份证号码', code: '', value: '', placeHolder: '请输入您的身份证号码', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
         {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'Name', required: true, clearable: true},
+        {name: '密码1', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: true, rightIcon: 'eye'},
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
-        {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'number', popType: '', fieldName: 'Code', required: true, clearable: true, isCode: true},
-        {name: '密码', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: true, rightIcon: 'eye'},
-        {name: '密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: true, rightIcon: 'eye'},
+        {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'number', popType: '', fieldName: 'Code', required: true, clearable: true, isCode: true, isActiveBtn: false},
         {name: '文件地址', code: '', value: '', placeHolder: '', type: 'hidden', popType: '', fieldName: 'FileUrl', required: false, clearable: false}
       ]
     }
@@ -49,12 +43,14 @@ export default {
     console.log(myModule)
   },
   components: {
-    Field
+    Field,
+    BigButton
+  },
+  computed: {
   },
   methods: {
     clickSubmit () {
       if (!myModule.checkPSW(this.theFieldArr)) {
-        console.log('两次输入的密码不一致')
         this.$toast.fail('两次输入的密码不一致')
         return
       }
@@ -132,28 +128,14 @@ export default {
         message: '加载中...',
         duration: 0
       })
-      let mobile = null
+      let theValue
       for (let obj of this.theFieldArr) {
         if (obj.name === '手机号码') {
-          if (!obj.value) {
-            this.$toast.fail({
-              mask: false,
-              message: '输入不能为空',
-              forbidClick: true // 禁用背景点击
-            })
-            return
-          }
-          mobile = obj.value
-          break
+          theValue = obj.value
         }
       }
-      if (!mobile) {
-        console.log(`字段数据中没有设置手机号码 ${mobile}`)
-        return
-      }
-      let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/
-      if (!reg.test(mobile)) { // 正则验证
-        console.log(`手机号码不正确: ${mobile}`)
+      if (!myModule.checkPhoneNum(theValue)) { // 正则验证
+        console.log('手机号码不正确')
         this.$toast.fail({
           mask: false,
           message: '手机号码不正确',
@@ -163,10 +145,11 @@ export default {
         return
       }
       const data = {
-        Phone: mobile,
+        Phone: theValue,
         CodeType: 'Register'
       }
-      postData('/MesssageService/SendCode', data).then((res) => {
+      let form = myModule.createFormData2(data)
+      postData('/MesssageService/SendCode', form).then((res) => {
         console.log(res)
         this.$toast.success({
           message: '发送成功',
@@ -220,6 +203,17 @@ export default {
           this.showRadio = true
         }
       })
+    },
+    changeValue (item) {
+      let codeObj
+      for (let obj of this.theFieldArr) {
+        if (obj.name === '验证码') {
+          codeObj = obj
+        }
+      }
+      if (item.name === '手机号码') {
+        codeObj.isActiveBtn = myModule.checkPhoneNum(item.value)
+      }
     }
   }
 }

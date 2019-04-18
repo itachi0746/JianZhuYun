@@ -15,13 +15,14 @@
           <!--<li class="job-remarks-li">备注</li>-->
         <!--</ul>-->
       <!--</div>-->
-      <div class="job-tag" v-if="tagData.length">
-        <van-tag v-for="(item,index) in tagData" :key="index" color="#F1F1F1" text-color="#999999" size="medium">{{item}}</van-tag>
-      </div>
       <div class="job-HR">
         <div class="HR-head" v-show="false"></div>
         <div class="HR-name">{{jobData.ReferenceValues.RE13_ENT_ID}}</div>
       </div>
+      <div class="job-tag" v-if="tagData.length">
+        <van-tag v-for="(item,index) in tagData" :key="index" color="#F1F1F1" text-color="#999999" size="medium">{{item}}</van-tag>
+      </div>
+
     </div>
   </div>
 </template>
@@ -99,7 +100,7 @@ export default {
     margin-right: 5px;
   }
   .job-tag {
-    padding: 5px 0;
+    padding: 10px 0 0;
     color: #999;
     span {
       margin-right: 5px;
@@ -107,7 +108,7 @@ export default {
     }
   }
   .job-HR {
-    padding-top: 5px;
+    padding-top: 10px;
     color: #666;
     display: flex;
     align-items: center;

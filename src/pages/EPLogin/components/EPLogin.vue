@@ -11,8 +11,7 @@
       </van-cell>
     </div>
     <div>
-      <!--<van-button :class="['btnStyle', {'active': isActiveBtn}]" type="default" size="large" :disabled="isDisable">登录</van-button>-->
-      <van-button :class="['btnStyle2']" @click="clickLogin" type="info" size="large">登录</van-button>
+      <BigButton :theFieldArr="theFieldArr" :font="'登录'" @clickSubmit="clickLogin"></BigButton>
     </div>
   </div>
 </template>
@@ -21,6 +20,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Field from '../../../component/Field.vue'
+import BigButton from '../../../component/BigButton.vue'
 
 export default {
   data () {
@@ -62,14 +62,12 @@ export default {
           clearable: true,
           rightIcon: 'eye'
         }
-      ],
-      isDisable: true,
-      isActiveBtn: false,
-      pswInputType: 'password'
+      ]
     }
   },
   components: {
-    Field
+    Field,
+    BigButton
   },
   mounted () {
     console.log(myModule)

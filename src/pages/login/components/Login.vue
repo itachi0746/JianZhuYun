@@ -12,8 +12,8 @@
       </van-cell>
     </div>
     <div>
-      <!--<van-button :class="['btnStyle', {'active': isActiveBtn}]" type="default" size="large" :disabled="isDisable">登录</van-button>-->
-      <van-button :class="['btnStyle2']" @click="clickLogin" type="info" size="large">登录</van-button>
+      <!--<van-button :class="['btnStyle2']" @click="clickLogin" type="info" size="large">登录</van-button>-->
+      <BigButton :theFieldArr="theFieldArr" :font="'登录'" @clickSubmit="clickLogin"></BigButton>
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Field from '../../../component/Field.vue'
+import BigButton from '../../../component/BigButton.vue'
 
 export default {
   name: 'login',
@@ -29,8 +30,6 @@ export default {
     return {
       Mobile: '',
       Password: '',
-      isDisable: true,
-      isActiveBtn: false,
       pswInputType: 'password',
       theFieldArr: [
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
@@ -42,7 +41,8 @@ export default {
     console.log(myModule)
   },
   components: {
-    Field
+    Field,
+    BigButton
   },
   methods: {
     clickRegister () {

@@ -3,7 +3,9 @@
     <div>
       <div v-if="theFieldArr.length">
         <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
-               @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"></Field>
+               @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"
+               @changeValue="changeValue"
+        ></Field>
       </div>
       <!--日期选择-->
       <PopDate v-if="showPicker"
@@ -17,12 +19,10 @@
       <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
 
       <div class="mt30">
-        <!--<van-button @click="clickSubmit" :class="['btnStyle', {'active': isActiveBtn}]" type="default" size="large"-->
-                    <!--:disabled="isDisable">确定-->
+        <!--<van-button @click="clickSubmit" :class="['btnStyle2']" type="info" size="large">-->
+          <!--确定-->
         <!--</van-button>-->
-        <van-button @click="clickSubmit" :class="['btnStyle2']" type="info" size="large">
-          确定
-        </van-button>
+        <BigButton :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
       </div>
     </div>
   </div>
@@ -34,13 +34,12 @@ import { postData } from '../../../common/server'
 import PopDate from '../../../component/PopDate.vue'
 import PopRadio from '../../../component/PopRadio.vue'
 import Field from '../../../component/Field.vue'
+import BigButton from '../../../component/BigButton.vue'
 
 export default {
   name: 'register',
   data () {
     return {
-      isActiveBtn: false,
-      isDisable: false,
       theFieldArr: [
         {name: '公司名称', label: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'SSA7_COMPANY', required: true, clearable: true},
         {name: '所属行业', label: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
@@ -52,7 +51,7 @@ export default {
         {name: '密码1', label: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true, rightIcon: 'eye'},
         {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'eye'},
         {name: '手机号码', label: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
-        {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true},
+        {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true, isActiveBtn: false}
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -73,7 +72,10 @@ export default {
   components: {
     PopDate,
     PopRadio,
-    Field
+    Field,
+    BigButton
+  },
+  watch: {
   },
   methods: {
     clickRightIcon (item) {
@@ -113,32 +115,6 @@ export default {
         }, 2000)
       })
     },
-    /**
-     * 检查密码是否相同
-     */
-//    checkPSW () {
-//      let psw1, psw2
-//      for (let obj of this.theFieldArr) {
-//        if (obj.fieldName === '密码1') {
-//          psw1 = obj.value
-//        } else if (obj.fieldName === '密码2') {
-//          psw2 = obj.value
-//        }
-//      }
-//      return psw1 === psw2
-//    },
-//    checkRequired () {
-//      for (let obj of this.theFieldArr) {
-//        if (!obj.required) {
-//          continue
-//        }
-//        if (!obj.value) {
-//          console.log('必填值不能为空', obj.fieldName)
-//          return false
-//        }
-//      }
-//      return true
-//    },
     onRead (file) {
       this.$toast.loading({
 //        mask: true,
@@ -181,28 +157,14 @@ export default {
         message: '加载中...',
         duration: 0
       })
-      let mobile = null
+      let theValue
       for (let obj of this.theFieldArr) {
         if (obj.name === '手机号码') {
-          if (!obj.value) {
-            this.$toast.fail({
-              mask: false,
-              message: '输入不能为空',
-              forbidClick: true // 禁用背景点击
-            })
-            return
-          }
-          mobile = obj.value
-          break
+          theValue = obj.value
         }
       }
-      if (!mobile) {
-        console.log(`手机号码错误 ${mobile}`)
-        return
-      }
-      let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/
-      if (!reg.test(mobile)) { // 正则验证
-        console.log(`手机号码不正确: ${mobile}`)
+      if (!myModule.checkPhoneNum(theValue)) { // 正则验证
+        console.log('手机号码不正确')
         this.$toast.fail({
           mask: false,
           message: '手机号码不正确',
@@ -212,10 +174,11 @@ export default {
         return
       }
       const data = {
-        Phone: mobile,
+        Phone: theValue,
         CodeType: 'Register'
       }
-      postData('/MesssageService/SendCode', data).then((res) => {
+      let form = myModule.createFormData2(data)
+      postData('/MesssageService/SendCode', form).then((res) => {
         console.log(res)
         this.$toast.success({
           message: '发送成功',
@@ -281,6 +244,17 @@ export default {
           this.showRadio = true
         }
       })
+    },
+    changeValue (item) {
+      let codeObj
+      for (let obj of this.theFieldArr) {
+        if (obj.name === '验证码') {
+          codeObj = obj
+        }
+      }
+      if (item.name === '手机号码') {
+        codeObj.isActiveBtn = myModule.checkPhoneNum(item.value)
+      }
     },
     /**
      * 监听弹窗关闭

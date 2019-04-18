@@ -63,7 +63,8 @@ export default {
   data () {
     return {
       headerName: '人才详情',
-      resData: null
+      resData: null,
+      workExperienceData: null
     }
   },
 

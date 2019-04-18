@@ -1,6 +1,6 @@
 <template>
   <div ref="common-footer">
-    <van-tabbar v-model="active" v-if="theFooterItems">
+    <van-tabbar v-model="active" v-if="theFooterItems" active-color="#00A7DD">
       <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link)">
         <span>{{ item.name }}</span>
         <img

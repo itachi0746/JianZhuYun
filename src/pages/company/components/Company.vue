@@ -206,7 +206,7 @@ export default {
       padding: 15px 18px;
       /*display: flex;*/
       background-color: #fff;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       @include font-size(16px);
     }
     .li-line {
@@ -230,7 +230,7 @@ export default {
       justify-content: center;
     }
     .c-name {
-      @include font-size(18px);
+      @include font-size(16px);
       font-weight: bold;
       color: #000;
       max-width: 100%;

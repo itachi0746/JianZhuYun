@@ -100,7 +100,8 @@ export default {
         PageIndex: this.PageIndex,
         CT_KEY_WORDS: this.value
       }
-      postData('/ReService/SearchPosition', data).then((res) => {
+      let form = myModule.createFormData2(data)
+      postData('/ReService/SearchPosition', form).then((res) => {
         console.log(res)
         if (myModule.isEmpty(res.ReturnData)) {
           console.log('暂无数据')
