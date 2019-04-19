@@ -113,7 +113,8 @@ export default {
 
   .man-head {
     min-width: 53px;
-    /*height: 46px;*/
+    width: 53px;
+    height: 53px;
     /*border-radius: 50%;*/
     /*background-color: #969799;*/
     margin-right: 10px;

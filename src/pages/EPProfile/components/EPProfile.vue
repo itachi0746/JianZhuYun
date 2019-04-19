@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight"></Header>
+    <Header @sendHeight="handleHeight" :config="true"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
         <ProfileItem
@@ -13,7 +13,7 @@
           <van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>
           </van-cell>
         </div>
-        <Logout :enterprise="true"></Logout>
+        <!--<Logout :enterprise="true"></Logout>-->
       </div>
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
@@ -63,7 +63,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-          forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
         })
         return
       }

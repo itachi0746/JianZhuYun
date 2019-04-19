@@ -7,6 +7,7 @@
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
           <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
+          <van-col span="8" class="tac" @click.native="clickReset">忘记密码</van-col>
           <van-col span="8" class="tac" @click.native="clickSwitch">企业登录</van-col>
         </van-row>
       </van-cell>
@@ -33,7 +34,7 @@ export default {
       pswInputType: 'password',
       theFieldArr: [
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
-        {name: '密码', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password', required: true, clearable: true, rightIcon: 'eye'}
+        {name: '密码', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password', required: true, clearable: true, rightIcon: 'theEye'}
       ]
     }
   },
@@ -47,6 +48,9 @@ export default {
   methods: {
     clickRegister () {
       GoToPage('', 'register.html', {})
+    },
+    clickReset () {
+      GoToPage('', 'reset.html', {isEnt: false})
     },
     clickSwitch () {
       GoToPage('', 'EPLogin.html', {})

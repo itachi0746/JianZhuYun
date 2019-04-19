@@ -105,6 +105,7 @@ export default {
         console.log(res)
         this.$toast.success('提交成功')
         this.resData.RE34_STATUS = res.ReturnData.RE34_STATUS
+        this.resData.ReferenceValues.RE34_STATUS = res.ReturnData.ReferenceValues.RE34_STATUS
         this.resData.RE34_CHG_TIME = myModule.handleTime(res.ReturnData.RE34_CHG_TIME)
       })
     },
@@ -124,6 +125,7 @@ export default {
         console.log(res)
         this.$toast.success('提交成功')
         this.resData.RE34_STATUS = res.ReturnData.RE34_STATUS
+        this.resData.ReferenceValues.RE34_STATUS = res.ReturnData.ReferenceValues.RE34_STATUS
         this.resData.RE34_CHG_TIME = myModule.handleTime(res.ReturnData.RE34_CHG_TIME)
       })
     },

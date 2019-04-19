@@ -92,8 +92,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-
-          forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -187,7 +186,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .body {
-    background-color: #F5F9FA;
+    background-color: #ffffff;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
     padding: 0 10px;

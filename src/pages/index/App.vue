@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>
-
+  .van-icon.van-icon-search {
+    font-size: 20px;
+  }
 </style>

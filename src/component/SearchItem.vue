@@ -2,10 +2,13 @@
   <div>
     <header class="van-hairline--bottom" ref="search-header">
       <van-row>
-        <van-col span="3">
-          <div class="back" @click="clickBack">后退</div>
+        <van-col span="5">
+          <!--<div class="back" @click="clickBack">后退</div>-->
+          <div class="back" @click="clickBack">
+            <van-icon name="arrow-left" :size="'28px'" />
+          </div>
         </van-col>
-        <van-col span="21">
+        <van-col span="19">
           <div>
             <van-search
               v-model="value"
@@ -75,7 +78,8 @@ export default {
   height: 54px;
   @include borderBox();
   @include defaultFlex;
-  /*padding: 0.3rem 0;*/
+  justify-content: flex-start;
+  padding-left: 10px;
 }
 .van-search {
   padding-left: 0;
@@ -86,4 +90,5 @@ export default {
 .van-search__action {
   color: #ffffff;
 }
+
 </style>

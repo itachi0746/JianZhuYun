@@ -25,31 +25,7 @@
         <div class="company-list" v-if="resData">
           <ul>
             <li class="company-list-li" v-for="(item, index) in resData" :key="index" @click="clickCompany(item.HRA0_ENTERPRISE_ID)">
-              <div class="li-line">
-                <div class="c-head" v-if="item.HRA0_LOGO_URL">
-                  <img :src="item.HRA0_LOGO_URL" alt="">
-                </div>
-                <div class="c-head" v-else>
-                  <img src="../../../component/assets/default_head_ep.png" alt="">
-                </div>
-                <div class="c-data">
-                  <div class="c-name">{{item.HRA0_ENT_NAME}}</div>
-                  <ul class="c-remarks">
-                    <li class="c-remarks-li">{{item.HRA0_ENT_ADDR_L1}}</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="van-hairline--bottom" v-show="false">
-                <ul class="c-tag">
-                  <li>
-                    <van-tag color="#F1F1F1" text-color="#999999" size="medium">{{item.HRA0_ENT_NAME}}</van-tag>
-                  </li>
-                </ul>
-              </div>
-              <div class="c-msg" v-show="false">
-                <div>热招：设计师等2886个职位</div>
-                <van-icon name="arrow" />
-              </div>
+              <CompanyItem :item="item"></CompanyItem>
             </li>
           </ul>
         </div>
@@ -65,6 +41,7 @@ import myModule from '../../../common'
 import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
+import CompanyItem from '../../../component/companyItem.vue'
 
 export default {
   name: 'profile',
@@ -89,7 +66,8 @@ export default {
   },
   components: {
     Footer,
-    Header
+    Header,
+    CompanyItem
   },
   mounted () {
     console.log(myModule)
@@ -154,7 +132,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-            forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
           })
           return
         }
@@ -218,10 +196,10 @@ export default {
       border-radius: 5px;
       /*background-color: #999999;*/
       margin-right: 10px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
+    }
+    .c-head-box {
+      width: 46px;
+      height: 46px;
     }
     .c-data {
       flex: 1;
@@ -232,7 +210,7 @@ export default {
     .c-name {
       @include font-size(16px);
       font-weight: bold;
-      color: #000;
+      color: #333;
       max-width: 100%;
       word-break: break-all; /* 允许单词在任何地方被打破（这里所说的打破是强行折断换行） */
     }

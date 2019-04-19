@@ -6,6 +6,7 @@
       <van-cell>
         <van-row type="flex" justify="space-between" class="mb30">
           <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
+          <van-col span="8" class="tac" @click.native="clickReset">忘记密码</van-col>
           <van-col span="8" class="tac" @click.native="clickSwitch">个人登录</van-col>
         </van-row>
       </van-cell>
@@ -60,7 +61,7 @@ export default {
           fieldName: 'Password',
           required: true,
           clearable: true,
-          rightIcon: 'eye'
+          rightIcon: 'theEye'
         }
       ]
     }
@@ -78,6 +79,9 @@ export default {
     },
     clickSwitch () {
       GoToPage('', 'login.html', {})
+    },
+    clickReset () {
+      GoToPage('', 'reset.html', {isEnt: true})
     },
     clickRightIcon (item) {
       if (item.rightIcon === 'eye') {

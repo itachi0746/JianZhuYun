@@ -55,8 +55,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-
-          forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -107,6 +106,7 @@ export default {
   .myOffer-head {
     margin-right: 16px;
     min-width: 51px;
+    width: 51px;
     height: 51px;
     border-radius: 5px;
     /*background-color: #999;*/

@@ -44,12 +44,6 @@ export default {
     }
   },
   watch: {
-//    jobData () {
-//      let ReferenceValues = this.jobData.ReferenceValues
-//      this.tagData = []
-//      this.tagData.push(ReferenceValues.RE13_WORK_PLACE)
-//      this.tagData.push(ReferenceValues.RE13_WORK_YEAR)
-//    }
   },
   computed: {
     tagData () {

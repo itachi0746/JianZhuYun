@@ -7,7 +7,7 @@
           <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickInterview(item.RE37_INTERVIEW_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
               <div class="myOffer-head">
-                <EpHead></EpHead>
+                <EpHead :theUrl="item.RE37_PIC_URL"></EpHead>
               </div>
               <div class="myOffer-data">
                 <div>{{item.RE37_SEND_ENT_NAME}}</div>
@@ -55,8 +55,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-
-          forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -209,6 +208,7 @@ export default {
   .myOffer-head {
     margin-right: 16px;
     min-width: 47px;
+    width: 47px;
     height: 47px;
     border-radius: 5px;
     /*background-color: #999;*/

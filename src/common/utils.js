@@ -250,7 +250,7 @@ export default {
    * 检查密码是否相同
    */
   checkPSW (theFieldArr) {
-    debugger
+    // debugger
     let psw1, psw2
     for (let obj of theFieldArr) {
       if (obj.name === '密码1') {

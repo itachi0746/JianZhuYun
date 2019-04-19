@@ -4,7 +4,11 @@
       <div class="header-name">
         <van-icon v-show="back" class="header-icon2" name="arrow-left" @click="clickBack" />
         {{headerName}}
-        <van-icon v-show="search" class="header-icon" name="search" @click="clickSearch" />
+        <!--<van-icon v-if="search" class="header-icon" name="search" @click="clickSearch" />-->
+        <div class="icon-box">
+          <img v-if="search" src="./assets/search.png" alt="" @click="clickSearch">
+          <img v-if="config" src="./assets/config.png" alt="" @click="clickConfig">
+        </div>
       </div>
     </div>
   </div>
@@ -13,7 +17,9 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      imgUrl: ''
+    }
   },
 
   components: {},
@@ -30,6 +36,10 @@ export default {
     search: {
       type: Boolean,
       default: false
+    },
+    config: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -43,7 +53,10 @@ export default {
       }, 300)
     },
     clickSearch () {
-      this.$router.push({name: 'Search', params: { }})
+      this.$router.push({name: 'Search', params: {}})
+    },
+    clickConfig () {
+      this.$router.push({name: 'Config', params: {}})
     },
     clickBack () {
       console.log('back')
@@ -84,5 +97,16 @@ export default {
     left: 0;
     top: 0;
     @include font-size(20px)
+  }
+  .icon-box {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

@@ -15,7 +15,8 @@
               <div class="manItem">
                 <div class="man-box">
                   <div class="man-head">
-                    <img src="../../../component/assets/default_head_pr.png" alt="">
+                    <!--<img src="../../../component/assets/default_head_pr.png" alt="">-->
+                    <UserHead :theUrl="item.RE34_PIC_URL"></UserHead>
                   </div>
                   <div class="man-data">
                     <div class="man-name">
@@ -50,6 +51,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
+import UserHead from '../../../component/UserHead.vue'
 
 export default {
   name: 'profile',
@@ -69,7 +71,8 @@ export default {
   },
   components: {
     Footer,
-    Header
+    Header,
+    UserHead
   },
   mounted () {
     console.log(myModule)
@@ -129,7 +132,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-            forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
           })
           return
         }
@@ -202,6 +205,7 @@ export default {
 
   .man-head {
     min-width: 46px;
+    width: 46px;
     /*height: 46px;*/
     border-radius: 50%;
     /*background-color: #969799;*/

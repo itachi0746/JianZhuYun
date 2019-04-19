@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'van-hairline--bottom': item.type !== 'hidden'}">
+  <div :class="{'van-hairline--bottom': item.type !== 'hidden'}" v-show="item.type !== 'hidden'">
     <div v-if="item.isCode">
       <!--发送验证码-->
       <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField"
@@ -26,10 +26,15 @@
       </div>
       <div v-else>
         <!--默认输入框-->
-        <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
-                   :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
-                   :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>
-
+        <div style="position: relative;width: 100%;">
+          <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
+                     :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
+                     :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>
+          <div class="img-box" @click="clickEye(item)" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">
+            <img src="./assets/eye.png" alt="" v-if="item.rightIcon==='theEye'">
+            <img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='noEye'">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,6 +71,11 @@ export default {
       this.$emit('clickInput', {item: item, index: index})
     },
     changeValue (item) {
+      if (item.name === '手机号码') {
+        if (item.value && item.value.length > 11) {
+          item.value = item.value.substr(0, 11)
+        }
+      }
       this.$emit('changeValue', item)
     },
     clickSend () {
@@ -77,6 +87,15 @@ export default {
     clickBox () {
       let upIcon = document.getElementsByClassName('van-uploader__input')[0]
       upIcon.click()
+    },
+    clickEye (item) {
+      if (item.rightIcon === 'theEye') {
+        item.rightIcon = 'noEye'
+        item.type = 'text'
+      } else {
+        item.rightIcon = 'theEye'
+        item.type = 'password'
+      }
     }
   },
 
@@ -109,8 +128,8 @@ export default {
     width: 18px;
     height: 18px;
     position: absolute;
-    right: 20px;
-    top: -19px;
+    right: 12px;
+    top: -21px;
     img {
       width: 100%;
       height: 100%;
@@ -125,4 +144,5 @@ export default {
   .btnStyle2 {
     @include theBtnColor;
   }
+
 </style>

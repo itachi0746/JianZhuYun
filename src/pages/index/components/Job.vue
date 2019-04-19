@@ -131,7 +131,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-            forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
           })
           return
         }
@@ -197,7 +197,7 @@ export default {
       @include font-size(16px)
     }
     .job-name {
-      color: #000;
+      color: #333;
       font-weight: bold;
     }
     .job-pay {

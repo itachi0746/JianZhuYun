@@ -87,6 +87,7 @@ export default {
   .msg-head {
     margin-right: 16px;
     min-width: 47px;
+    width: 47px;
     height: 47px;
     border-radius: 50%;
     background-color: #999;

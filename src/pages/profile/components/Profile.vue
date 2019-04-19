@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight"></Header>
-    <div class="body" ref="body" v-if="resData">
+    <Header @sendHeight="handleHeight" :config="true"></Header>
+    <div class="body" ref="body">
       <div v-if="resData">
         <ProfileItem
           :enterprise="false"
@@ -51,7 +51,7 @@
           <img class="cell-icon" :src="item.img" alt="">
         </van-cell>
       </div>
-      <Logout :enterprise="false"></Logout>
+      <!--<Logout :enterprise="false"></Logout>-->
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
   </div>
@@ -101,8 +101,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-
-          forbidClick: true // 禁用背景点击
+            forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -207,6 +206,7 @@ export default {
     background-color: #fff;
   }
   .tab-cell {
+    @include borderBox();
     height: 58px;
     display: flex;
     flex-direction: column;

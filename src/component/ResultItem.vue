@@ -56,6 +56,7 @@ export default {
   .result {
     @include font-size(16px);
     color: #666;
+    margin-top: 20px;
   }
 
   .result-logo {
