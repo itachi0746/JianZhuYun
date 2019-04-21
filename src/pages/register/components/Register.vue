@@ -108,7 +108,7 @@ export default {
         this.$toast.success({
 //          mask: true,
           message: '上传成功',
-          duration: 2000
+          duration: 1000
         })
         for (let obj of this.theFieldArr) {
           if (obj.fieldName === 'IdCard') {

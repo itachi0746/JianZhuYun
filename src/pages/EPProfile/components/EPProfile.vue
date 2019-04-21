@@ -7,13 +7,13 @@
           :enterprise="true"
           :theName="resData.HRA0_ENT_NAME"
           theMemo=""
-          :theUrl="resData.HRA0_PIC_URL"
+          :theUrl="resData.HRA0_LOGO_URL"
+          :theId="resData.HRA0_ENTERPRISE_ID"
         ></ProfileItem>
         <div class="item-list">
           <van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>
           </van-cell>
         </div>
-        <!--<Logout :enterprise="true"></Logout>-->
       </div>
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>

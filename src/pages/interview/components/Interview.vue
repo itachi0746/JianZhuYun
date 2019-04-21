@@ -7,7 +7,7 @@
           <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickInterview(item.RE37_INTERVIEW_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
               <div class="myOffer-head">
-                <EpHead :theUrl="item.RE37_PIC_URL"></EpHead>
+                <EpHead :theUrl="item.RE37_LOGO_URL" :theId="item.RE37_ENT_ID"></EpHead>
               </div>
               <div class="myOffer-data">
                 <div>{{item.RE37_SEND_ENT_NAME}}</div>

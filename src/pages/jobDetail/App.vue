@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>
-
+  .van-field--min-height .van-field__control {
+    min-height: 2.2rem;
+  }
 </style>

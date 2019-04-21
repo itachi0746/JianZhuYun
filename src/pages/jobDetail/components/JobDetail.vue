@@ -92,7 +92,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -139,29 +139,34 @@ export default {
      * 投点击简历
      */
     clickSend () {
-//      this.showDialog = true
-      this.$toast.loading({
-        forbidClick: true, // 禁用背景点击
-        message: '加载中...',
-        duration: 0
-      })
-      const data = {
-        id: this.id,
-        note: this.recommendation
-      }
-      postData('/ReService/SendResume', data).then((res) => {
-        console.log(res)
-        this.$toast.success('投递成功')
-        setTimeout(() => {
-          GoToPage('', 'index.html', {})
-        }, 3000)
-      }).catch((err) => {
-        console.log(err)
-        this.$toast.fail('操作失败')
-      })
+      this.showDialog = true
+//      this.$toast.loading({
+//        forbidClick: true, // 禁用背景点击
+//        message: '加载中...',
+//        duration: 0
+//      })
+//      const data = {
+//        id: this.id,
+//        note: this.recommendation
+//      }
+//      postData('/ReService/SendResume', data).then((res) => {
+//        console.log(res)
+//        this.$toast.success('投递成功')
+//        setTimeout(() => {
+//          GoToPage('', 'index.html', {})
+//        }, 3000)
+//      }).catch((err) => {
+//        console.log(err)
+//        this.$toast.fail('操作失败')
+//      })
     },
     beforeClose (action, done) {
       if (action === 'confirm') {
+        this.$toast.loading({
+          forbidClick: true, // 禁用背景点击
+          message: '加载中...',
+          duration: 0
+        })
         const data = {
           id: this.id,
           note: this.recommendation
@@ -169,14 +174,20 @@ export default {
         postData('/ReService/SendResume', data).then((res) => {
           console.log(res)
           this.$toast.success('投递成功')
-        }).catch((err) => {
-          console.log(err)
-          this.$toast.fail('操作失败')
+          setTimeout(() => {
+            GoToPage('', 'index.html', {})
+          }, 1000)
         }).then(() => {
           done()
+          this.showDialog = false
+        }).catch((err) => {
+          console.log(err)
+          done()
+          this.showDialog = false
         })
       } else {
         done()
+        this.showDialog = false
       }
     }
   }

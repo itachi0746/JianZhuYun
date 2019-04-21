@@ -7,6 +7,7 @@
                   title-class="t-class" value-class="v-class" @click="clickCell(item, index)">
           <template slot="title">
             <span class="custom-text">{{item.name}}</span>
+            <div class="theStar" v-if="item.required">*</div>
           </template>
         </van-cell>
       </van-cell-group>
@@ -47,15 +48,15 @@ export default {
       theRadioData: null, // 单选弹窗的数据
       resData: null,
       fieldData: [
-        {name: '记录ID', popType: '', value: '', code: '', fieldName: 'RE13_ID', show: false},
-        {name: '职位名称', popType: 'field', value: '请填写', code: '', fieldName: 'RE13_NAME', show: true},
-        {name: '职位类型', popType: 'radio', value: '请选择', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true},
-        {name: '工作地点', popType: 'radio', value: '请选择', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true},
-        {name: '工作性质', popType: 'radio', value: '请选择', code: 'UDRE003', fieldName: 'RE13_WORK_PROP', show: true},
-        {name: '职位描述', popType: 'field', value: '请填写', code: '', fieldName: 'RE13_DESC', show: true},
-        {name: '经验要求', popType: 'radio', value: '请选择', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true},
-        {name: '薪资范围', popType: 'radio', value: '请选择', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true},
-        {name: '最低学历', popType: 'radio', value: '请选择', code: 'UDHR021', fieldName: 'RE13_EDU_DEGREE', show: true}
+        {name: '记录ID', popType: '', value: '', code: '', fieldName: 'RE13_ID', show: false, required: false},
+        {name: '职位名称', popType: 'field', value: '', code: '', fieldName: 'RE13_NAME', show: true, required: true},
+        {name: '职位类型', popType: 'radio', value: '', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true, required: false},
+        {name: '工作地点', popType: 'radio', value: '', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true, required: true},
+        {name: '工作性质', popType: 'radio', value: '', code: 'UDRE003', fieldName: 'RE13_WORK_PROP', show: true, required: false},
+        {name: '职位描述', popType: 'field', value: '', code: '', fieldName: 'RE13_DESC', show: true, required: true},
+        {name: '经验要求', popType: 'radio', value: '', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true, required: true},
+        {name: '薪资范围', popType: 'radio', value: '', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true, required: true},
+        {name: '最低学历', popType: 'radio', value: '', code: 'UDHR021', fieldName: 'RE13_EDU_DEGREE', show: true, required: true}
       ]
     }
   },
@@ -100,7 +101,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-            duration: 2000,
+            duration: 1000,
             forbidClick: true // 禁用背景点击
           })
           return
@@ -122,26 +123,17 @@ export default {
      * 发布职位
      */
     clickFabu () {
+      if (!myModule.checkRequired(this.fieldData)) {
+        this.$toast.fail('必填项不能为空')
+        return
+      }
       this.$toast.loading({
         mask: false,
         message: '加载中...',
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      let data = new FormData()
-      for (let obj of this.fieldData) {
-        if (obj.name === '职位名称') {
-          if (!obj.value) {
-            this.$toast.fail('职位名称不能为空')
-            return
-          }
-        }
-//        if (!obj.value) {
-//          this.$toast.fail('输入不能为空')
-//          return
-//        }
-        data.append(obj.fieldName, obj.value)
-      }
+      let data = myModule.createFormData(this.fieldData)
       postData('/EntService/Publish', data).then((res) => {
         console.log(res)
         this.$toast.success('发布成功')
@@ -222,6 +214,7 @@ export default {
   .t-class {
     @include font-size(16px);
     color: #333333;
+    position: relative;
   }
 
   .v-class {
@@ -236,6 +229,13 @@ export default {
 
   .p-class {
     padding: 15px;
+    position: relative;
+  }
+  .theStar {
+    position: absolute;
+    left: -8px;
+    top: 3px;
+    color: red;
   }
   .van-cell__right-icon {
     color: $mainColor;

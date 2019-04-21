@@ -25,7 +25,7 @@
         <div class="company-list" v-if="resData">
           <ul>
             <li class="company-list-li" v-for="(item, index) in resData" :key="index" @click="clickCompany(item.HRA0_ENTERPRISE_ID)">
-              <CompanyItem :item="item"></CompanyItem>
+              <CompanyItem :companyData="item"></CompanyItem>
             </li>
           </ul>
         </div>

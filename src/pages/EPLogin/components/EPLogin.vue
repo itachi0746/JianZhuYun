@@ -43,7 +43,7 @@ export default {
           name: '用户名',
           code: '',
           value: '',
-          placeHolder: '请输入您的用户名',
+          placeHolder: '请输入您的用户名(默认为手机号)',
           type: 'text',
           popType: '',
           fieldName: 'Mobile',

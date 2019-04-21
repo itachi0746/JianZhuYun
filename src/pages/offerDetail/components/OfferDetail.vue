@@ -8,7 +8,7 @@
           <div>{{resData.RE32_CRT_TIME}}</div>
         </div>
         <div class="main">
-          {{resData.RE32_CANDIDATE_MEMO}}
+          {{resData.RE32_OFFER_CONTENT}}
         </div>
         <div class="btn-box" v-if="resData.RE32_STATUS!=='BD0904' && resData.RE32_STATUS!=='BD0909'">
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
@@ -19,20 +19,6 @@
           :status="resData.ReferenceValues.RE32_STATUS"
           :theTime="resData.RE32_CRT_TIME"
         ></ResultItem>
-        <!--<div class="result" v-if="resData.RE32_STATUS==='BD0904'">-->
-          <!--<div class="result-logo">-->
-            <!--<img src="../assets/accept.png" alt="">-->
-          <!--</div>-->
-          <!--<div class="result-msg">入职邀请已接受</div>-->
-          <!--<div class="result-data">{{resData.RE32_CRT_TIME}}</div>-->
-        <!--</div>-->
-        <!--<div class="result" v-if="resData.RE32_STATUS==='BD0909'">-->
-          <!--<div class="result-logo">-->
-            <!--<img src="../assets/refuse.png" alt="">-->
-          <!--</div>-->
-          <!--<div class="result-msg">入职邀请拒绝</div>-->
-          <!--<div class="result-data">{{resData.RE32_CRT_TIME}}</div>-->
-        <!--</div>-->
       </div>
 
     </div>

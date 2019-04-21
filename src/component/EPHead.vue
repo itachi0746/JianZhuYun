@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="data-head" v-if="theUrl">
-      <img :src="theUrl" alt="">
+      <img :src="url" alt="">
     </div>
     <div class="data-head" v-else>
       <img src="./assets/default_head_ep.png" alt="">
@@ -13,23 +13,39 @@
 export default {
   data () {
     return {
+      baseUrl: '/EntService/Logo?id=',
+      url: ''
     }
   },
   props: {
     theUrl: {
-      type: String,
+      type: [String, Number],
+      default: ''
+    },
+    theId: {
+      type: [String, Number],
       default: ''
     }
   },
   components: {},
 
-  computed: {},
+  computed: {
+//    url () { // 最终地址
+//      return this.baseUrl + this.theUrl
+//    }
+  },
 
   methods: {},
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    if (this.theUrl) {
+      this.url = this.theUrl
+    } else {
+      this.url = this.baseUrl + this.theId
+    }
+  },
 
   beforeDestroy () {}
 }

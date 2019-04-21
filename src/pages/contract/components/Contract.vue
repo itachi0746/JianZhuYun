@@ -7,7 +7,7 @@
           <li class="myOffer-li" v-for="(item, index) in resData" :key="index" @click="clickContact(item.RE33_SIGN_ID)">
             <div class="myOffer-li-box van-hairline--bottom">
               <div class="myOffer-head">
-                <EPHead :theUrl="item.RE33_PIC_URL"></EPHead>
+                <EPHead :theUrl="item.RE33_ENT_ID" :theId="item.RE33_LOGO_URL"></EPHead>
               </div>
               <div class="myOffer-data">
                 <div>{{item.RE33_CO_NAME}}</div>
@@ -55,7 +55,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }

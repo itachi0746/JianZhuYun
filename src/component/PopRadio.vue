@@ -2,6 +2,7 @@
   <div>
     <!--单选弹窗-->
     <van-popup class="van-popup60" v-model="showRadio" @click-overlay="clickOverlayCB">
+      <div v-if="title" class="title">{{title}}</div>
       <div class="radio-box">
         <van-radio-group v-model="radio">
           <van-cell-group v-if="theRadioData">
@@ -30,6 +31,10 @@ export default {
       default: function () {
         return []
       }
+    },
+    title: {
+      type: String,
+      default: null
     }
   },
   watch: {
@@ -68,5 +73,11 @@ export default {
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
     /*font-size: 0.32rem;*/
     overflow-x: hidden;
+  }
+  .title {
+    @include font-size(18px);
+    color: #000000;
+    text-align: center;
+    padding: 10px 0;
   }
 </style>

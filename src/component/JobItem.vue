@@ -33,7 +33,9 @@ export default {
     return {
       dataArr: [
         {name: '工作经验', fieldName: 'RE13_WORK_YEAR'},
-        {name: '工作地点', fieldName: 'RE13_WORK_PLACE'}
+        {name: '工作地点', fieldName: 'RE13_WORK_PLACE'},
+        {name: '薪资范围', fieldName: 'RE13_SALARY_REQUIRED'},
+        {name: '最低学历', fieldName: 'RE13_EDU_DEGREE'}
       ]
     }
   },

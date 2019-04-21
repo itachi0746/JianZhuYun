@@ -3,38 +3,21 @@
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <div class="job-header van-hairline--bottom">
+        <div class="job-header">
           <van-row type="flex" align="center">
             <van-col span="16">
               <div class="job-name">{{resData.RE37_SEND_ENT_NAME}}</div>
             </van-col>
             <van-col span="8">
-              <div class="job-pay">{{resData.ReferenceValues.RE37_STATUS}}</div>
+              <!--<div class="job-pay">{{resData.ReferenceValues.RE37_STATUS}}</div>-->
             </van-col>
           </van-row>
-        </div>
-        <div class="job-desc">
-          <div class="job-desc-title">详情</div>
-          <div class="job-desc-main">
-            <div class="desc-item">
-              <div class="desc-name">
-                发送时间
-              </div>
-              <div class="desc-value">
-                {{resData.RE37_SEND_TIME}}
-              </div>
-            </div>
+          <div class="send-time">
+            发送时间: {{resData.RE37_SEND_TIME}}
           </div>
-          <!--<div class="job-desc-main">-->
-            <!--<div v-for="(item,index) in detailData" :key="index" class="desc-item">-->
-              <!--<div class="desc-name">-->
-                <!--{{item.key}}-->
-              <!--</div>-->
-              <!--<div class="desc-value">-->
-                <!--{{item.value}}-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
+        </div>
+        <div class="main">
+          {{resData.RE37_OFFER_CONTENT}}
         </div>
         <div class="btn-box" v-if="resData.RE37_STATUS!=='BD0904' && resData.RE37_STATUS!=='BD0909'">
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
@@ -94,14 +77,12 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
       this.resData = res.ReturnData
       this.resData = myModule.formatObj(this.resData)
-//      this.resData.RE37_SEND_TIME = myModule.handleTime(this.resData.RE37_SEND_TIME)
-//      this.handleDetail(res.ReturnData.ReferenceValues)
     })
   },
   methods: {
@@ -184,7 +165,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .body {
-    background-color: #F5F9FA;
+    background-color: #fff;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
     padding: 0 10px;
@@ -242,7 +223,7 @@ export default {
   }
 
   .job-name {
-    @include font-size(30px);
+    @include font-size(28px);
     color: #333;
     font-weight: bold;
   }
@@ -313,5 +294,19 @@ export default {
   .result-msg {
     text-align: center;
   }
-
+  .main {
+    height: 225px;
+    padding: 15px;
+    @include borderBox();
+    margin-top: 10px;
+    margin-bottom: 50px;
+    width: 100%;
+    background-color: #F5F9FA;
+    border-radius: 10px;
+    @include font-size(24px);
+  }
+  .send-time {
+    @include font-size(16px);
+    color: #666;
+  }
 </style>

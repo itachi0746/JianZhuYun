@@ -5,24 +5,21 @@
         <van-col span="12">
           <div class="user-data" v-if="enterprise">
             <div class="user-name">{{theName}}</div>
-            <!--<div class="user-remarks" @click="changeRole">{{font}}</div>-->
           </div>
           <div class="user-data" v-else>
             <div class="user-name">{{theName}}</div>
             <!--备注-->
             <div class="user-remarks">{{theMemo}}</div>
-            <!--<div class="user-remarks" @click="changeRole">{{font}}</div>-->
-            <!--<div class="user-remarks" style="color:greenyellow" @click="clickVerify">实名验证链接</div>-->
           </div>
         </van-col>
         <van-col span="12">
           <div class="user-head-box">
             <div class="user-head">
               <div v-if="enterprise">
-                <EPHead :theUrl="theUrl"></EPHead>
+                <EPHead :theUrl="theUrl" :theId="theId"></EPHead>
               </div>
               <div v-else>
-                <UserHead :theUrl="theUrl"></UserHead>
+                <UserHead :theUrl="theUrl" :theId="theId"></UserHead>
               </div>
             </div>
           </div>
@@ -63,6 +60,10 @@ export default {
     },
     theUrl: {
       type: String,
+      default: null
+    },
+    theId: {
+      type: Number,
       default: null
     }
   },

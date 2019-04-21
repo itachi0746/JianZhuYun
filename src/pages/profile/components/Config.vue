@@ -35,7 +35,8 @@ export default {
       theCellArr: [
         {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true},
         {name: '切换到企业', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true}
+        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true},
+        {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true}
       ]
     }
   },
@@ -75,6 +76,10 @@ export default {
           console.log('没有链接地址')
         }
       })
+    },
+    // 清除缓存
+    clearCache () {
+      myModule.clearCache()
     },
     /**
      * 切换身份
@@ -120,6 +125,9 @@ export default {
         break
       case 2:
         this.clickReset()
+        break
+      case 3:
+        this.clearCache()
         break
       }
     }

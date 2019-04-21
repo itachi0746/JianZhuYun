@@ -3,7 +3,6 @@
     <div class="man-box" v-if="resData">
       <div class="man-head">
         <UserHead :theUrl="resData.RE23_PIC_URL"></UserHead>
-        <!--<img :src="detailData.RE23_PIC_URL" alt="">-->
       </div>
       <div class="man-data">
         <div class="man-name">

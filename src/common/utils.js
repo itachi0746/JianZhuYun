@@ -132,7 +132,7 @@ export default {
     let form = new FormData()
     for (let obj of dataArr) {
       if (!obj.value) {
-        console.log(`${obj.name} 不能为空`)
+        console.log(`${obj.name} 为空`)
         // return false
       }
       try {
@@ -284,6 +284,22 @@ export default {
       if (jsBridge) {
         jsBridge.clearHistory()
         console.log('清除历史记录')
+      } else {
+        console.log('没有jsBridge')
+      }
+    } catch (e) {
+      console.log(e)
+      console.log('没有jsBridge')
+    }
+  },
+  /**
+   * 清除缓存
+   */
+  clearCache () {
+    try {
+      if (jsBridge) {
+        jsBridge.clearCache()
+        console.log('清除缓存')
       } else {
         console.log('没有jsBridge')
       }

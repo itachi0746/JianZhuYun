@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="data-head" v-if="theUrl">
-      <img :src="theUrl" alt="">
+      <img :src="url" alt="">
     </div>
     <div class="data-head" v-else>
       <img src="./assets/default_head_pr.png" alt="">
@@ -13,23 +13,44 @@
 export default {
   data () {
     return {
+      baseUrl: '/ReService/Logo?id=',
+      url: '' // 最终地址
     }
   },
   props: {
     theUrl: {
       type: String,
       default: ''
+    },
+    theId: {
+      type: String,
+      default: ''
+    }
+  },
+  watch: {
+    theUrl () {
+      this.url = this.theUrl
     }
   },
   components: {},
 
-  computed: {},
+  computed: {
+//    url () { // 最终地址
+//      return this.baseUrl + this.theUrl
+//    }
+  },
 
   methods: {},
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    if (this.theUrl) {
+      this.url = this.theUrl
+    } else {
+      this.url = this.baseUrl + this.theId
+    }
+  },
 
   beforeDestroy () {}
 }

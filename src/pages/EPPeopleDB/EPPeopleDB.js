@@ -4,10 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import '@/common/rem.js'
-import { Cell, CellGroup, Popup, RadioGroup, Radio, Row, Col, Tabbar, TabbarItem, Icon, Tag, Search, Button, Field, List, PullRefresh, Toast } from 'vant'
+import { Cell, CellGroup, Popup, RadioGroup, Radio, Row, Col, Tabbar, TabbarItem, Icon, Tag,
+  Search, Button, Field, List, PullRefresh, Toast, DatetimePicker } from 'vant'
 
 Vue.use(Cell).use(Row).use(Col).use(Tabbar).use(TabbarItem).use(Icon).use(CellGroup).use(Popup).use(Radio).use(RadioGroup)
-  .use(Tag).use(Search).use(Button).use(Field).use(List).use(PullRefresh).use(Toast)
+  .use(Tag).use(Search).use(Button).use(Field).use(List).use(PullRefresh).use(Toast).use(DatetimePicker)
 
 Vue.config.productionTip = false
 

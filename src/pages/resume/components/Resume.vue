@@ -3,10 +3,19 @@
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="register" ref="body">
       <div>
+        <!--头像-->
+        <div @click="clickBox" class="head-logo-box van-hairline--bottom" v-if="resData && activePage===1">
+          <div>头像</div>
+          <div class="head-logo">
+            <UserHead :theId="resData.RE23_CANDIDATE_ID" :theUrl="resData.RE23_PIC_URL"></UserHead>
+          </div>
+          <van-uploader :after-read="onRead" v-show="false">
+            <van-icon name="photograph" />
+          </van-uploader>
+        </div>
         <div v-if="theFieldArr.length">
           <div v-for="(item, index) in theFieldArr" :key="index" v-if="pagingCondition(index)">
             <Field :index="index" :item="item" @clickInput="clickInput"></Field>
-
           </div>
         </div>
       </div>
@@ -45,6 +54,7 @@ import Header from '../../../component/Header.vue'
 import PopRadio from '../../../component/PopRadio.vue'
 import PopDate from '../../../component/PopDate.vue'
 import Field from '../../../component/Field.vue'
+import UserHead from '../../../component/UserHead.vue'
 
 export default {
   data () {
@@ -53,6 +63,7 @@ export default {
       radio: '',
       id: null,
       activePage: 1,
+      resData: null,
       theWorkTime: new Date(),
       theMinDate: new Date(1970, 0, 1),
       curDate: new Date(),
@@ -133,7 +144,7 @@ export default {
           type: 'text',
           popType: 'radio',
           fieldName: 'RE23_EDUCATION',
-          required: false,
+          required: true,
           clearable: true
         },
         {
@@ -160,7 +171,7 @@ export default {
           type: 'text',
           popType: '',
           fieldName: 'RE23_WORK_PLACE',
-          required: false,
+          required: true,
           clearable: true
         },
         {
@@ -184,7 +195,7 @@ export default {
           type: 'text',
           popType: '',
           fieldName: 'RE23_ANNUAL_SALARY_E',
-          required: false,
+          required: true,
           clearable: true
         },
         {
@@ -220,7 +231,7 @@ export default {
           type: 'text',
           popType: 'radio',
           fieldName: 'RE23_WORK_YEARS',
-          required: false,
+          required: true,
           clearable: true
         },
         {
@@ -274,7 +285,8 @@ export default {
     Header,
     PopRadio,
     PopDate,
-    Field
+    Field,
+    UserHead
   },
   watch: {},
   mounted () {
@@ -292,14 +304,14 @@ export default {
     postData('/ReService/ResumeDetails', {id: this.id}).then((res) => {
       console.log(res)
       this.$toast.clear()
-      const returnData = res.ReturnData
-      if (!returnData.RE23_CANDIDATE_ID) {
+      this.resData = res.ReturnData
+      if (!this.resData.RE23_CANDIDATE_ID) {
         return
       }
       for (let obj of this.theFieldArr) {
-        for (let key in returnData) {
+        for (let key in this.resData) {
           if (obj.fieldName === key) {
-            let theValue = returnData[key]
+            let theValue = this.resData[key]
             if (typeof theValue === 'string' && theValue.indexOf('/Date') !== -1) { // 如果是时间字符串
               theValue = myModule.handleTime(theValue)
             } else if (theValue === 'null' || theValue === null) {
@@ -324,6 +336,33 @@ export default {
     },
     clickPrev () {
       this.activePage--
+    },
+    onRead (file) {
+      this.$toast.loading({
+        //        mask: true,
+        message: '加载中...',
+        duration: 0
+      })
+      console.log(file)
+      const data = {
+        Name: file.file.name,
+        Data: file.content
+      }
+      let form = myModule.createFormData2(data)
+      postData('/ReService/Upload', form).then((res) => {
+        console.log(res)
+        this.$toast.success({
+          //          mask: true,
+          message: '上传成功',
+          duration: 1000
+        })
+        this.resData.RE23_PIC_URL = res.ReturnData.PicUrl
+      })
+    },
+    // 触发上传
+    clickBox () {
+      let upIcon = document.getElementsByClassName('van-uploader__input')[0]
+      upIcon.click()
     },
     /**
      * 点击input
@@ -358,7 +397,7 @@ export default {
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
-            duration: 2000,
+            duration: 1000,
             forbidClick: true // 禁用背景点击
           })
           return
@@ -506,5 +545,16 @@ export default {
 
   .van-popup60 {
     width: 60%;
+  }
+  .head-logo-box {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include font-size(14px)
+  }
+  .head-logo {
+    width: 50px;
+    height: 50px;
   }
 </style>

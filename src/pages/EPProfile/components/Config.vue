@@ -35,7 +35,8 @@ export default {
       theCellArr: [
 //        {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true},
         {name: '切换到个人', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true}
+        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true},
+        {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true}
       ]
     }
   },
@@ -97,6 +98,10 @@ export default {
       })
       GoToPage('', 'reset.html', {isEnt: true})
     },
+    // 清除缓存
+    clearCache () {
+      myModule.clearCache()
+    },
     /**
      * 监听弹窗关闭
      */
@@ -117,6 +122,9 @@ export default {
         break
       case 1:
         this.clickReset()
+        break
+      case 2:
+        this.clearCache()
         break
       }
     }

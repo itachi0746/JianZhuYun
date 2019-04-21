@@ -8,6 +8,7 @@
           :theName="resData.RE23_NAME"
           :theMemo="resData.RE23_MEMO"
           :theUrl="resData.RE23_PIC_URL"
+          :theId="resData.RE23_CANDIDATE_ID"
         ></ProfileItem>
       </div>
       <div class="tab">
@@ -20,7 +21,7 @@
               <!--</div>-->
             <!--</div>-->
           <!--</van-col>-->
-          <van-col span="8">
+          <van-col span="12">
             <div class="tab-cell">
               <div class="van-hairline--right" @click="clickInterview">
                 <!--<div class="tab-cell-num">0</div>-->
@@ -28,7 +29,7 @@
               </div>
             </div>
           </van-col>
-          <van-col span="8">
+          <van-col span="12">
             <div class="tab-cell" @click="clickRecord">
               <div class="van-hairline--right">
                 <!--<div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>-->
@@ -36,14 +37,14 @@
               </div>
             </div>
           </van-col>
-          <van-col span="8">
-            <div class="tab-cell">
-              <div class="van-hairline--right">
-                <!--<div class="tab-cell-num">0</div>-->
-                <div class="tab-cell-name">感兴趣</div>
-              </div>
-            </div>
-          </van-col>
+          <!--<van-col span="8">-->
+            <!--<div class="tab-cell">-->
+              <!--<div class="van-hairline&#45;&#45;right">-->
+                <!--&lt;!&ndash;<div class="tab-cell-num">0</div>&ndash;&gt;-->
+                <!--<div class="tab-cell-name">感兴趣</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</van-col>-->
         </van-row>
       </div>
       <div class="item-list">
@@ -51,7 +52,6 @@
           <img class="cell-icon" :src="item.img" alt="">
         </van-cell>
       </div>
-      <!--<Logout :enterprise="false"></Logout>-->
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
   </div>
