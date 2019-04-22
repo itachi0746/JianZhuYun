@@ -4,7 +4,7 @@
     <div class="body" id="body" ref="body">
       <div v-if="resData">
         <div>
-          <ContractItem :resData="resData"></ContractItem>
+          <ContractItem :resData="resData" :popValue="popValue" @sendFieldData="handleFieldData"></ContractItem>
         </div>
         <div class="result" v-if="isSend">
           <div class="result-logo">
@@ -26,7 +26,7 @@
 
 <script>
 import myModule from '../../../common'
-import {postData} from '../../../common/server'
+import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import PopRadio from '../../../component/PopRadio.vue'
 import ContractItem from '../../../component/ContractItem.vue'
@@ -44,6 +44,7 @@ export default {
       showPop: false,
       theRadioData: null,
       pageId: 3,
+      popValue: null // 弹窗的值
     }
   },
   components: {
@@ -71,14 +72,14 @@ export default {
         return
       }
       this.resData = res.ReturnData
-//      for (let key in this.resData) { // 格式化时间
-//        if (typeof this.resData[key] !== 'string') {
-//          continue
-//        }
-//        if (this.resData[key].indexOf('/Date') !== -1) {
-//          this.resData[key] = myModule.handleTime(this.resData[key])
-//        }
-//      }
+      //      for (let key in this.resData) { // 格式化时间
+      //        if (typeof this.resData[key] !== 'string') {
+      //          continue
+      //        }
+      //        if (this.resData[key].indexOf('/Date') !== -1) {
+      //          this.resData[key] = myModule.handleTime(this.resData[key])
+      //        }
+      //      }
     })
   },
   methods: {
@@ -106,7 +107,7 @@ export default {
         console.log(res)
         if (myModule.isEmpty(res.ReturnData)) {
           console.log('暂无数据')
-//          this.showPop = false
+          //          this.showPop = false
           this.$toast.fail({
             mask: false,
             message: '暂无数据',
@@ -126,34 +127,46 @@ export default {
       if (!obj.value) {
         console.log('没有返回值', obj)
         this.showPop = false
+        this.popValue = null
         return
       }
       this.showPop = false
+      this.popValue = obj.value
       this.$toast.loading({
         mask: false,
         message: '加载中...',
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      let form = new FormData()
-      for (let obj of this.dataArr) {
-        form.append(obj.fieldName, this.resData[obj.fieldName])
-      }
-      const data = {
-        id: this.id,
-        folder: obj.value.Key
-      }
-      for (let key in data) {
-        form.append(key, data[key])
-      }
-      postData('/EntService/SendSigning', form).then((res) => {
-        console.log(res)
-        this.$toast.success('提交成功')
-        this.isSend = true
-        setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-        }, 2000)
+      this.$nextTick(() => {
+        let form = new FormData()
+        for (let obj of this.dataArr) {
+//          form.append(obj.fieldName, this.resData[obj.fieldName])
+          form.append(obj.fieldName, obj.value)
+        }
+        const data = {
+          id: this.id,
+          folder: obj.value.Key
+        }
+        for (let key in data) {
+          form.append(key, data[key])
+        }
+        postData('/EntService/SendSigning', form).then((res) => {
+          console.log(res)
+          this.$toast.success('提交成功')
+          this.isSend = true
+          setTimeout(() => {
+            GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+          }, 2000)
+        })
       })
+    },
+    /**
+     * 处理子组件数据
+     * @param arr 字段data
+     */
+    handleFieldData (arr) {
+      this.dataArr = arr
     }
   }
 }
@@ -164,15 +177,19 @@ export default {
   .contractDetail {
     @include font-size(16px)
   }
+
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
+
   .result {
     @include font-size(16px);
     color: #666;
   }
+
   .result-logo {
     width: 100%;
     @include defaultFlex;
@@ -182,42 +199,52 @@ export default {
       height: 25px;
     }
   }
+
   .result-data {
     @include font-size(14px);
     text-align: center;
   }
+
   .result-msg {
     text-align: center;
   }
+
   .tac {
     text-align: center;
   }
+
   .title {
     text-align: center;
     @include font-size(16px);
     padding: 10px 15px 0;
     color: $mainColor;
   }
+
   .title-box {
     padding-bottom: 15px;
     font-weight: bold;
   }
+
   .value-class {
     flex: 3;
     text-align: left;
     color: #333;
   }
+
   .title-class {
     color: #666;
   }
+
   .title-class2 {
     color: #333;
     font-weight: bold;
     @include font-size(17px);
   }
+
   .mb-box {
     margin-bottom: 15px;
   }
+
   .action-box {
     @include defaultFlex;
     margin: 40px 0 50px;
@@ -228,13 +255,16 @@ export default {
       /*height: 43px;*/
     }
   }
+
   .btnClass {
     @include theBtnColor;
     padding: 0 20px;
   }
+
   .hidden {
     display: none;
   }
+
   .p10 {
     width: 90%;
   }

@@ -134,6 +134,17 @@ export default {
     resData: {
       type: Object,
       default: null
+    },
+    popValue: {
+      type: [String, Object],
+      default: null
+    }
+  },
+  watch: {
+    popValue () {
+      if (this.popValue !== null) {
+        this.$emit('sendFieldData', this.theFieldArr)
+      }
     }
   },
   computed: {},
@@ -230,12 +241,28 @@ export default {
       this.theFieldArr = resultArr
       //      console.log(resultArr)
     },
+    /**
+     * 格式化数据
+     */
     formatData () {
       if (!this.resData) {
         console.log('没有数据', this.resData)
         return
       }
       this.resData = myModule.formatObj(this.resData)
+    },
+    /**
+     * 字段赋值
+     */
+    setFieldValue () {
+      for (let obj of this.theFieldArr) {
+        for (let key in this.resData) {
+          if (obj.fieldName === key) {
+            obj.value = this.resData[key]
+            break
+          }
+        }
+      }
     }
   },
 
@@ -245,6 +272,7 @@ export default {
 
   mounted () {
     this.formatData()
+    this.setFieldValue()
   },
 
   beforeDestroy () {}
