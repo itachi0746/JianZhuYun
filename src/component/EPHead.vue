@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <div class="data-head" v-if="theUrl">
+  <div class="data-head">
+    <div class="un-read-num" v-if="theNum">{{theNum}}</div>
+    <div v-if="theUrl">
       <img :src="url" alt="">
     </div>
-    <div class="data-head" v-else>
+    <div v-else>
       <img src="./assets/default_head_ep.png" alt="">
     </div>
   </div>
@@ -14,7 +15,8 @@ export default {
   data () {
     return {
       baseUrl: '/EntService/Logo?id=',
-      url: ''
+      url: '',
+      theNum: null
     }
   },
   props: {
@@ -25,6 +27,10 @@ export default {
     theId: {
       type: [String, Number],
       default: ''
+    },
+    isRead: {
+      type: [String, Number],
+      default: null
     }
   },
   components: {},
@@ -45,6 +51,9 @@ export default {
     } else {
       this.url = this.baseUrl + this.theId
     }
+    if (this.isRead !== null) {
+      this.theNum = this.isRead ? 0 : 1
+    }
   },
 
   beforeDestroy () {}
@@ -57,9 +66,31 @@ export default {
     height: 100%;
     /*background-color: #999999;*/
     border-radius: 5px;
+    position: relative;
     img {
       width: 100%;
       height: 100%;
     }
+  }
+  .un-read-num {
+    position: absolute;
+    right: 0;
+    top: -0.16rem;
+    color: #fff;
+    font-size: 0.24rem;
+    font-weight: 500;
+    font-family: PingFang SC,Helvetica Neue,Arial,sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 0.06rem;
+    min-width: 0.32rem;
+    line-height: 0.28rem;
+    border: 0.02rem solid #fff;
+    border-radius: 0.32rem;
+    background-color: #f44;
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+    -webkit-transform-origin: 100%;
+    transform-origin: 100%;
   }
 </style>

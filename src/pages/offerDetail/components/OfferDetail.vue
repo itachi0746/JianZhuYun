@@ -173,13 +173,13 @@ export default {
   }
 
   .header {
-    @include font-size(15px);
+    @include font-size(12px);
   }
 
   .header div:nth-child(1) {
     color: #000;
     font-weight: bold;
-    @include font-size(18px);
+    @include font-size(14px);
   }
 
   .main {
@@ -191,6 +191,7 @@ export default {
     width: 100%;
     background-color: #F5F9FA;
     border-radius: 10px;
+    @include font-size(13px)
   }
 
   .btn-box {

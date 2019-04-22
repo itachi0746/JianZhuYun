@@ -65,7 +65,8 @@ export default {
 
 <style lang='scss' scoped>
   .van-popup60 {
-    width: 60%;
+    width: 80%;
+    border-radius: 5px;
   }
   .radio-box {
     max-height: 300px;

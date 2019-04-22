@@ -1,32 +1,34 @@
 <template>
   <div class="message">
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
-    <div class="body" ref="body">
-      <div class="message-list">
-        <ul>
-          <!--<li class="message-li">-->
-            <!--<div class="msg-li-box van-hairline&#45;&#45;bottom">-->
-              <!--<div class="msg-head"></div>-->
-              <!--<div class="msg-data">-->
-                <!--<div>黄举赫 查看了您</div>-->
-                <!--<div>39位boss查看</div>-->
-              <!--</div>-->
-              <!--<div class="msg-time">-->
-                <!--2019/3/21-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</li>-->
-        </ul>
-      </div>
-    </div>
-    <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
+
+    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :offset="100"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="message-list" v-if="resData">
+          <ul>
+            <li class="message-li" v-for="(item,index) in resData" :key="index" @click="clickLi(item.RE41_OBJ_ID,item.RE41_OBJ_CODE,item.RE41_MSG_ID)">
+              <MSGItem :resData="item"></MSGItem>
+            </li>
+          </ul>
+        </div>
+      </van-list>
+    </van-pull-refresh>
+    <Footer v-if="resData" @sendHeight="handleHeight" :active="activeNum" :infoNum="infoNum"></Footer>
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
+import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
+import MSGItem from '../../../component/MSGItem.vue'
 
 export default {
   name: 'message',
@@ -34,16 +36,32 @@ export default {
     return {
       headerName: '消息',
       activeNum: 2,
+      infoNum: null, // 未读信息数量
       headerHeight: null,
-      footerHeight: null
+      footerHeight: null,
+      PageIndex: 1, // 记录当前第几页
+      PageCount: null, // 总页数
+      resData: null,
+      loading: false,
+      finished: false,
+      isLoading: false,
+      dataMap: {
+        'RE34_RESUME_RCV': 'recordDetail.html',
+        'RE37_INTERVIEW_MSG': 'interviewDetail.html',
+        'RE32_OFFER_MSG': 'offerDetail.html', // todo 还有映射
+      }
     }
   },
   components: {
     Footer,
-    Header
+    Header,
+    MSGItem
   },
   mounted () {
     console.log(myModule)
+  },
+  created () {
+    this.getData()
   },
   methods: {
     /**
@@ -58,8 +76,89 @@ export default {
       }
       if (this.headerHeight && this.footerHeight) {
         const WH = myModule.getClientHeight()
-        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+        let body = document.getElementById('body')
+        body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
+    },
+    /**
+     * 点击职位
+     * @param linkId 链接 id
+     * @param code
+     * @param msgId 消息id
+     */
+    clickLi (linkId, code, msgId) {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {
+        id: msgId
+      }
+      postData('/ReService/UpdateMessageReadState', data).then((res) => {
+        console.log(res)
+        this.$toast.clear()
+        const link = this.dataMap[code]
+        debugger
+        if (!link) {
+          this.$toast.fail('没有对应链接')
+          return
+        }
+        GoToPage('', link, {id: linkId})
+      })
+//      this.updateMsg(msgId)
+    },
+    updateMsg (msgId) {
+
+    },
+    onLoad () {
+      // 异步更新数据
+      if (this.PageCount === this.PageIndex) { // 加载完全部了
+        this.finished = true
+        this.loading = false
+        return
+      }
+      this.PageIndex++
+      this.getData()
+    },
+    onRefresh () {
+      //      setTimeout(() => {
+      //        this.$toast('刷新成功')
+      //        this.isLoading = false
+      //      }, 500)
+    },
+    getData () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {
+        PageIndex: this.PageIndex
+      }
+      postData('/ReService/MyMessages', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: false // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+        this.infoNum = res.UnReadCount
+        this.PageCount = res.PageCount
+        this.PageIndex = res.PageIndex
+        this.loading = false
+        this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
+        for (let obj of this.resData) {
+          obj = myModule.formatObj(obj)
+        }
+      })
     }
   }
 }

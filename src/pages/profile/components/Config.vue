@@ -2,15 +2,26 @@
   <div>
     <Header @sendHeight="handleHeight" :back="true" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <van-cell-group v-if="theCellArr.length">
-        <van-cell v-for="(item,index) in theCellArr" v-show="item.show" :key="index" class="p-class" :value="item.value"
-                  is-link
-                  title-class="t-class" value-class="v-class" @click="clickCell(item, index)">
-          <template slot="title">
-            <span class="custom-text">{{item.name}}</span>
-          </template>
-        </van-cell>
-      </van-cell-group>
+      <div v-if="theCellArr.length">
+        <van-cell-group class="out-warp">
+          <div>
+            <!--<van-cell class="p-class" :value="item.value"-->
+                      <!--is-link-->
+                      <!--title-class="t-class" value-class="v-class" @click="clickCell(item, index)">-->
+              <!--<template slot="title">-->
+                <!--<span class="custom-text">{{item.name}}</span>-->
+              <!--</template>-->
+            <!--</van-cell>-->
+            <van-cell v-for="(item, index) in theCellArr" :key="index" class="cell-padding" @click="clickCell(item, index)"
+                      :title="item.name" icon="" is-link>
+              <img class="cell-icon" :src="item.icon" alt="" v-if="item.icon">
+            </van-cell>
+          </div>
+          <!--<CellItem :items="theCellArr"></CellItem>-->
+
+        </van-cell-group>
+
+      </div>
       <Logout :enterprise="false"></Logout>
     </div>
     <!--单选-->
@@ -25,6 +36,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import Logout from '../../../component/Logout.vue'
+import CellItem from '../../../component/CellItem.vue'
 
 export default {
   data () {
@@ -44,7 +56,8 @@ export default {
   components: {
     PopRadio,
     Header,
-    Logout
+    Logout,
+    CellItem
   },
 
   computed: {},
@@ -143,11 +156,24 @@ export default {
 
 <style lang='scss' scoped>
   .p-class {
-    padding: 15px;
+    padding: 17px 0;
   }
+
   .body {
     background-color: #F5F9FA;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+  }
+  .warp {
+    margin: 0 18px;
+  }
+  .out-warp {
+    background-color: #fff;
+  }
+  .t-class {
+    padding-left: 0;
+  }
+  .cell-padding {
+    padding: 17px 18px;
   }
 </style>

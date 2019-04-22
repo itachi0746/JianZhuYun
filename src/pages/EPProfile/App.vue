@@ -11,5 +11,10 @@ export default {
 </script>
 
 <style>
-
+  .van-cell:not(:last-child)::after {
+    width: 90%;
+  }
+  .van-cell__value {
+    position: static;
+  }
 </style>

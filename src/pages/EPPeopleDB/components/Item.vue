@@ -22,7 +22,7 @@
             <van-button class="btnSize2" plain type="info" @click="clickBtn1(item.RE01_ID)">{{actionObj.act1}}</van-button>
           </div>
           <div class="action-btn">
-            <van-button class="btnSize" type="info" @click="clickBtn2(item.RE01_ID,actionObj.act2.routerName)">{{actionObj.act2.name}}</van-button>
+            <van-button class="btnSize" :disabled="item.OtherFieldValues.SEND_STATUS==='BD0902'" type="info" @click="clickBtn2(item.RE01_ID,actionObj.act2.routerName)">{{actionObj.act2.name}}</van-button>
           </div>
         </div>
       </div>

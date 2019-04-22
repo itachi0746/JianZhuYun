@@ -63,7 +63,7 @@ export default {
       default: null
     },
     theId: {
-      type: Number,
+      type: [Number, String],
       default: null
     }
   },
@@ -127,7 +127,7 @@ export default {
     width: 57px;
     height: 57px;
     border-radius: 50%;
-    background-color: #999999;
+    /*background-color: #999999;*/
     img {
       width: 100%;
       height: 100%;

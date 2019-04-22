@@ -4,7 +4,7 @@
       <!--发送验证码-->
       <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField"
                  :data-index="index" @click="clickInput(item, index)" :label="item.label"
-                 :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder">
+                 :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder">
         <van-button :class="['btnStyle', {'btnStyle2': item.isActiveBtn}]" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码
         </van-button>
       </van-field>
@@ -15,7 +15,7 @@
         <div style="position: relative;width: 100%;">
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled" :label="item.label"
                      :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
-                     :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder"/>
+                     :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder"/>
           <div class="img-box" @click="clickBox">
             <img src="./assets/recg.png" alt="">
           </div>
@@ -29,10 +29,10 @@
         <div style="position: relative;width: 100%;">
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
                      :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
-                     :type="item.type" class="cell-mb" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>
+                     :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>
           <div class="img-box" @click="clickEye(item)" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">
-            <img src="./assets/eye.png" alt="" v-if="item.rightIcon==='theEye'">
-            <img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='noEye'">
+            <img src="./assets/eye.png" alt="" v-if="item.rightIcon==='noEye'">
+            <img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='theEye'">
           </div>
         </div>
       </div>
@@ -144,5 +144,10 @@ export default {
   .btnStyle2 {
     @include theBtnColor;
   }
-
+.textarea-class {
+  height: 400px;
+}
+  .van-field__body {
+    height: 100%;
+  }
 </style>

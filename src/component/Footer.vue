@@ -1,7 +1,7 @@
 <template>
   <div ref="common-footer">
-    <van-tabbar v-model="active" v-if="theFooterItems" active-color="#00A7DD">
-      <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link)">
+    <van-tabbar v-model="active" v-if="theFooterItems" active-color="#00A7DD" class="shadow">
+      <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link)" :info="item.info">
         <span>{{ item.name }}</span>
         <img
           slot="icon"
@@ -15,11 +15,13 @@
 
 <script>
 import myModule from '../common'
+import {postData} from '../common/server'
 
 export default {
   data () {
     return {
       theFooterItems: null,
+      link: null,
       icons: [
         {
           normal: require('./assets/f1.png'),
@@ -33,12 +35,13 @@ export default {
           name: '公司',
           link: 'company.html'
         },
-//        {
-//          normal: require('./assets/f3.png'),
-//          active: require('./assets/f3_active.png'),
-//          name: '消息',
-//          link: 'message.html'
-//        },
+        {
+          normal: require('./assets/f3.png'),
+          active: require('./assets/f3_active.png'),
+          name: '消息',
+          link: 'message.html',
+          info: null
+        },
         {
           normal: require('./assets/f4.png'),
           active: require('./assets/f4_active.png'),
@@ -65,7 +68,8 @@ export default {
           name: '我的',
           link: 'EPProfile.html'
         }
-      ]
+      ],
+      theNum: null // 未读信息数量
     }
   },
 
@@ -77,7 +81,13 @@ export default {
     enterprise: { // 是不是企业端
       type: Boolean,
       default: false
+    },
+    infoNum: {
+      type: Number,
+      default: null
     }
+  },
+  watch: {
   },
 
   components: {},
@@ -99,12 +109,51 @@ export default {
      */
     clickFooter (link) {
       GoToPage('', link)
+    },
+    getData () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      postData(this.link, {}).then((res) => {
+        console.log(res)
+        if (res.UnReadCount) {
+          this.setInfoNum(res.UnReadCount)
+        } else {
+          console.log(`未读消息为: ${res.UnReadCount}`)
+        }
+        this.$toast.clear()
+      })
+    },
+    /**
+     * 配置未读信息
+     * @param num
+     */
+    setInfoNum (num) {
+      if (!num) {
+        console.log(`未读数为: ${num}`)
+        return
+      }
+      for (let obj of this.theFooterItems) {
+        if (obj.hasOwnProperty('info')) {
+          obj['info'] = num
+          break
+        }
+      }
     }
   },
 
   created () {
     this.theFooterItems = this.enterprise ? this.icons2 : this.icons
-    console.log()
+    this.link = this.enterprise ? '/EntService/MyMessages' : '/ReService/MyMessages'
+    if (this.infoNum !== null) {
+      this.theNum = this.infoNum
+      this.setInfoNum(this.theNum)
+    } else {
+      this.getData()
+    }
   },
 
   mounted () {
@@ -116,5 +165,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
+.shadow {
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+}
 </style>

@@ -104,6 +104,7 @@ export default {
 
       postData('/EntService/Login', form).then((res) => {
         console.log(res)
+//        debugger
         this.$toast.success('登录成功')
         myModule.clearHistory()
         GoToPage('', 'EPIndex.html', {})

@@ -10,48 +10,55 @@
           :theUrl="resData.RE23_PIC_URL"
           :theId="resData.RE23_CANDIDATE_ID"
         ></ProfileItem>
-      </div>
-      <div class="tab">
-        <van-row>
-          <!--<van-col span="6">-->
+        <div class="tab">
+          <van-row>
+            <!--<van-col span="6">-->
             <!--<div class="tab-cell">-->
-              <!--<div class="van-hairline&#45;&#45;right">-->
-                <!--<div class="tab-cell-num">0</div>-->
-                <!--<div class="tab-cell-name">沟通过</div>-->
-              <!--</div>-->
+            <!--<div class="van-hairline&#45;&#45;right">-->
+            <!--<div class="tab-cell-num">0</div>-->
+            <!--<div class="tab-cell-name">沟通过</div>-->
             <!--</div>-->
-          <!--</van-col>-->
-          <van-col span="12">
-            <div class="tab-cell">
-              <div class="van-hairline--right" @click="clickInterview">
-                <!--<div class="tab-cell-num">0</div>-->
-                <div class="tab-cell-name">面试</div>
+            <!--</div>-->
+            <!--</van-col>-->
+            <van-col span="12">
+              <div class="tab-cell">
+                <div class="van-hairline--right" @click="clickInterview">
+                  <!--<div class="tab-cell-num">0</div>-->
+                  <div class="tab-cell-name">面试</div>
+                </div>
               </div>
-            </div>
-          </van-col>
-          <van-col span="12">
-            <div class="tab-cell" @click="clickRecord">
-              <div class="van-hairline--right">
-                <!--<div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>-->
-                <div class="tab-cell-name">申请记录</div>
+            </van-col>
+            <van-col span="12">
+              <div class="tab-cell" @click="clickRecord">
+                <div class="van-hairline--right">
+                  <!--<div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>-->
+                  <div class="tab-cell-name">申请记录</div>
+                </div>
               </div>
-            </div>
-          </van-col>
-          <!--<van-col span="8">-->
+            </van-col>
+            <!--<van-col span="8">-->
             <!--<div class="tab-cell">-->
-              <!--<div class="van-hairline&#45;&#45;right">-->
-                <!--&lt;!&ndash;<div class="tab-cell-num">0</div>&ndash;&gt;-->
-                <!--<div class="tab-cell-name">感兴趣</div>-->
-              <!--</div>-->
+            <!--<div class="van-hairline&#45;&#45;right">-->
+            <!--&lt;!&ndash;<div class="tab-cell-num">0</div>&ndash;&gt;-->
+            <!--<div class="tab-cell-name">感兴趣</div>-->
             <!--</div>-->
-          <!--</van-col>-->
-        </van-row>
+            <!--</div>-->
+            <!--</van-col>-->
+          </van-row>
+        </div>
+        <div class="item-list">
+          <CellItem :items="items"></CellItem>
+          <!--<van-cell-group class="out-warp">-->
+            <!--<div>-->
+              <!--<van-cell v-for="(item, index) in items" :key="index" class="cell-padding" @click="clickItem(item.link)"-->
+                        <!--:title="item.name" icon="" is-link>-->
+                <!--<img class="cell-icon" :src="item.img" alt="">-->
+              <!--</van-cell>-->
+            <!--</div>-->
+          <!--</van-cell-group>-->
+        </div>
       </div>
-      <div class="item-list">
-        <van-cell v-for="(item, index) in items" class="cell-padding" :key="index" @click="clickItem(item.link)" :title="item.name" icon="" is-link>
-          <img class="cell-icon" :src="item.img" alt="">
-        </van-cell>
-      </div>
+
     </div>
     <Footer @sendHeight="handleHeight" :active="activeNum"></Footer>
   </div>
@@ -59,12 +66,13 @@
 
 <script>
 import myModule from '../../../common'
-import {postData} from '../../../common/server'
+import { postData } from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 import UserHead from '../../../component/UserHead.vue'
 import ProfileItem from '../../../component/ProfileItem.vue'
 import Logout from '../../../component/Logout.vue'
+import CellItem from '../../../component/CellItem.vue'
 
 export default {
   name: 'profile',
@@ -72,14 +80,14 @@ export default {
     return {
       headerHeight: null,
       footerHeight: null,
-      activeNum: 2,
+      activeNum: 3,
       resData: null,
       id: null,
       items: [
-        {name: '我的简历', img: require('../assets/home_icon_jianli.png'), link: 'resume.html'},
-        {name: '附件简历', img: require('../assets/home_icon_fujianjianli.png'), link: ''},
-        {name: '我的offer', img: require('../assets/home_icon_wodeoffer.png'), link: 'offer.html'},
-        {name: '我的合同', img: require('../assets/home_icon_hetong.png'), link: 'contract.html'}
+        {name: '我的简历', icon: require('../assets/home_icon_jianli.png'), link: 'resume.html', param: {}},
+        {name: '附件简历', icon: require('../assets/home_icon_fujianjianli.png'), link: '', param: {}},
+        {name: '我的offer', icon: require('../assets/home_icon_wodeoffer.png'), link: 'offer.html', param: {}},
+        {name: '我的合同', icon: require('../assets/home_icon_hetong.png'), link: 'contract.html', param: {}}
       ]
     }
   },
@@ -88,12 +96,19 @@ export default {
     Header,
     UserHead,
     ProfileItem,
-    Logout
+    Logout,
+    CellItem
   },
   mounted () {
     console.log(myModule)
   },
   created () {
+    this.$toast.loading({
+      mask: false,
+      message: '加载中...',
+      duration: 0,
+      forbidClick: true // 禁用背景点击
+    })
     postData('/ReService/Center', {}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
@@ -101,12 +116,18 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
-      this.resData = res.ReturnData
+      this.$toast.clear()
       this.id = res.ReturnData.RE23_CANDIDATE_ID
+      for (let obj of this.items) {
+        if (obj.name === '我的简历') {
+          obj.param = {id: this.id}
+        }
+      }
+      this.resData = res.ReturnData
     })
   },
   methods: {
@@ -179,18 +200,22 @@ export default {
     padding: 50px 30px 20px;
     background-color: $mainColor;
   }
+
   .user-data {
     display: flex;
     flex-direction: column;
   }
+
   .user-remarks {
     @include font-size(16px);
     margin-top: 10px;
   }
+
   .user-head-box {
     display: flex;
     flex-direction: row-reverse;
   }
+
   .user-head {
     width: 57px;
     height: 57px;
@@ -201,10 +226,12 @@ export default {
       height: 100%;
     }
   }
+
   .tab {
     @include font-size(16px);
     background-color: #fff;
   }
+
   .tab-cell {
     @include borderBox();
     height: 58px;
@@ -216,29 +243,45 @@ export default {
     @include borderBox();
     padding: 5px 0;
   }
+
   .tab-cell-num {
     @include font-size(18px);
     color: #333;
   }
+
   .tab-cell-name {
     @include font-size(15px)
   }
+
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
+
   .item-list {
     margin-top: 10px;
   }
+
   .cell-icon {
     position: absolute;
-    left: 13px;
+    left: 18px;
     top: 19px;
     height: 0.4rem;
     min-width: 1em;
   }
+
   .cell-padding {
-    padding: 17px 15px;
+    padding: 17px 18px;
+    /*margin: 0 18px;*/
+    /*box-sizing: border-box;*/
+  }
+  .warp {
+    margin: 0 18px;
+  }
+  .out-warp {
+    background-color: #fff;
   }
 </style>

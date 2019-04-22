@@ -11,8 +11,10 @@
           :theId="resData.HRA0_ENTERPRISE_ID"
         ></ProfileItem>
         <div class="item-list">
-          <van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>
-          </van-cell>
+          <!--<van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>-->
+          <!--</van-cell>-->
+          <CellItem :items="items"></CellItem>
+
         </div>
       </div>
     </div>
@@ -27,6 +29,7 @@ import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 import ProfileItem from '../../../component/ProfileItem.vue'
 import Logout from '../../../component/Logout.vue'
+import CellItem from '../../../component/CellItem.vue'
 
 export default {
   name: 'profile',
@@ -50,7 +53,8 @@ export default {
     Footer,
     Header,
     ProfileItem,
-    Logout
+    Logout,
+    CellItem
   },
   mounted () {
     console.log(myModule)
@@ -158,6 +162,7 @@ export default {
   }
   .body {
     background-color: #F5F9FA;
+    position: relative;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
@@ -174,5 +179,14 @@ export default {
   .action-box {
     margin-top: 10px;
     padding: 0 30px;
+  }
+  .cell-padding {
+    padding: 17px 0;
+  }
+  .warp {
+    margin: 0 18px;
+  }
+  .out-warp {
+    background-color: #fff;
   }
 </style>

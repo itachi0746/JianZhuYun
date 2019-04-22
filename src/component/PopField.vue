@@ -5,12 +5,15 @@
       show-cancel-button
       :before-close="beforeClose"
     >
-      <van-field v-model="fieldValue" placeholder="请输入" />
+      <!--<van-field v-model="fieldValue" placeholder="请输入" />-->
+      <!--<Field v-model="fieldValue"></Field>-->
+      <Field :item="PopFieldData"></Field>
     </van-dialog>
   </div>
 </template>
 
 <script>
+import Field from './Field.vue'
 export default {
   data () {
     return {
@@ -19,15 +22,22 @@ export default {
     }
   },
 
-  components: {},
+  components: {
+    Field
+  },
+  props: {
+    PopFieldData: {
+      type: Object,
+      default: null
+    }
+  },
 
   computed: {},
 
   methods: {
     beforeClose (action, done) {
       if (action === 'confirm') {
-//        this.popValue = this.fieldValue
-        this.$emit('closePopField', {value: this.fieldValue})
+        this.$emit('closePopField', this.PopFieldData)
         done()
       } else {
         this.$emit('closePopField', {value: ''})

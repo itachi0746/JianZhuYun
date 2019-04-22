@@ -9,7 +9,7 @@
               <div class="data-box">
                 <div class="data-name">{{resData.RE34_NAME}}</div>
                 <div class="data-line">申请职位 {{resData.RE34_POSITION}}</div>
-                <div class="data-line">{{resData.RE34_SEND_DATE}}</div>
+                <div class="data-line2">{{resData.RE34_SEND_DATE}}</div>
               </div>
             </van-col>
             <van-col span="5">
@@ -190,6 +190,9 @@ export default {
   .data-line {
     @include font-size(14px);
     margin: 5px 0;
+  }
+  .data-line2 {
+    @include font-size(12px);
   }
   .data-head {
     width: 53px;

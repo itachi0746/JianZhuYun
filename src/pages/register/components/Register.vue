@@ -91,7 +91,8 @@ export default {
         ImageData: file.content,
         Type: 'ID' // 身份证识别
       }
-      postData('/Card/ScanResult', data).then((res) => {
+      let form = myModule.createFormData2(data)
+      postData('/Card/ScanResult', form).then((res) => {
         console.log(res)
         if (myModule.isEmpty(res.ReturnData)) {
           console.log('暂无数据')

@@ -36,7 +36,7 @@
       show-cancel-button
       :before-close="beforeClose"
     >
-      <van-field v-model="recommendation" type="textarea" placeholder="请输入自荐信"/>
+      <van-field v-model="recommendation" type="textarea" placeholder="请输入自荐信(选填)"/>
     </van-dialog>
   </div>
 </template>

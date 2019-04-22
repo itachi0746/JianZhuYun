@@ -15,13 +15,10 @@
         <van-button class="btnStyle" @click="clickFabu" type="info" size="large">发布</van-button>
       </div>
     </div>
-    <!--<div v-if="showPopup">-->
-      <!--<Popup class="van-popup60" :showPopup="showPopup" :popType="popType" @popupHidden="popupHidden" :theRadioData="theRadioData"></Popup>-->
-    <!--</div>-->
     <!--单选-->
     <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
     <!--填写-->
-    <PopField v-if="showField" @closePopField="closePopField"></PopField>
+    <PopField v-if="showField" @closePopField="closePopField" :PopFieldData="PopFieldData"></PopField>
   </div>
 </template>
 
@@ -31,7 +28,6 @@ import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import PopRadio from '../../../component/PopRadio.vue'
 import PopField from '../../../component/PopField.vue'
-import Popup from './Popup.vue'
 
 export default {
   data () {
@@ -57,13 +53,13 @@ export default {
         {name: '经验要求', popType: 'radio', value: '', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true, required: true},
         {name: '薪资范围', popType: 'radio', value: '', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true, required: true},
         {name: '最低学历', popType: 'radio', value: '', code: 'UDHR021', fieldName: 'RE13_EDU_DEGREE', show: true, required: true}
-      ]
+      ],
+      PopFieldData: {name: '职位描述', code: '', value: '', placeHolder: '请输入职位描述', type: 'textarea', popType: '', fieldName: 'Mobile', required: false, clearable: true, class: 'textarea-class'}
     }
   },
 
   components: {
     Header,
-    Popup,
     PopRadio,
     PopField
   },
@@ -111,14 +107,6 @@ export default {
         this.$toast.clear()
       })
     },
-    popupHidden (params) { // 获得弹窗的值
-      this.showPopup = false
-      if (!params.value) {
-        console.log('弹窗没有值')
-        return
-      }
-      this.curFieldItem.value = params.value
-    },
     /**
      * 发布职位
      */
@@ -138,7 +126,7 @@ export default {
         console.log(res)
         this.$toast.success('发布成功')
         setTimeout(() => {
-          GoToPage('', 'EPJob.html', {})
+          GoToPage('', 'EPProfile.html', {})
         }, 2000)
       })
     },
@@ -218,7 +206,7 @@ export default {
   }
 
   .v-class {
-    color: $mainColor;
+    color: #666666;
     @include font-size(16px);
     span {
       white-space: nowrap;

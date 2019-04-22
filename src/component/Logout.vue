@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="logout-box">
     <div class="action-box">
       <van-button size="large" type="danger" plain @click="logout">退出登录</van-button>
     </div>
@@ -68,5 +68,11 @@ export default {
   }
   .action-box button {
     border: none!important;
+  }
+  .logout-box {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
   }
 </style>

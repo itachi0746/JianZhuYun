@@ -11,5 +11,10 @@ export default {
 </script>
 
 <style>
-
+  .van-field__body {
+    height: 100%;
+  }
+  .van-field__control {
+    height: 100%;
+  }
 </style>

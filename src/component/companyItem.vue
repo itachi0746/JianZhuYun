@@ -3,7 +3,7 @@
     <div class="li-line">
       <div class="c-head">
         <div class="c-head-box">
-          <EPHead :theUrl="companyData.HRA0_ENT_ID" :theId="companyData.HRA0_LOGO_URL"></EPHead>
+          <EPHead :theUrl="companyData.HRA0_LOGO_URL" :theId="companyData.HRA0_ENT_ID"></EPHead>
         </div>
       </div>
       <div class="c-data">
