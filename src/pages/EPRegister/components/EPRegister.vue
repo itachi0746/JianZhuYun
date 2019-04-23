@@ -52,8 +52,8 @@ export default {
         {name: '公司地址', label: '公司地址', code: '', value: '', placeHolder: '请完善公司地址', type: 'text', popType: '', fieldName: 'HRA0_ENT_ADDR_L1', required: true, clearable: true},
         {name: '公司网站', label: '公司网站', code: '', value: '', placeHolder: '请完善公司网站', type: 'text', popType: '', fieldName: 'HRA0_WEB_URL', required: false, clearable: true},
         {name: '公司简介', label: '公司简介', code: '', value: '', placeHolder: '请完善公司简介', type: 'textarea', popType: '', fieldName: 'HRA0_DESC', required: true, clearable: true},
-        {name: '密码1', label: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: true, rightIcon: 'theEye'},
-        {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: true, rightIcon: 'theEye'},
+        {name: '密码1', label: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '手机号码', label: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
         {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true, isActiveBtn: false}
       ],

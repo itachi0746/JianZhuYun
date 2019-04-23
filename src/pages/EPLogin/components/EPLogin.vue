@@ -37,7 +37,7 @@ export default {
           fieldName: 'EntId',
           required: true,
           clearable: true,
-          rightIcon: 'card'
+          rightIcon: null
         },
         {
           name: '用户名',
@@ -60,7 +60,7 @@ export default {
           popType: '',
           fieldName: 'Password',
           required: true,
-          clearable: true,
+          clearable: false,
           rightIcon: 'theEye'
         }
       ]

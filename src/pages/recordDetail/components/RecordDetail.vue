@@ -2,40 +2,8 @@
   <div class="">
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <div v-if="resData">
-        <div class="job-header van-hairline--bottom">
-          <van-row type="flex" align="center">
-            <van-col span="16">
-              <div class="job-name">{{resData.RE34_POSITION}}</div>
-            </van-col>
-            <van-col span="8">
-              <div class="job-pay">{{resData.ReferenceValues.RE34_STATUS}}</div>
-            </van-col>
-          </van-row>
-        </div>
-        <div class="job-desc">
-          <div class="job-desc-title">详情</div>
-          <div class="job-desc-main">
-            <div class="desc-item">
-              <div class="desc-name">
-                投递时间
-              </div>
-              <div class="desc-value">
-                {{resData.RE34_SEND_DATE}}
-              </div>
-            </div>
-          </div>
-          <!--<div class="job-desc-main">-->
-            <!--<div v-for="(item,index) in detailData" :key="index" class="desc-item">-->
-              <!--<div class="desc-name">-->
-                <!--{{item.key}}-->
-              <!--</div>-->
-              <!--<div class="desc-value">-->
-                <!--{{item.value}}-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        </div>
+      <div v-if="jobData">
+        <JobDetailItem :jobData="jobData"></JobDetailItem>
       </div>
     </div>
 
@@ -46,6 +14,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import JobDetailItem from '../../../component/JobDetailItem.vue'
 
 export default {
   name: '',
@@ -54,6 +23,7 @@ export default {
       headerName: '记录详情',
       headerHeight: null,
       resData: null,
+      jobData: null, // 职位信息
       id: null,
       dataMap: {
         RE13_EDU_DEGREE: '学历要求',
@@ -68,7 +38,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    JobDetailItem
   },
   mounted () {
     console.log(myModule)
@@ -76,19 +47,32 @@ export default {
   created () {
     const params = myModule.getUrlParams()
     this.id = params.id
-    postData('/ReService/SendDetials', {id: this.id}).then((res) => {
+//    postData('/ReService/SendDetials', {id: this.id}).then((res) => {
+//      console.log(res)
+//      if (myModule.isEmpty(res.ReturnData)) {
+//        console.log('暂无数据')
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: false // 禁用背景点击
+//        })
+//        return
+//      }
+//      this.resData = res.ReturnData
+//      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
+//    })
+    postData('/ReService/SendPositionDetials', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
-        console.log('暂无数据')
+        console.log('暂无职位数据')
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
-      this.resData = res.ReturnData
-      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
+      this.jobData = res.ReturnData
     })
   },
   methods: {
@@ -110,7 +94,7 @@ export default {
     handleDetail (dataObj) {
       let me = this
       for (let key in dataObj) {
-//        console.log(key)
+        //        console.log(key)
         const obj = {
           key: me.dataMap[key],
           value: dataObj[key]
@@ -122,7 +106,7 @@ export default {
      * 投点击简历
      */
     clickSend () {
-//      this.showDialog = true
+      //      this.showDialog = true
       this.$toast.loading({
         //        mask: true,
         message: '加载中...',
@@ -169,10 +153,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .body {
-    background-color: #F5F9FA;
-    overflow-y: auto;overflow-x: hidden;
+    background-color: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
-    padding: 0 10px;
+    padding: 0 18px;
+    color: #666666;
   }
 
   .btn {
@@ -190,6 +176,7 @@ export default {
   }
 
   .job-desc {
+    padding: 15px 0;
   }
 
   .job-desc-title {
@@ -201,8 +188,8 @@ export default {
 
   .job-desc-main {
     color: #666;
-    @include font-size(16px);
-    padding: 10px;
+    @include font-size(14px);
+    /*padding: 10px;*/
   }
 
   .desc-name {
@@ -222,17 +209,53 @@ export default {
   }
 
   .job-pay {
-    color: $mainColor;
+    color: #067FCC;
     text-align: right;
+    @include font-size(15px);
   }
 
   .job-name {
-    @include font-size(30px);
+    @include font-size(18px);
     color: #333;
     font-weight: bold;
   }
 
   .desc-item {
     margin-top: 10px;
+  }
+  .job-tag {
+    display: flex;
+    .job-tag-item:nth-child(2), .job-tag-item:nth-child(3) {
+      padding-left: 12px;
+    }
+  }
+  .job-tag-item {
+    margin-top: 9px;
+    padding-right: 12px;
+    color: #333;
+    @include font-size(14px);
+  }
+  .job-position {
+    color: #333;
+    margin-top: 14px;
+  }
+  .position-item {
+    @include font-size(14px);
+  }
+  .mid {
+    @include font-size(14px);
+    display: flex;
+    margin: 14px 0;
+    align-items: center;
+    .job-prop-title {
+      margin-bottom: 0;
+    }
+  }
+  .job-prop-title {
+    color: #333;
+    @include font-size(15px);
+    font-weight: bold;
+    margin-right: 15px;
+    margin-bottom: 10px;
   }
 </style>

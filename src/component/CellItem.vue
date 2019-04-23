@@ -3,7 +3,7 @@
     <van-cell-group class="out-warp">
       <div>
         <van-cell v-for="(item, index) in items" :key="index" class="cell-padding" @click="clickItem(item)"
-                  :title="item.name" icon="" is-link title-class="t-class">
+                  :title="item.name" icon="" is-link :title-class="[{'t-class': item.icon}]">
           <img class="cell-icon" :src="item.icon" alt="" v-if="item.icon">
         </van-cell>
         <!--<van-cell class="cell-padding" @click="clickItem(item.link)"-->

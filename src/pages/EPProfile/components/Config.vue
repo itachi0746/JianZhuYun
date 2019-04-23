@@ -13,7 +13,7 @@
               <!--</template>-->
             <!--</van-cell>-->
             <van-cell v-for="(item, index) in theCellArr" :key="index" class="cell-padding" @click="clickCell(item, index)"
-                      :title="item.name" icon="" is-link>
+                      :title="item.name" icon="" :is-link="item.isLink">
               <img class="cell-icon" :src="item.icon" alt="" v-if="item.icon">
             </van-cell>
           </div>
@@ -43,9 +43,9 @@ export default {
       theRadioData: null,
       theCellArr: [
 //        {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '切换到个人', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true}
+        {name: '切换到个人', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
+        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
+        {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true, isLink: false}
       ]
     }
   },

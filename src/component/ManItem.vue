@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="man-tag1-box">
-          <!--<div class="man-tag1 van-hairline&#45;&#45;right">{{detailData.RE23_EXPECTED_POSITION}}</div>-->
+          <div class="man-tag1 van-hairline--right">{{resData.RE23_JOB_INTENSION}}</div>
           <!--<div class="man-tag1 van-hairline&#45;&#45;right">全城科技有限公司</div>-->
         </div>
       </div>
@@ -52,31 +52,12 @@ export default {
   computed: {},
 
   methods: {
-    /**
-     * 处理数据
-     * @param dataObj
-     */
-    handleDetail (dataObj) {
-      let me = this
-      for (let key in dataObj) {
-        if (!me.resData[key]) { // 空则跳过
-          console.log(`字段${key} 没有值: ${me.resData[key]}`)
-          continue
-        }
-        const obj = {
-          key: dataObj[key],
-          value: me.resData[key]
-        }
-        this.detailData.push(obj)
-      }
-    }
   },
 
   created () {},
 
   mounted () {
     this.detailData = myModule.handleMapData(this.dataMap, this.resData)
-//    this.handleDetail(this.dataMap)
   },
 
   beforeDestroy () {}

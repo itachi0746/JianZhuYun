@@ -233,7 +233,7 @@ export default {
       text-align: right;
     }
     .action-btn {
-      margin-top: 10px;
+      margin-top: 15px;
       display: flex;
       justify-content: flex-end;
       /*width: 50px;*/
@@ -259,9 +259,9 @@ export default {
     padding-right: 5px;
   }
   .btnSize {
-    height: 25px;
+    /*height: 25px;*/
     line-height: 0;
-    padding: 5px 13px;
+    padding: 5px 15px;
     @include theBtnColor
   }
 

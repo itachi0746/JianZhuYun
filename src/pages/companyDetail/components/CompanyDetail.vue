@@ -9,10 +9,6 @@
           </van-cell>
         </van-panel>
         <van-panel class="mb20" title="工商信息">
-          <!--<van-cell title-class="title-class" title="公司全称" :value="resData.HRA0_ENT_NAME" />-->
-          <!--<van-cell title-class="title-class" title="企业法人" :value="resData.HRA0_ENT_LP" />-->
-          <!--<van-cell title-class="title-class" title="注册时间" :value="resData.HRA0_ENT_RT" />-->
-          <!--<van-cell title-class="title-class" title="注册资本" :value="resData.HRA0_ENT_RC" />-->
           <van-cell v-for="(item,index) in detailData" :key="index" title-class="title-class" :title="item.key" :value="item.value" />
         </van-panel>
       </div>
@@ -60,7 +56,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }

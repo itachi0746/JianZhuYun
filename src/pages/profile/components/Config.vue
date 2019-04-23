@@ -45,10 +45,10 @@ export default {
       showRadio: false, // 单选显示隐藏
       theRadioData: null,
       theCellArr: [
-        {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '切换到企业', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true},
-        {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true}
+        {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
+        {name: '切换到企业', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
+        {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
+        {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true, isLink: false}
       ]
     }
   },

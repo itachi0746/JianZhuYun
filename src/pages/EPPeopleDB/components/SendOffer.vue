@@ -154,7 +154,7 @@ export default {
     flex-direction: column;
   }
   .data-name {
-    @include font-size(18px);
+    @include font-size(25px);
     color: #323233;
     margin-top: 17px;
     margin-bottom: 5px;
@@ -200,6 +200,7 @@ export default {
     background-color: #F5F9FA;
     border-radius: 5px;
     height: 180px;
+    @include font-size(22px);
     /*padding: 10px;*/
   }
   .action-box {

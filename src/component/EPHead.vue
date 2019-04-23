@@ -64,13 +64,18 @@ export default {
   .data-head {
     width: 100%;
     height: 100%;
-    /*background-color: #999999;*/
     border-radius: 5px;
     position: relative;
+    overflow: hidden;
     img {
       width: 100%;
       height: 100%;
+      border-radius: 5px;
     }
+  }
+  .box {
+    width: 100%;
+    height: 100%;
   }
   .un-read-num {
     position: absolute;
@@ -85,7 +90,7 @@ export default {
     padding: 0 0.06rem;
     min-width: 0.32rem;
     line-height: 0.28rem;
-    border: 0.02rem solid #fff;
+    border: 0.02rem solid #f44;
     border-radius: 0.32rem;
     background-color: #f44;
     -webkit-transform: translateX(50%);

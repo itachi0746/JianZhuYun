@@ -31,10 +31,9 @@ export default {
     return {
       Mobile: '',
       Password: '',
-      pswInputType: 'password',
       theFieldArr: [
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
-        {name: '密码', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password', required: true, clearable: true, rightIcon: 'theEye'}
+        {name: '密码', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password', required: true, clearable: false, rightIcon: 'theEye'}
       ]
     }
   },

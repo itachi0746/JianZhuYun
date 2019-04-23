@@ -31,8 +31,8 @@ export default {
       theFieldArr: [
         {name: '身份证号码', code: '', value: '', placeHolder: '请输入您的身份证号码', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
         {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'Name', required: true, clearable: true},
-        {name: '密码1', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: true, rightIcon: 'theEye'},
-        {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: true, rightIcon: 'theEye'},
+        {name: '密码1', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
         {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'number', popType: '', fieldName: 'Code', required: true, clearable: true, isCode: true, isActiveBtn: false},
         {name: '文件地址', code: '', value: '', placeHolder: '', type: 'hidden', popType: '', fieldName: 'FileUrl', required: false, clearable: false}

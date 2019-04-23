@@ -14,7 +14,7 @@
                 <div>{{item.RE37_SEND_TIME}}</div>
               </div>
               <div class="myOffer-time">
-                <div class="myOffer-status">{{item.ReferenceValues.RE37_STATUS}}</div>
+                <div class="myOffer-status" :style="{color: colorMap[item.RE37_STATUS]}">{{item.ReferenceValues.RE37_STATUS}}</div>
                 <van-icon class="" name="arrow"/>
               </div>
             </div>
@@ -37,7 +37,14 @@ export default {
     return {
       headerName: '我的面试',
       headerHeight: null,
-      resData: null
+      resData: null,
+      colorMap: {
+        BD0909: '#999',
+        BD0904: '#01C0CC',
+        BD0903: '#F9514E',
+        BD0902: '#F9514E',
+        BD0901: '#F9514E'
+      }
     }
   },
   components: {
@@ -237,6 +244,7 @@ export default {
   .myOffer-status {
     color: #F9514E;
     margin-right: 15px;
+    @include font-size(13px);
   }
 
 </style>

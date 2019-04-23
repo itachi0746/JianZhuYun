@@ -20,20 +20,6 @@
           :status="resData.ReferenceValues.RE34_STATUS"
           :theTime="resData.RE34_CHG_TIME"
         ></ResultItem>
-        <!--<div class="result" v-show="resData.RE01_STATUS==='BD0904'">-->
-          <!--<div class="result-logo">-->
-            <!--<img src="../assets/accept.png" alt="">-->
-          <!--</div>-->
-          <!--<div class="result-msg">已同意</div>-->
-          <!--<div class="result-data">{{resData.RE01_CRT_TIME}}</div>-->
-        <!--</div>-->
-        <!--<div class="result" v-show="resData.RE01_STATUS==='BD0909'">-->
-          <!--<div class="result-logo">-->
-            <!--<img src="../assets/refuse.png" alt="">-->
-          <!--</div>-->
-          <!--<div class="result-msg">已拒绝</div>-->
-          <!--<div class="result-data">{{resData.RE01_CRT_TIME}}</div>-->
-        <!--</div>-->
       </div>
     </div>
   </div>
@@ -160,7 +146,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         setTimeout(() => {
           GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
@@ -200,7 +186,8 @@ export default {
   }
   .body {
     padding: 15px 10px;
-    @include borderBox()
+    @include borderBox();
+    position: relative;
   }
   .header {
     padding-bottom: 20px;

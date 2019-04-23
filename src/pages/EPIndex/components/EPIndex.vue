@@ -26,9 +26,6 @@
             <li class="job-li" v-for="(item, index) in resData" :key="index" @click="clickLi(item.RE23_CANDIDATE_ID)">
               <manItem :resData="item"></manItem>
             </li>
-            <!--<li class="job-li">-->
-              <!--<manItem></manItem>-->
-            <!--</li>-->
           </ul>
         </div>
       </van-list>

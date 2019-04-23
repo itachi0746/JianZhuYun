@@ -4,18 +4,23 @@
     <div class="body" ref="body">
       <div v-if="resData">
         <div>
-          <ContractItem :resData="resData"></ContractItem>
+          <ContractItem :resData="resData" :enterprise="false"></ContractItem>
         </div>
-      </div>
-      <div class="action-box">
-        <van-button type="info">确定</van-button>
-      </div>
-      <div class="result" v-show="false">
-        <div class="result-logo">
-          <img src="../assets/accept.png" alt="">
+        <div class="action-box" v-if="resData.RE33_STATUS==='BD0903' || resData.RE33_STATUS==='BD0902'">
+          <van-button type="info" @click.native="clickAccept">接受</van-button>
+          <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
         </div>
-        <div class="result-msg">签约成功</div>
-        <div class="result-data">2019-3-25</div>
+        <div class="action-box" v-if="resData.RE33_STATUS==='BD0904'">
+          <van-button type="info" @click.native="goToSign">去签署</van-button>
+          <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
+        </div>
+        <div v-if="resData.RE33_STATUS==='BD0909'">
+          <ResultItem
+            :statusCode="resData.RE33_STATUS"
+            :status="resData.ReferenceValues.RE33_STATUS"
+            :theTime="resData.RE33_CHG_TIME"
+          ></ResultItem>
+        </div>
       </div>
     </div>
   </div>
@@ -26,9 +31,9 @@ import myModule from '../../../common'
 import {postData} from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import ContractItem from '../../../component/ContractItem.vue'
+import ResultItem from '../../../component/ResultItem.vue'
 
 export default {
-  name: '',
   data () {
     return {
       headerName: '合同签约',
@@ -39,7 +44,8 @@ export default {
   },
   components: {
     Header,
-    ContractItem
+    ContractItem,
+    ResultItem
   },
   mounted () {
     console.log(myModule)
@@ -54,13 +60,14 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
       this.resData = res.ReturnData
-      let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
-      this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
+//      let theTS = myModule.formatDate(this.resData.RE33_CRT_TIME)
+//      this.resData.RE33_CRT_TIME = myModule.formatTime(theTS)
+      this.resData = myModule.formatObj(this.resData)
     })
   },
   methods: {
@@ -73,6 +80,32 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
+    },
+    // 拒绝
+    clickRefuse () {
+      window.history.back()
+//      this.resData.RE33_STATUS = 'BD0909'
+//      this.resData.ReferenceValues.RE33_STATUS = '已拒绝'
+//      this.resData.RE33_CHG_TIME = myModule.formatTime(new Date())
+    },
+    /**
+     * 接受 跳转法大大
+     */
+    clickAccept () {
+      this.resData.RE33_STATUS = 'BD0904'
+    },
+    /**
+     * 去签署
+     */
+    goToSign () {
+      postData('/ReService/GotoSign', {id: this.id}).then((res) => {
+        console.log(res)
+        if (res.Result) {
+          window.location.href = res.Result
+        } else {
+          console.log('没有链接地址')
+        }
+      })
     }
   }
 }
@@ -138,7 +171,9 @@ export default {
     margin-bottom: 15px;
   }
   .action-box {
+    padding: 0 70px;
     @include defaultFlex;
+    justify-content: space-between;
     margin: 40px 0 50px;
     button {
       background-color: $mainColor;

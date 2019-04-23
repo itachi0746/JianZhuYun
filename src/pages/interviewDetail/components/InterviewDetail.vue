@@ -168,7 +168,7 @@ export default {
     background-color: #fff;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
-    padding: 0 10px;
+    padding: 0 18px;
   }
 
   .btn {
@@ -222,17 +222,11 @@ export default {
     text-align: right;
   }
 
-  .job-name {
-    @include font-size(28px);
-    color: #333;
-    font-weight: bold;
-  }
-
   .desc-item {
     margin-top: 10px;
   }
   .btn-box {
-    margin-top: 15px;
+    /*margin-top: 15px;*/
     padding: 0 55px;
     display: flex;
     justify-content: space-between;
@@ -295,18 +289,25 @@ export default {
     text-align: center;
   }
   .main {
-    height: 225px;
+    height: 352px;
     padding: 15px;
     @include borderBox();
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
     width: 100%;
     background-color: #F5F9FA;
     border-radius: 10px;
-    @include font-size(24px);
+    @include font-size(22px);
+    overflow-y: auto;
   }
   .send-time {
-    @include font-size(16px);
+    /*@include font-size(16px);*/
+    @include font-size(15px);
     color: #666;
+  }
+  .job-name {
+    @include font-size(25px);
+    color: #333;
+    font-weight: bold;
   }
 </style>

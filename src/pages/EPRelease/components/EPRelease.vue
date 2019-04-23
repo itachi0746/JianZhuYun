@@ -45,16 +45,18 @@ export default {
       resData: null,
       fieldData: [
         {name: '记录ID', popType: '', value: '', code: '', fieldName: 'RE13_ID', show: false, required: false},
-        {name: '职位名称', popType: 'field', value: '', code: '', fieldName: 'RE13_NAME', show: true, required: true},
+        {name: '职位名称', popType: 'field', value: '', code: '', type: 'text', placeHolder: '请输入职位名称', clearable: false, fieldName: 'RE13_NAME', show: true, required: true},
         {name: '职位类型', popType: 'radio', value: '', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true, required: false},
         {name: '工作地点', popType: 'radio', value: '', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true, required: true},
         {name: '工作性质', popType: 'radio', value: '', code: 'UDRE003', fieldName: 'RE13_WORK_PROP', show: true, required: false},
-        {name: '职位描述', popType: 'field', value: '', code: '', fieldName: 'RE13_DESC', show: true, required: true},
+        {name: '职位描述', popType: 'field', value: '', code: '', type: 'textarea', fieldName: 'RE13_DESC', placeHolder: '请输入职位描述', show: true, required: true, class: 'textarea-class', clearable: false},
         {name: '经验要求', popType: 'radio', value: '', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true, required: true},
         {name: '薪资范围', popType: 'radio', value: '', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true, required: true},
         {name: '最低学历', popType: 'radio', value: '', code: 'UDHR021', fieldName: 'RE13_EDU_DEGREE', show: true, required: true}
       ],
-      PopFieldData: {name: '职位描述', code: '', value: '', placeHolder: '请输入职位描述', type: 'textarea', popType: '', fieldName: 'Mobile', required: false, clearable: true, class: 'textarea-class'}
+      PopFieldData: null // 传去弹窗的数据
+//      PopFieldData: {name: '职位描述', code: '', value: '', placeHolder: '请输入职位描述', type: 'textarea', popType: '', fieldName: 'Mobile', required: false, clearable: true, class: 'textarea-class'}
+
     }
   },
 
@@ -81,7 +83,10 @@ export default {
       const theCode = item.code
       if (!theCode) {
         console.log('没有code')
-        this.showField = true
+        if (this.popType === 'field') {
+          this.PopFieldData = this.curFieldItem
+          this.showField = true
+        }
         return
       }
       this.$toast.loading({
@@ -157,9 +162,9 @@ export default {
   created () {
     const param = myModule.getUrlParams()
     try {
-      this.id = param.id
+      this.id = param.id // 如果是从编辑职位过来,就有id
     } catch (err) {
-      this.id = ''
+      this.id = '' // 如果是发布新的职位就不用id
     }
     postData('/EntService/PositionDetail', {id: this.id}).then((res) => { // 请求已有数据
       console.log(res)

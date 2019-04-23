@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="box">
     <div class="data-head" v-if="theUrl">
       <img :src="url" alt="">
     </div>
     <div class="data-head" v-else>
       <img src="./assets/default_head_pr.png" alt="">
+      <!--<img src="./assets/default_head_ep.png" alt="">-->
     </div>
   </div>
 </template>
@@ -60,11 +61,16 @@ export default {
   .data-head {
     width: 100%;
     height: 100%;
-    /*background-color: #999999;*/
     border-radius: 50%;
+    overflow: hidden;
     img {
       width: 100%;
       height: 100%;
+      border-radius: 50%;
     }
+  }
+  .box {
+    width: 100%;
+    height: 100%;
   }
 </style>

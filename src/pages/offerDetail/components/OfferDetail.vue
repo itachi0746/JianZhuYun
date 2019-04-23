@@ -173,25 +173,26 @@ export default {
   }
 
   .header {
-    @include font-size(12px);
+    @include font-size(15px);
   }
 
   .header div:nth-child(1) {
     color: #000;
     font-weight: bold;
-    @include font-size(14px);
+    @include font-size(25px);
   }
 
   .main {
-    height: 225px;
+    height: 352px;
     padding: 15px;
     @include borderBox();
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
     width: 100%;
     background-color: #F5F9FA;
     border-radius: 10px;
-    @include font-size(13px)
+    @include font-size(22px);
+    overflow-y: auto;
   }
 
   .btn-box {

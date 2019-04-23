@@ -151,6 +151,9 @@ export default {
           name: '现居住地', label: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS', required: false, clearable: true
         },
         {
+          name: '求职意向', label: '求职意向', code: 'UDRE015', value: '', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
+        },
+        {
           name: '期待工作性质',
           label: '期待工作性质',
           code: 'UDRE003',
@@ -272,7 +275,19 @@ export default {
           popType: '',
           fieldName: 'RE23_CANDIDATE_ID',
           required: false,
-          clearable: true
+          clearable: false
+        },
+        {
+          name: '图片地址',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'RE23_PIC_URL',
+          required: false,
+          clearable: false
         }
       ],
       curFieldDIdx: null, // 当前字段index
@@ -357,6 +372,12 @@ export default {
           duration: 1000
         })
         this.resData.RE23_PIC_URL = res.ReturnData.PicUrl
+        for (let obj of this.theFieldArr) {
+          if (obj.name === '图片地址') {
+            obj.value = res.ReturnData.PicUrl
+            break
+          }
+        }
       })
     },
     // 触发上传
@@ -459,17 +480,11 @@ export default {
         forbidClick: true // 禁用背景点击
       })
       let form = myModule.createFormData(this.theFieldArr)
-
-      //      let dataObj = {}
-//      for (let obj of this.theFieldArr) {
-//        dataObj[obj.fieldName] = obj.value
-//      }
-      //      console.log(dataObj)
       postData('/ReService/SaveResume', form).then((res) => {
         console.log(res)
         this.$toast.success('提交成功')
         setTimeout(() => {
-//          GoToPage('', 'index.html', {})
+          GoToPage('', 'profile.html', {})
         }, 2000)
       })
     },

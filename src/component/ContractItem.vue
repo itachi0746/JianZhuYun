@@ -138,6 +138,10 @@ export default {
     popValue: {
       type: [String, Object],
       default: null
+    },
+    enterprise: { // 是否企业
+      type: Boolean,
+      default: null
     }
   },
   watch: {
@@ -263,6 +267,14 @@ export default {
           }
         }
       }
+    },
+    /**
+     * 禁用输入
+     */
+    disableField () {
+      for (let obj of this.theFieldArr) {
+        obj['disabled'] = true
+      }
     }
   },
 
@@ -273,6 +285,9 @@ export default {
   mounted () {
     this.formatData()
     this.setFieldValue()
+    if (!this.enterprise) {
+      this.disableField()
+    }
   },
 
   beforeDestroy () {}

@@ -4,7 +4,7 @@
     <div class="body" id="body" ref="body">
       <div v-if="resData">
         <div>
-          <ContractItem :resData="resData" :popValue="popValue" @sendFieldData="handleFieldData"></ContractItem>
+          <ContractItem :enterprise="true" :resData="resData" :popValue="popValue" @sendFieldData="handleFieldData"></ContractItem>
         </div>
         <div class="result" v-if="isSend">
           <div class="result-logo">

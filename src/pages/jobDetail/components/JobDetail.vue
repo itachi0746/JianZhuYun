@@ -3,29 +3,8 @@
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <div class="job-header van-hairline--bottom">
-          <van-row type="flex" align="center">
-            <van-col span="16">
-              <div class="job-name">{{resData.RE13_NAME}}</div>
-            </van-col>
-            <van-col span="8">
-              <div class="job-pay">{{resData.ReferenceValues.RE13_SALARY_REQUIRED}}</div>
-            </van-col>
-          </van-row>
-        </div>
-        <div class="job-desc">
-          <div class="job-desc-title">职位详情</div>
-          <div class="job-desc-main">
-            <div v-for="(item,index) in detailData" :key="index" class="desc-item">
-              <div class="desc-name">
-                {{item.key}}
-              </div>
-              <div class="desc-value">
-                {{item.value}}
-              </div>
-            </div>
-          </div>
-        </div>
+        <JobDetailItem :jobData="resData"></JobDetailItem>
+
       </div>
     </div>
     <footer ref="footer" class="van-hairline--top">
@@ -45,6 +24,7 @@
 import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import JobDetailItem from '../../../component/JobDetailItem.vue'
 
 export default {
   name: '',
@@ -71,7 +51,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    JobDetailItem
   },
   mounted () {
     console.log(myModule)
@@ -200,7 +181,7 @@ export default {
     background-color: #ffffff;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
-    padding: 0 10px;
+    padding: 0 18px;
   }
 
   .btn {

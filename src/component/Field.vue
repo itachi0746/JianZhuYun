@@ -16,7 +16,7 @@
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled" :label="item.label"
                      :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
                      :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder"/>
-          <div class="img-box" @click="clickBox">
+          <div class="img-box2" @click="clickBox">
             <img src="./assets/recg.png" alt="">
           </div>
           <van-uploader class="theUploadClass" :after-read="onRead" v-show="false">
@@ -27,13 +27,24 @@
       <div v-else>
         <!--默认输入框-->
         <div style="position: relative;width: 100%;">
+          <!--<van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"-->
+                     <!--:data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"-->
+                     <!--:type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>-->
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
                      :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
-                     :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>
-          <div class="img-box" @click="clickEye(item)" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">
-            <img src="./assets/eye.png" alt="" v-if="item.rightIcon==='noEye'">
-            <img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='theEye'">
-          </div>
+                     :type="item.type" :class="['cell-mb', 'wb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)">
+            <div slot="right-icon" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">
+              <div class="img-box" @click="clickEye(item)">
+                <img src="./assets/eye.png" alt="" v-if="item.rightIcon==='noEye'">
+                <img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='theEye'">
+              </div>
+            </div>
+            <!--<div class="img-box" @click="clickEye(item)" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">-->
+              <!--<img src="./assets/eye.png" alt="" v-if="item.rightIcon==='noEye'">-->
+              <!--<img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='theEye'">-->
+            <!--</div>-->
+
+          </van-field>
         </div>
       </div>
     </div>
@@ -127,6 +138,17 @@ export default {
   .img-box {
     width: 18px;
     height: 18px;
+    /*position: absolute;*/
+    /*right: 12px;*/
+    /*top: -21px;-*/
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .img-box2 {
+    width: 18px;
+    height: 18px;
     position: absolute;
     right: 12px;
     top: -21px;
@@ -147,7 +169,11 @@ export default {
 .textarea-class {
   height: 400px;
 }
-  .van-field__body {
-    height: 100%;
+  /*.van-field__body {*/
+    /*height: 100%;*/
+    /*word-break: break-all;*/
+  /*}*/
+  .wb {
+    word-break: break-all;
   }
 </style>

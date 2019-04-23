@@ -4,7 +4,7 @@
     <div class="body" ref="body">
       <div v-if="resData">
         <div>
-          <ContractItem :resData="resData"></ContractItem>
+          <ContractItem :resData="resData" :enterprise="true"></ContractItem>
         </div>
       </div>
       <!--<div class="action-box">-->

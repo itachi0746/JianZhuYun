@@ -181,18 +181,18 @@ export default {
     flex-direction: column;
   }
   .data-name {
-    @include font-size(18px);
+    @include font-size(25px);
     color: #323233;
     margin-top: 17px;
     margin-bottom: 5px;
     font-weight: bold;
   }
   .data-line {
-    @include font-size(14px);
+    @include font-size(15px);
     margin: 5px 0;
   }
   .data-line2 {
-    @include font-size(12px);
+    @include font-size(15px);
   }
   .data-head {
     width: 53px;
@@ -229,8 +229,10 @@ export default {
   .main-field {
     background-color: #F5F9FA;
     border-radius: 5px;
-    height: 180px;
+    height: 273px;
     padding: 10px;
+    @include font-size(22px);
+    overflow-y: auto;
   }
   .action-box {
     margin-top: 25px;

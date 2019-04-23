@@ -11,10 +11,7 @@
           :theId="resData.HRA0_ENTERPRISE_ID"
         ></ProfileItem>
         <div class="item-list">
-          <!--<van-cell v-for="(item, index) in items" :key="index" :title="item.name" @click="clickCell(item)" icon="" is-link>-->
-          <!--</van-cell>-->
           <CellItem :items="items"></CellItem>
-
         </div>
       </div>
     </div>
@@ -67,7 +64,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -167,7 +164,7 @@ export default {
     -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
   }
   .item-list {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
   }
   .cell-icon {
     position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <div ref="common-footer">
-    <van-tabbar v-model="active" v-if="theFooterItems" active-color="#00A7DD" class="shadow">
+    <van-tabbar v-model="active" v-if="theFooterItems" active-color="#00A7DD" class="border-color">
       <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link)" :info="item.info">
         <span>{{ item.name }}</span>
         <img
@@ -168,4 +168,13 @@ export default {
 .shadow {
     box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
 }
+.van-tabbar-item {
+  font-size: 11px;
+}
+.van-tabbar-item__icon img {
+  height: 22px;
+}
+  .border-color {
+    border-color: #e5e5e5;
+  }
 </style>
