@@ -206,7 +206,7 @@ export default {
   .man-head {
     min-width: 46px;
     width: 46px;
-    /*height: 46px;*/
+    height: 46px;
     border-radius: 50%;
     /*background-color: #969799;*/
     margin-right: 10px;
@@ -259,9 +259,9 @@ export default {
     padding-right: 5px;
   }
   .btnSize {
-    /*height: 25px;*/
+    height: 33px;
     line-height: 0;
-    padding: 5px 15px;
+    padding: 3px 14px;
     @include theBtnColor
   }
 

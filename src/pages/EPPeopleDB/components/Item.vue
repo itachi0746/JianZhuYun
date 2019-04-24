@@ -9,8 +9,8 @@
           <div class="man-name">
             {{item.RE01_NAME}}
           </div>
-          <div class="man-tag1-box" v-if="false">
-            <div class="man-tag1">{{item.RE01_NAME}}</div>
+          <div class="man-tag1-box">
+            <div class="man-tag1">{{item.RE01_JOB_INTENSION}}</div>
             <!--<div class="man-tag1">申请建筑电工</div>-->
           </div>
           <div class="man-tag1-box">

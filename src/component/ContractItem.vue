@@ -113,9 +113,9 @@ export default {
       '公司地址|RE33_CO_ADDR|show|B||请填写;\n' +
       '公司法人|RE33_CO_PERSON|show|B||请填写;\n' +
       '公司签约代表|RE33_CO_SIGNER|hidden|B||;\n' +
-      '公司联系方式|RE33_CO_LINK|show|B||请填写;\n' +
+      '联系方式|RE33_CO_LINK|show|B||请填写;\n' + // 公司联系方式
       '公司信用代码|RE33_CO_ID|hidden|B||;\n' +
-      '求职者联系方式|RE33_CANDIDATE_PHONE|show|A||请填写;\n' +
+      '联系方式|RE33_CANDIDATE_PHONE|show|A||请填写;\n' + // 求职者联系方式
       '求职者通信地址|RE33_CANDIDATE_ADDR|hidden|A||;\n' +
       '签署通知时间|RE33_NOTIFY_TIME|hidden|C||;\n' +
       '合同模板ID|RE33_TEMPLATE_ID|hidden|D||;\n' +
@@ -285,7 +285,10 @@ export default {
   mounted () {
     this.formatData()
     this.setFieldValue()
-    if (!this.enterprise) {
+//    if (!this.enterprise) {
+//      this.disableField()
+//    }
+    if (this.resData.RE33_STATUS !== 'BD0901') {
       this.disableField()
     }
   },

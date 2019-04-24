@@ -32,7 +32,7 @@ export default {
   name: 'profile',
   data () {
     return {
-      activeNum: 2,
+      activeNum: 3,
       headerHeight: null,
       footerHeight: null,
       items: [

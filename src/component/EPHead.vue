@@ -66,7 +66,7 @@ export default {
     height: 100%;
     border-radius: 5px;
     position: relative;
-    overflow: hidden;
+    /*overflow: hidden;*/
     img {
       width: 100%;
       height: 100%;

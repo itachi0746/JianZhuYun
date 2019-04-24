@@ -41,7 +41,7 @@ import myModule from '../../../common'
 import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
-import CompanyItem from '../../../component/companyItem.vue'
+import CompanyItem from '../../../component/CompanyItem.vue'
 
 export default {
   name: 'profile',

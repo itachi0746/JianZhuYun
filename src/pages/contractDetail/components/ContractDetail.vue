@@ -12,8 +12,14 @@
         </div>
         <div class="action-box" v-if="resData.RE33_STATUS==='BD0904'">
           <van-button type="info" @click.native="goToSign">去签署</van-button>
-          <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
+          <van-button type="info" @click.native="clickReturn">返回</van-button>
         </div>
+        <!--<div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">-->
+        <div class="action-box">
+          <van-button type="info" @click.native="clickDownload">下载合同</van-button>
+          <van-button type="info" @click.native="clickView">查看合同</van-button>
+        </div>
+        <!--BD0909 是拒绝-->
         <div v-if="resData.RE33_STATUS==='BD0909'">
           <ResultItem
             :statusCode="resData.RE33_STATUS"
@@ -36,7 +42,7 @@ import ResultItem from '../../../component/ResultItem.vue'
 export default {
   data () {
     return {
-      headerName: '合同签约',
+      headerName: '合同详情',
       headerHeight: null,
       id: null,
       resData: null
@@ -89,10 +95,60 @@ export default {
 //      this.resData.RE33_CHG_TIME = myModule.formatTime(new Date())
     },
     /**
-     * 接受 跳转法大大
+     * 接受 显示去签署按钮
      */
     clickAccept () {
       this.resData.RE33_STATUS = 'BD0904'
+    },
+    // 点击 返回按钮
+    clickReturn () {
+      this.resData.RE33_STATUS = 'BD0903'
+    },
+    // 下载合同
+    clickDownload () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {id: this.id}
+      postData('/ReService/DownloadContract', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: false // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+      })
+    },
+    // 查看合同
+    clickView () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {id: this.id}
+      postData('/ReService/ViewContract', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: false // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+      })
     },
     /**
      * 去签署
@@ -171,6 +227,18 @@ export default {
     margin-bottom: 15px;
   }
   .action-box {
+    padding: 0 70px;
+    @include defaultFlex;
+    justify-content: space-between;
+    margin: 40px 0 50px;
+    button {
+      background-color: $mainColor;
+      border-color: $mainColor;
+      width: 98px;
+      height: 43px;
+    }
+  }
+  .action-box2 {
     padding: 0 70px;
     @include defaultFlex;
     justify-content: space-between;

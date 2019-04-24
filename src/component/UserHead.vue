@@ -1,5 +1,7 @@
 <template>
   <div class="box">
+    <div class="un-read-num" v-if="theNum">{{theNum}}</div>
+
     <div class="data-head" v-if="theUrl">
       <img :src="url" alt="">
     </div>
@@ -15,7 +17,9 @@ export default {
   data () {
     return {
       baseUrl: '/ReService/Logo?id=',
-      url: '' // 最终地址
+      url: '', // 最终地址
+      theNum: null
+
     }
   },
   props: {
@@ -24,8 +28,12 @@ export default {
       default: ''
     },
     theId: {
-      type: String,
+      type: [String, Number],
       default: ''
+    },
+    isRead: {
+      type: [String, Number],
+      default: null
     }
   },
   watch: {
@@ -51,6 +59,9 @@ export default {
     } else {
       this.url = this.baseUrl + this.theId
     }
+    if (this.isRead !== null) {
+      this.theNum = this.isRead ? 0 : 1
+    }
   },
 
   beforeDestroy () {}
@@ -62,7 +73,7 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     img {
       width: 100%;
       height: 100%;

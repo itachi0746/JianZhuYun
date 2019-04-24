@@ -83,6 +83,10 @@ Axios.interceptors.response.use(
       }
       return Promise.reject(res.data.Message) // 返回promise对象,把错误信息传下去
     }
+    if (res.data.Success && res.data.Code === '403') { // 403 跳转
+      window.location.href = res.data.Result
+      return
+    }
     return res
   },
   error => {

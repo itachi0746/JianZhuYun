@@ -8,7 +8,7 @@
           <van-cell-group v-if="theRadioData">
             <van-cell v-for="(item,index) in theRadioData" :key="index" :title="item.Value" clickable
                       @click="clickRadio(item)">
-              <van-radio :name="item.Value" @click="clickRadio(item)"/>
+              <van-radio class="no-event" :name="item.Value"/>
             </van-cell>
           </van-cell-group>
         </van-radio-group>
@@ -80,5 +80,8 @@ export default {
     color: #000000;
     text-align: center;
     padding: 10px 0;
+  }
+  .no-event {
+    pointer-events: none;
   }
 </style>

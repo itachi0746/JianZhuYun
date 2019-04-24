@@ -13,14 +13,14 @@
         <div class="message-list" v-if="resData">
           <ul>
             <li class="message-li" v-for="(item,index) in resData" :key="index" @click="clickLi(item.RE41_OBJ_ID,item.RE41_OBJ_CODE,item.RE41_MSG_ID)">
-              <MSGItem :resData="item" :enterprise="false"></MSGItem>
+              <EPMSGItem :resData="item" :enterprise="true"></EPMSGItem>
             </li>
           </ul>
         </div>
       </van-list>
     </van-pull-refresh>
     <div v-if="infoNum!==null">
-      <Footer @sendHeight="handleHeight" :active="activeNum" :infoNum="infoNum" :enterprise="false"></Footer>
+      <Footer @sendHeight="handleHeight" :active="activeNum" :infoNum="infoNum" :enterprise="true"></Footer>
     </div>
     <!--<Footer v-if="resData" @sendHeight="handleHeight" :active="activeNum" :infoNum="infoNum"></Footer>-->
   </div>
@@ -32,6 +32,7 @@ import {postData} from '../../../common/server'
 import Footer from '../../../component/Footer.vue'
 import Header from '../../../component/Header.vue'
 import MSGItem from '../../../component/MSGItem.vue'
+import EPMSGItem from '../../../component/EPMSGItem.vue'
 
 export default {
   name: 'message',
@@ -49,18 +50,18 @@ export default {
       finished: false,
       isLoading: false,
       dataMap: { // todo 还有映射
-        'RE34_RESUME_RCV': 'recordDetail.html',
-        'RE37_INTERVIEW_MSG': 'interviewDetail.html',
-        'RE32_OFFER_MSG': 'offerDetail.html',
-        'RE33_SIGN_CONTRACT': 'contractDetail.html'
-      },
-      enterprise: false // 是否企业端
+        'RE34_RESUME_RCV': 'EPRecordDetail.html',
+        'RE37_INTERVIEW_MSG': 'EPInterviewDetail.html',
+        'RE32_OFFER_MSG': 'EPOfferDetail.html',
+        'RE33_SIGN_CONTRACT': 'EPContractDetail.html'
+      }
     }
   },
   components: {
     Footer,
     Header,
-    MSGItem
+    MSGItem,
+    EPMSGItem
   },
   mounted () {
     console.log(myModule)
@@ -107,7 +108,7 @@ export default {
       const data = {
         id: msgId
       }
-      postData('/ReService/UpdateMessageReadState', data).then((res) => {
+      postData('/EntService/UpdateMessageReadState', data).then((res) => {
         console.log(res)
         this.$toast.clear()
         const link = this.dataMap[code]
@@ -149,8 +150,7 @@ export default {
       const data = {
         PageIndex: this.PageIndex
       }
-//      let link = this.enterprise ? '/EntService/MyMessages' : '/ReService/MyMessages'
-      let link = '/ReService/MyMessages'
+      let link = '/EntService/MyMessages'
       postData(link, data).then((res) => {
         console.log(res)
         if (myModule.isEmpty(res.ReturnData)) {

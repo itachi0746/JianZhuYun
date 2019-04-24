@@ -6,17 +6,12 @@
         <div>
           <ContractItem :resData="resData" :enterprise="true"></ContractItem>
         </div>
+        <div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">
+        <!--<div class="action-box">-->
+          <van-button type="info" @click.native="clickDownload">下载合同</van-button>
+          <van-button type="info" @click.native="clickView">查看合同</van-button>
+        </div>
       </div>
-      <!--<div class="action-box">-->
-      <!--<van-button type="info">确定</van-button>-->
-      <!--</div>-->
-      <!--<div class="result" v-show="false">-->
-      <!--<div class="result-logo">-->
-      <!--<img src="../assets/accept.png" alt="">-->
-      <!--</div>-->
-      <!--<div class="result-msg">签约成功</div>-->
-      <!--<div class="result-data">2019-3-25</div>-->
-      <!--</div>-->
     </div>
   </div>
 </template>
@@ -76,6 +71,54 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
+    },
+    // 下载合同
+    clickDownload () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {id: this.id}
+//      window.location.href = url
+      postData('/EntService/DownloadContract', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: false // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+      })
+    },
+    // 查看合同
+    clickView () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      const data = {id: this.id}
+      //      window.location.href = url
+      postData('/EntService/ViewContract', data).then((res) => {
+        console.log(res)
+        if (myModule.isEmpty(res.ReturnData)) {
+          console.log('暂无数据')
+          this.$toast.fail({
+            mask: false,
+            message: '暂无数据',
+            forbidClick: false // 禁用背景点击
+          })
+          return
+        }
+        this.$toast.clear()
+      })
     }
   }
 }
@@ -155,7 +198,9 @@ export default {
   }
 
   .action-box {
+    padding: 0 70px;
     @include defaultFlex;
+    justify-content: space-between;
     margin: 40px 0 50px;
     button {
       background-color: $mainColor;

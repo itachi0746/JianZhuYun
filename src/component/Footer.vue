@@ -1,7 +1,7 @@
 <template>
   <div ref="common-footer">
     <van-tabbar v-model="active" v-if="theFooterItems" active-color="#00A7DD" class="border-color">
-      <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link)" :info="item.info">
+      <van-tabbar-item v-for="(item, index) in theFooterItems" :key="index" @click="clickFooter(item.link, item.param)" :info="item.info">
         <span>{{ item.name }}</span>
         <img
           slot="icon"
@@ -27,26 +27,33 @@ export default {
           normal: require('./assets/f1.png'),
           active: require('./assets/f1_active.png'),
           name: '职位',
-          link: 'index.html'
+          link: 'index.html',
+          param: null
         },
         {
           normal: require('./assets/f2.png'),
           active: require('./assets/f2_active.png'),
           name: '公司',
-          link: 'company.html'
+          link: 'company.html',
+          param: null
+
         },
         {
           normal: require('./assets/f3.png'),
           active: require('./assets/f3_active.png'),
           name: '消息',
           link: 'message.html',
-          info: null
+          info: null,
+          param: {}
+
         },
         {
           normal: require('./assets/f4.png'),
           active: require('./assets/f4_active.png'),
           name: '我的',
-          link: 'profile.html'
+          link: 'profile.html',
+          param: null
+
         }
       ],
       icons2: [ // 企业端footer
@@ -54,19 +61,33 @@ export default {
           normal: require('./assets/home_shouye_nor.png'),
           active: require('./assets/home_shouye_sel.png'),
           name: '首页',
-          link: 'EPIndex.html'
+          link: 'EPIndex.html',
+          param: null
+
         },
         {
           normal: require('./assets/home_shengqingjilu_nor.png'),
           active: require('./assets/home_shengqingjulu_sel.png'),
           name: '申请记录',
-          link: 'EPRecord.html'
+          link: 'EPRecord.html',
+          param: null
+
+        },
+        {
+          normal: require('./assets/f3.png'),
+          active: require('./assets/f3_active.png'),
+          name: '消息',
+          link: 'EPMessage.html',
+          info: null,
+          param: {}
         },
         {
           normal: require('./assets/home_wode_nor.png'),
           active: require('./assets/home_wode_sel.png'),
           name: '我的',
-          link: 'EPProfile.html'
+          link: 'EPProfile.html',
+          param: null
+
         }
       ],
       theNum: null // 未读信息数量
@@ -107,8 +128,8 @@ export default {
     /**
      * 点击footer
      */
-    clickFooter (link) {
-      GoToPage('', link)
+    clickFooter (link, param) {
+      GoToPage('', link, param)
     },
     getData () {
       this.$toast.loading({
@@ -148,16 +169,18 @@ export default {
   created () {
     this.theFooterItems = this.enterprise ? this.icons2 : this.icons
     this.link = this.enterprise ? '/EntService/MyMessages' : '/ReService/MyMessages'
+
+  },
+
+  mounted () {
+    this.handleHeight()
+//    debugger
     if (this.infoNum !== null) {
       this.theNum = this.infoNum
       this.setInfoNum(this.theNum)
     } else {
       this.getData()
     }
-  },
-
-  mounted () {
-    this.handleHeight()
   },
 
   beforeDestroy () {}

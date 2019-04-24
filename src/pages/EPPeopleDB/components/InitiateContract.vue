@@ -123,15 +123,16 @@ export default {
     /**
      * 监听弹窗关闭
      */
-    closePop (obj) {
-      if (!obj.value) {
-        console.log('没有返回值', obj)
+    closePop (theObj) {
+      console.log('q:', theObj)
+      if (!theObj.value) {
+        console.log('没有返回值', theObj)
         this.showPop = false
         this.popValue = null
         return
       }
       this.showPop = false
-      this.popValue = obj.value
+      this.popValue = theObj.value
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -142,11 +143,14 @@ export default {
         let form = new FormData()
         for (let obj of this.dataArr) {
 //          form.append(obj.fieldName, this.resData[obj.fieldName])
+          if (obj.fieldName === 'RE33_TEMPLATE_ID') {
+            obj.value = theObj.value.Key
+          }
           form.append(obj.fieldName, obj.value)
         }
         const data = {
-          id: this.id,
-          folder: obj.value.Key
+//          RE33_TEMPLATE_ID: theObj.value.Key,
+          id: this.id
         }
         for (let key in data) {
           form.append(key, data[key])
@@ -155,6 +159,7 @@ export default {
           console.log(res)
           this.$toast.success('提交成功')
           this.isSend = true
+//          debugger
           setTimeout(() => {
             GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
           }, 2000)

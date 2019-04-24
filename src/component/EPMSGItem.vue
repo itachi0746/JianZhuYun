@@ -2,14 +2,7 @@
   <div>
     <div class="msg-li-box van-hairline--bottom">
       <div class="msg-head">
-        <!--<div v-if="isEnterprise">-->
-          <!--<EPHead :theId="resData.RE41_ENT_ID" :isRead="resData.RE41_IS_READ"></EPHead>-->
-        <!--</div>-->
-        <!--<div v-else>-->
-          <!--<UserHead :theId="resData.RE41_ENT_ID" :isRead="resData.RE41_IS_READ"></UserHead>-->
-        <!--</div>-->
-        <EPHead :theId="resData.RE41_ENT_ID" :isRead="resData.RE41_IS_READ"></EPHead>
-
+        <UserHead :theId="resData.RE41_ENT_ID" :isRead="resData.RE41_IS_READ"></UserHead>
       </div>
       <div class="msg-data">
         <div>{{resData.RE41_TITLE}}</div>
@@ -23,7 +16,6 @@
 </template>
 
 <script>
-import EPHead from './EPHead.vue'
 import UserHead from './UserHead.vue'
 
 export default {
@@ -46,7 +38,6 @@ export default {
   },
 
   components: {
-    EPHead,
     UserHead
   },
 
