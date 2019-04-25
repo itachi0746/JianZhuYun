@@ -2,66 +2,37 @@
   <div class="handle">
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
-      <div class="header van-hairline--bottom">
-        <van-row>
-          <van-col span="20">
-            <div class="data-name">名字</div>
-            <div class="data-item-box">
-              <div class="data-item">
-                <div class="data-item-label">年龄</div>
-                <van-tag class="theTag" plain text-color="#333333">30</van-tag>
-              </div>
-              <div class="data-item">
-                <div class="data-item-label">籍贯</div>
-                <van-tag class="theTag" plain text-color="#333333">广州</van-tag>
-              </div>
-              <div class="data-item">
-                <div class="data-item-label">手机</div>
-                <van-tag class="theTag" plain text-color="#333333">12345678911</van-tag>
-              </div>
-              <div class="data-item">
-                <div class="data-item-label">身份证</div>
-                <van-tag class="theTag" plain text-color="#333333">4331011995212014045</van-tag>
-              </div>
-            </div>
-          </van-col>
-          <van-col span="4">
-            <div class="data-head"></div>
-          </van-col>
-        </van-row>
+      <div v-if="resData">
+        <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
       </div>
-      <div class="item-box van-hairline--bottom">
-        <div class="title">工作经历
-          <i class="blue-point"></i>
-        </div>
-        <div class="item-line item-line1">
-          <span>广州某某有限公司</span>
-          <span>2017.6-至今</span>
-        </div>
-        <div class="item-line item-line2">
-          <span>UI设计·开发部</span>
-        </div>
-        <div class="item-line item-line3">
-          <span>内容:官网设计、APP设计、官网设计、APP设计官网设计、APP设计、官网设计、APP设计</span>
-        </div>
-      </div>
+      <!--<div class="action-box">-->
+        <!--<div class="p10">-->
+          <!--<van-button class="btnClass" type="info" size="large" @click.native="moveTo">移动到</van-button>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
 
 <script>
 import myModule from '../../../common'
+import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
+import ResumeItem from '../../../component/ResumeItem.vue'
 
 export default {
   data () {
     return {
-      headerName: '简历详情'
+      headerName: '简历详情',
+      id: null,
+      resData: null,
+      workExperienceData: null // 工作经历
     }
   },
 
   components: {
-    Header
+    Header,
+    ResumeItem
   },
 
   computed: {},
@@ -73,13 +44,48 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
-    },
-    clickBtn () {
-      this.$router.push({name: 'ResumeDetail', params: {}})
     }
   },
 
-  created () {},
+  created () {
+    this.$toast.loading({
+      mask: false,
+      message: '加载中...',
+      duration: 0,
+      forbidClick: true // 禁用背景点击
+    })
+    const param = this.$route.params
+    this.id = param.id
+    postData('/EntService/peopleDetail', {id: this.id}).then((res) => {
+      console.log(res)
+      if (myModule.isEmpty(res.ReturnData)) {
+        console.log('暂无数据')
+        this.$toast.fail({
+          mask: false,
+          message: '暂无数据',
+          forbidClick: false // 禁用背景点击
+        })
+        return
+      }
+      this.$toast.clear()
+      this.resData = res.ReturnData
+    })
+//    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
+//      console.log(res)
+//      if (myModule.isEmpty(res.ReturnData)) {
+//        console.log('暂无数据')
+//        this.$toast.fail({
+//          mask: false,
+//          message: '暂无数据',
+//          forbidClick: true // 禁用背景点击
+//        })
+//        return
+//      }
+//      this.workExperienceData = res.ReturnData
+//      this.workExperienceData.RE02_BEGIN_DATE = myModule.handleTime(this.workExperienceData.RE02_BEGIN_DATE)
+//      this.workExperienceData.RE02_END_DATE = myModule.handleTime(this.workExperienceData.RE02_END_DATE)
+//    })
+  },
 
   mounted () {},
 
@@ -141,6 +147,10 @@ export default {
     height: 53px;
     background-color: #999999;
     border-radius: 50%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .data-name {
     color: #323233;
@@ -168,5 +178,59 @@ export default {
   }
   .van-tag::after {
     border-color: #666;
+  }
+  .action-box {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .action-box {
+    padding: 25px 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .btn-box {
+    display: flex;
+    justify-content: center;
+    button {
+      background-color: $mainColor;
+      border-color: $mainColor;
+    }
+  }
+  .result {
+    @include font-size(16px);
+    color: #666;
+  }
+  .result-logo {
+    width: 100%;
+    @include defaultFlex;
+    margin-bottom: 10px;
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .result-data {
+    @include font-size(14px);
+    text-align: center;
+  }
+  .result-msg {
+    text-align: center;
+  }
+  .p10 {
+    width: 100%;
+  }
+  .action-box {
+    @include defaultFlex;
+    margin: 40px 0 50px;
+    button {
+      background-color: $mainColor;
+      border-color: $mainColor;
+      /*width: 98px;*/
+      /*height: 43px;*/
+    }
+  }
+  .btnClass {
+    @include theBtnColor;
+    padding: 0 20px;
   }
 </style>

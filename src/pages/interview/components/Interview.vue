@@ -62,7 +62,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -72,7 +72,7 @@ export default {
           console.log('发送日期为空')
           continue
         }
-        item.RE37_SEND_TIME = myModule.handleTime(item.RE37_SEND_TIME)
+        item.RE37_SEND_TIME = myModule.handleTime(item.RE37_SEND_TIME, true)
       }
     })
   },

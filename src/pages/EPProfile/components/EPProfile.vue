@@ -7,6 +7,7 @@
           :enterprise="true"
           :theName="resData.HRA0_ENT_NAME"
           theMemo=""
+          :isVerified="resData.IS_VERIFIED"
           :theUrl="resData.HRA0_LOGO_URL"
           :theId="resData.HRA0_ENTERPRISE_ID"
         ></ProfileItem>

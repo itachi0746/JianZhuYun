@@ -98,21 +98,28 @@ export default {
   /**
    * 时间戳转为为普通日期格式
    * @param shijianchuo 时间戳
+   * @param hm 是否返回小时 分钟
    * @returns {string}
    */
-  formatTime: function (shijianchuo) {
+  formatTime: function (shijianchuo, hm) {
     //shijianchuo是整数，否则要parseInt转换
     // var time = new Date(shijianchuo)
 
-    let time = shijianchuo
+    let time = shijianchuo, result
     let y = time.getFullYear()
     let m = time.getMonth() + 1
     let d = time.getDate()
-    // var h = time.getHours()
-    // var mm = time.getMinutes()
+    let h = time.getHours()
+    let mm = time.getMinutes()
+    if (hm) {
+      result = y + '-' + this.add0(m) + '-' + this.add0(d) + ' ' + this.add0(h) + ':' + this.add0(mm)
+    } else {
+      result = y + '-' + this.add0(m) + '-' + this.add0(d)
+    }
     // var s = time.getSeconds()
     // return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s)
-    return y + '-' + this.add0(m) + '-' + this.add0(d)
+    // return y + '-' + this.add0(m) + '-' + this.add0(d)
+    return result
   },
   /**
    * json转formdata
@@ -168,6 +175,7 @@ export default {
       console.log('参数错误:', dateStr)
       return
     }
+    // debugger
     let theResult = dateStr
     let theReg = /\/Date\(\d*\)\//g
     let theReg2 = /\/Date\(-{1}\d*\)\//g
@@ -196,14 +204,15 @@ export default {
   /**
    * 统一处理时间
    * @param dateStr
+   * @param hm 是否需要小时分钟
    */
-  handleTime: function (dateStr) {
+  handleTime: function (dateStr, hm = false) {
     // console.log(dateStr)
     let theResult = this.formatDate(dateStr)
     if (!theResult) {
       return theResult
     }
-    theResult = this.formatTime(theResult)
+    theResult = this.formatTime(theResult, hm)
     return theResult
   },
   /**
@@ -311,15 +320,18 @@ export default {
   /**
    * 格式化数据对象的时间戳字符串, null字符串
    */
-  formatObj (obj) {
+  formatObj (obj, hm) {
     for (let key in obj) { // 格式化时间
       if (typeof obj[key] !== 'string') {
+        if (obj[key] === null || obj[key] === undefined) { // 格式化null
+          obj[key] = ''
+        }
         continue
       }
       if (obj[key].indexOf('/Date') !== -1) {
-        obj[key] = this.handleTime(obj[key])
+        obj[key] = this.handleTime(obj[key], hm)
       }
-      if (obj[key] === 'null' || obj[key] === null) { // 格式化null
+      if (obj[key] === 'null') { // 格式化'null'
         obj[key] = ''
       }
     }

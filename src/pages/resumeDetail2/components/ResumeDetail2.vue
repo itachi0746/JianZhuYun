@@ -15,7 +15,7 @@
               <img src="../assets/edit.png" alt="">
             </div>
             <div class="line line1">
-              <div class="name">{{theItemData[0].data[0].name}}</div>
+              <div class="name">{{theItemData[0].data[0].value}}</div>
               <div class="call">/先生</div>
             </div>
             <div class="line line2">
@@ -23,13 +23,13 @@
                 <van-col span="10">
                   <div class="line2-item">
                     <div class="label">{{theItemData[0].data[1].name}}</div>
-                    <div class="line2-value">{theItemData[0].data[2].value}}</div>
+                    <div class="line2-value">{{theItemData[0].data[1].value}}</div>
                   </div>
                 </van-col>
                 <van-col span="14">
                   <div class="line2-item">
                     <div class="label">{{theItemData[0].data[2].name}}</div>
-                    <div class="line2-value">{theItemData[0].data[2].value}}</div>
+                    <div class="line2-value">{{theItemData[0].data[2].value}}</div>
                   </div>
                 </van-col>
               </van-row>
@@ -176,32 +176,32 @@ export default {
           border: true,
           data: [
             {
-              name: '求职意向', label: '求职意向', code: 'UDRE015', value: '', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
-            },
-            {
-              name: '期待工作地点',
-              label: '期待工作地点',
-              code: '',
-              value: '',
-              placeHolder: '期待工作地点',
-              type: 'text',
-              popType: '',
-              fieldName: 'RE23_WORK_PLACE',
-              required: true,
-              clearable: true
+              name: '求职意向', label: '求职意向', code: 'UDRE015', value: 'UI设计师', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
             },
             {
               name: '期待年薪',
               label: '期待年薪',
               code: '',
-              value: '',
+              value: '23333',
               placeHolder: '期待年薪',
               type: 'text',
               popType: '',
               fieldName: 'RE23_ANNUAL_SALARY_E',
-              required: true,
+              required: false,
               clearable: true
             },
+            {
+              name: '期待工作地点',
+              label: '期待工作地点',
+              code: '',
+              value: '工作',
+              placeHolder: '期待工作地点',
+              type: 'text',
+              popType: '',
+              fieldName: 'RE23_WORK_PLACE',
+              required: false,
+              clearable: true
+            }
           ]
           //        {titleName: '工作经历', border: true, data: {}},
           //        {titleName: '项目经历', border: true, data: {}},

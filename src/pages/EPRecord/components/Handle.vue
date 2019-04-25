@@ -123,7 +123,7 @@ export default {
       }
       postData('/EntService/UpdateApplyStatus', data).then((res) => {
         console.log(res)
-        this.$toast.success('提交成功')
+        this.$toast.success('操作成功, 请到人才库查看记录')
         this.resData.RE34_STATUS = res.ReturnData.RE34_STATUS
         this.resData.ReferenceValues.RE34_STATUS = res.ReturnData.ReferenceValues.RE34_STATUS
         this.resData.RE34_CHG_TIME = myModule.handleTime(res.ReturnData.RE34_CHG_TIME)
@@ -133,9 +133,8 @@ export default {
       this.$router.go(-1)
     },
     clickCheck () {
-//      console.log(this.resData.RE34_CANDIDATE_ID)
-//      debugger
-      GoToPage('', 'resumeDetail.html', {id: this.resData.RE34_CANDIDATE_ID})
+      this.$router.push({name: 'ResumeDetail', params: {id: this.resData.RE34_CANDIDATE_ID}})
+//      GoToPage('', 'resumeDetail.html', {id: this.resData.RE34_CANDIDATE_ID})
     }
   },
 
@@ -156,7 +155,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE)
+      this.resData.RE34_SEND_DATE = myModule.handleTime(this.resData.RE34_SEND_DATE, true)
     })
   },
 

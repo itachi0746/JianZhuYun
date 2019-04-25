@@ -12,7 +12,7 @@
                 <div>{{item.RE34_SEND_DATE}}</div>
               </div>
               <div class="myOffer-time">
-                <div class="myOffer-status">{{item.ReferenceValues.RE34_STATUS}}</div>
+                <div class="myOffer-status" :style="{color: colorMap[item.RE34_STATUS]}">{{item.ReferenceValues.RE34_STATUS}}</div>
                 <van-icon class="" name="arrow"/>
               </div>
             </div>
@@ -35,7 +35,14 @@ export default {
     return {
       headerName: '申请记录',
       headerHeight: null,
-      resData: null
+      resData: null,
+      colorMap: {
+        BD0909: '#999',
+        BD0904: '#01C0CC',
+        BD0903: '#F9514E',
+        BD0902: '#F9514E',
+        BD0901: '#F9514E'
+      }
     }
   },
   components: {
@@ -59,7 +66,7 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
@@ -69,7 +76,7 @@ export default {
           console.log('发送日期为空')
           continue
         }
-        item.RE34_SEND_DATE = myModule.handleTime(item.RE34_SEND_DATE)
+        item.RE34_SEND_DATE = myModule.handleTime(item.RE34_SEND_DATE, true)
       }
     })
   },

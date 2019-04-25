@@ -64,7 +64,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE23_CAN_WORK_TIME = myModule.handleTime(this.resData.RE23_CAN_WORK_TIME)
+      this.resData.RE23_CAN_WORK_TIME = myModule.handleTime(this.resData.RE23_CAN_WORK_TIME, false)
     })
   },
 

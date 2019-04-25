@@ -28,7 +28,6 @@ import Header from '../../../component/Header.vue'
 import Item from './Item.vue'
 
 export default {
-  name: 'profile',
   data () {
     return {
       headerName: '录用通知',

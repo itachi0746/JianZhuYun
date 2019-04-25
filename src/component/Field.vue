@@ -1,11 +1,12 @@
 <template>
-  <div :class="{'van-hairline--bottom': item.type !== 'hidden'}" v-show="item.type !== 'hidden'">
+  <div :class="{'van-hairline--bottom': item.type !== 'hidden'}" v-show="item.type !== 'hidden'" @click="clickInput(item, index)">
     <div v-if="item.isCode">
       <!--发送验证码-->
       <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField"
-                 :data-index="index" @click="clickInput(item, index)" :label="item.label"
+                 :data-index="index" :label="item.label" :disabled="item.disabled"
                  :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder">
-        <van-button :class="['btnStyle', {'btnStyle2': item.isActiveBtn}]" @click="clickSend" slot="button" size="small" clearable type="primary">发送验证码
+        <van-button :class="['btnStyle', {'btnStyle2': item.isActiveBtn}]" @click="clickSend" slot="button" size="small" clearable type="primary">
+          发送验证码
         </van-button>
       </van-field>
     </div>
@@ -14,7 +15,7 @@
         <!--上传文件-->
         <div style="position: relative;width: 100%;">
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled" :label="item.label"
-                     :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
+                     :data-index="index" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
                      :type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder"/>
           <div class="img-box2" @click="clickBox">
             <img src="./assets/recg.png" alt="">
@@ -27,23 +28,15 @@
       <div v-else>
         <!--默认输入框-->
         <div style="position: relative;width: 100%;">
-          <!--<van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"-->
-                     <!--:data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"-->
-                     <!--:type="item.type" :class="['cell-mb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)"/>-->
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
-                     :data-index="index" @click="clickInput(item, index)" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
-                     :type="item.type" :class="['cell-mb', 'wb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)">
+                     :data-index="index" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)" :readonly="item.readonly"
+                     :type="item.type" :class="[{'cell-mb': cellMB}, 'wb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)">
             <div slot="right-icon" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">
               <div class="img-box" @click="clickEye(item)">
                 <img src="./assets/eye.png" alt="" v-if="item.rightIcon==='noEye'">
                 <img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='theEye'">
               </div>
             </div>
-            <!--<div class="img-box" @click="clickEye(item)" v-if="item.name==='密码' || item.name==='密码1' || item.name==='密码2'">-->
-              <!--<img src="./assets/eye.png" alt="" v-if="item.rightIcon==='noEye'">-->
-              <!--<img src="./assets/no-eye.png" alt="" v-if="item.rightIcon==='theEye'">-->
-            <!--</div>-->
-
           </van-field>
         </div>
       </div>
@@ -65,6 +58,10 @@ export default {
     index: {
       type: Number,
       default: null
+    },
+    cellMB: { // 下margin
+      type: Boolean,
+      default: true
     }
   },
   watch: {
@@ -166,14 +163,11 @@ export default {
   .btnStyle2 {
     @include theBtnColor;
   }
-.textarea-class {
-  height: 400px;
-}
-  /*.van-field__body {*/
-    /*height: 100%;*/
-    /*word-break: break-all;*/
-  /*}*/
+  .textarea-class {
+    height: 400px;
+  }
   .wb {
     word-break: break-all;
   }
+
 </style>

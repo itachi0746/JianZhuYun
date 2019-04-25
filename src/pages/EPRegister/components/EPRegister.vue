@@ -20,7 +20,7 @@
 
       <div class="mt30">
         <!--<van-button @click="clickSubmit" :class="['btnStyle2']" type="info" size="large">-->
-          <!--确定-->
+        <!--确定-->
         <!--</van-button>-->
         <BigButton :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
       </div>
@@ -41,21 +41,198 @@ export default {
   data () {
     return {
       theFieldArr: [
-        {name: '公司名称', label: '公司名称', code: '', value: '', placeHolder: '请输入公司名称', type: 'text', popType: '', fieldName: 'SSA7_COMPANY', required: true, clearable: true},
-        {name: '所属行业', label: '所属行业', code: 'SS07_ENT_INDUSTRY', value: '', placeHolder: '请选择所属行业', type: 'text', popType: 'radio', fieldName: 'SSA7_INDUSTRY', required: false, clearable: true},
-        {name: '企业性质', label: '企业性质', code: 'SS06_ENT_PROPERTY', value: '', placeHolder: '请选择企业性质', type: 'text', popType: 'radio', fieldName: 'SSA7_PROPERTY', required: false, clearable: true},
-        {name: '注册类型', label: '注册类型', code: 'SS05_REG_TYPE', value: '', placeHolder: '请选择注册类型', type: 'text', popType: 'radio', fieldName: 'SSA7_REG_TYPE', required: false, clearable: true},
-        {name: '企业法人', label: '企业法人', code: '', value: '', placeHolder: '请填写企业法人', type: 'text', popType: '', fieldName: 'HRA0_ENT_LP', required: true, clearable: true},
-        {name: '注册时间', label: '注册时间', code: '', value: '', placeHolder: '请填写注册时间', type: 'text', popType: 'date', fieldName: 'HRA0_ENT_RT', required: true, clearable: true, datetimeType: 'date', showDate: new Date(1970, 0, 1), minDate: new Date(1970, 0, 1), maxDate: new Date()},
-        {name: '注册资本', label: '注册资本', code: '', value: '', placeHolder: '请填写注册资本', type: 'text', popType: '', fieldName: 'HRA0_ENT_RC', required: true, clearable: true},
-        {name: '人数规模', label: '人数规模', code: '', value: '', placeHolder: '请填写人数规模', type: 'text', popType: '', fieldName: 'HRA0_COMPANY_SIZE', required: false, clearable: true},
-        {name: '公司地址', label: '公司地址', code: '', value: '', placeHolder: '请完善公司地址', type: 'text', popType: '', fieldName: 'HRA0_ENT_ADDR_L1', required: true, clearable: true},
-        {name: '公司网站', label: '公司网站', code: '', value: '', placeHolder: '请完善公司网站', type: 'text', popType: '', fieldName: 'HRA0_WEB_URL', required: false, clearable: true},
-        {name: '公司简介', label: '公司简介', code: '', value: '', placeHolder: '请完善公司简介', type: 'textarea', popType: '', fieldName: 'HRA0_DESC', required: true, clearable: true},
-        {name: '密码1', label: '密码', code: '', value: '', placeHolder: '请设置密码(6-20位数字与字母组合)', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD', required: true, clearable: false, rightIcon: 'theEye'},
-        {name: '密码2', label: '确认密码', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'SSA7_REG_PWD2', required: true, clearable: false, rightIcon: 'theEye'},
-        {name: '手机号码', label: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'SSA7_BINGDING_PHONE', required: true, clearable: true},
-        {name: '验证码', label: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true, isActiveBtn: false}
+        {
+          name: '公司名称',
+          label: '公司名称',
+          code: '',
+          value: '',
+          placeHolder: '请输入公司名称',
+          type: 'text',
+          popType: '',
+          fieldName: 'SSA7_COMPANY',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '所属行业',
+          label: '所属行业',
+          code: 'SS07_ENT_INDUSTRY',
+          value: '',
+          placeHolder: '请选择所属行业',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'SSA7_INDUSTRY',
+          required: false,
+          clearable: true,
+          disabled: true
+        },
+        {
+          name: '企业性质',
+          label: '企业性质',
+          code: 'SS06_ENT_PROPERTY',
+          value: '',
+          placeHolder: '请选择企业性质',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'SSA7_PROPERTY',
+          required: false,
+          clearable: true,
+          disabled: true
+        },
+        {
+          name: '注册类型',
+          label: '注册类型',
+          code: 'SS05_REG_TYPE',
+          value: '',
+          placeHolder: '请选择注册类型',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'SSA7_REG_TYPE',
+          required: false,
+          clearable: true,
+          disabled: true
+        },
+        {
+          name: '企业法人',
+          label: '企业法人',
+          code: '',
+          value: '',
+          placeHolder: '请填写企业法人',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_ENT_LP',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '注册时间',
+          label: '注册时间',
+          code: '',
+          value: '',
+          placeHolder: '请填写注册时间',
+          type: 'text',
+          popType: 'date',
+          fieldName: 'HRA0_ENT_RT',
+          required: true,
+          clearable: true,
+          datetimeType: 'date',
+          showDate: new Date(1970, 0, 1),
+          minDate: new Date(1970, 0, 1),
+          maxDate: new Date(),
+          disabled: true
+        },
+        {
+          name: '注册资本',
+          label: '注册资本',
+          code: '',
+          value: '',
+          placeHolder: '请填写注册资本',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_ENT_RC',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '人数规模',
+          label: '人数规模',
+          code: '',
+          value: '',
+          placeHolder: '请填写人数规模',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_COMPANY_SIZE',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '公司地址',
+          label: '公司地址',
+          code: '',
+          value: '',
+          placeHolder: '请完善公司地址',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_ENT_ADDR_L1',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '公司网站',
+          label: '公司网站',
+          code: '',
+          value: '',
+          placeHolder: '请完善公司网站',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_WEB_URL',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '公司简介',
+          label: '公司简介',
+          code: '',
+          value: '',
+          placeHolder: '请完善公司简介',
+          type: 'textarea',
+          popType: '',
+          fieldName: 'HRA0_DESC',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '密码1',
+          label: '密码',
+          code: '',
+          value: '',
+          placeHolder: '请设置密码(6-20位数字与字母组合)',
+          type: 'password',
+          popType: '',
+          fieldName: 'SSA7_REG_PWD',
+          required: true,
+          clearable: false,
+          rightIcon: 'theEye'
+        },
+        {
+          name: '密码2',
+          label: '确认密码',
+          code: '',
+          value: '',
+          placeHolder: '请确认您的密码',
+          type: 'password',
+          popType: '',
+          fieldName: 'SSA7_REG_PWD2',
+          required: true,
+          clearable: false,
+          rightIcon: 'theEye'
+        },
+        {
+          name: '手机号码',
+          label: '手机号码',
+          code: '',
+          value: '',
+          placeHolder: '请输入您的手机号码',
+          type: 'number',
+          popType: '',
+          fieldName: 'SSA7_BINGDING_PHONE',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '验证码',
+          label: '验证码',
+          code: '',
+          value: '',
+          placeHolder: '请输入验证码',
+          type: 'text',
+          popType: '',
+          fieldName: 'Code',
+          isCode: true,
+          required: true,
+          clearable: true,
+          isActiveBtn: false
+        }
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -79,8 +256,7 @@ export default {
     Field,
     BigButton
   },
-  watch: {
-  },
+  watch: {},
   methods: {
     clickRightIcon (item) {
       if (item.rightIcon === 'eye') {
@@ -121,7 +297,7 @@ export default {
     },
     onRead (file) {
       this.$toast.loading({
-//        mask: true,
+        //        mask: true,
         message: '加载中...',
         duration: 0
       })
@@ -143,15 +319,15 @@ export default {
           return
         }
         const theData = res.ReturnData
-//        this.$toast.success('上传成功')
+        //        this.$toast.success('上传成功')
         this.$toast.success({
-//          mask: true,
+          //          mask: true,
           message: '上传成功',
           duration: 3
         })
         this.IdCard = theData.No
         this.Name = theData.Name
-//        this.FileUrl = theData.FileUrl
+        //        this.FileUrl = theData.FileUrl
       })
     },
     // 发验证码
@@ -307,6 +483,7 @@ export default {
     color: #ffffff;
     border-radius: 5px;
   }
+
   .btnStyle2 {
     @include theBtnColor;
   }

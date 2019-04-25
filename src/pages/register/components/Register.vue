@@ -3,10 +3,11 @@
     <div>
       <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item" @changeValue="changeValue"
              @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend" @onRead="onRead"></Field>
-
       <div class="mt30">
         <BigButton :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
       </div>
+      <div class="bottom-fillter" ref="fillter" v-show="showFillter"></div>
+
     </div>
   </div>
 </template>
@@ -28,6 +29,12 @@ export default {
       PassWord1: '',
       PassWord2: '',
       FileUrl: '', // 图片地址
+      curFieldDIdx: null,
+      datetimeType: 'date',
+      theMinDate: new Date(1970, 0, 1),
+      theMaxDate: new Date(),
+      curDate: new Date(),
+      theShowDate: null,
       theFieldArr: [
         {name: '身份证号码', code: '', value: '', placeHolder: '请输入您的身份证号码', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
         {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'Name', required: true, clearable: true},
@@ -41,14 +48,26 @@ export default {
   },
   mounted () {
     console.log(myModule)
+    this.$nextTick(() => {
+      this.handleHeight()
+    })
   },
   components: {
     Field,
     BigButton
   },
   computed: {
+    showFillter () { // 显示底部填充元素 把页面往上推 因为页面放在app中 输入框 被输入法挡住 不会像web那样页面会向上滚
+      if (this.curFieldDIdx !== null) {
+        return !this.theFieldArr[this.curFieldDIdx].disabled
+      }
+    }
   },
   methods: {
+    handleHeight () {
+      const WH = myModule.getClientHeight()
+      this.$refs['fillter'].style.height = WH / 2 + 'px'
+    },
     clickSubmit () {
       if (!myModule.checkPSW(this.theFieldArr)) {
         this.$toast.fail('两次输入的密码不一致')

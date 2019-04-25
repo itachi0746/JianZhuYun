@@ -5,9 +5,7 @@
       show-cancel-button
       :before-close="beforeClose"
     >
-      <!--<van-field v-model="fieldValue" placeholder="请输入" />-->
-      <!--<Field v-model="fieldValue"></Field>-->
-      <Field :item="PopFieldData"></Field>
+      <Field :item="PopFieldData" :cellMB="false"></Field>
     </van-dialog>
   </div>
 </template>

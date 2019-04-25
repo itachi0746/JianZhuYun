@@ -1,6 +1,7 @@
 <template>
   <div class="data-head">
-    <div class="un-read-num" v-if="theNum">{{theNum}}</div>
+    <div class="un-read-num" v-if="theNum"></div>
+    <!--<div class="un-read-num" v-if="theNum">{{theNum}}</div>-->
     <div v-if="theUrl">
       <img :src="url" alt="">
     </div>
@@ -78,6 +79,8 @@ export default {
     height: 100%;
   }
   .un-read-num {
+    width: 10px;
+    height: 10px;
     position: absolute;
     right: 0;
     top: -0.16rem;
@@ -88,7 +91,7 @@ export default {
     text-align: center;
     box-sizing: border-box;
     padding: 0 0.06rem;
-    min-width: 0.32rem;
+    /*min-width: 0.32rem;*/
     line-height: 0.28rem;
     border: 0.02rem solid #f44;
     border-radius: 0.32rem;

@@ -13,18 +13,21 @@
           您还未编辑此项信息哦~快来编辑吧
         </div>
         <div class="the-content">
+          <!--名字-->
           <div class="content-line content-title" v-if="theData.data[0].value">
             <span>{{theData.data[0].value}}</span>
             <div class="content-edit">
               <img src="./assets/edit.png" alt="">
             </div>
           </div>
+          <!--时间-->
           <div class="content-line content-time" v-if="theData.data.time">
             <span>{{theData.data.time}}</span>
           </div>
           <div class="content-line job-name" v-if="theData.data.jobData">
             <span>{{theData.data.jobData}}</span>
           </div>
+          <!--内容-->
           <div class="content-line" v-if="theData.data.content">
             <span>{{theData.data.content}}</span>
           </div>

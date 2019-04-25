@@ -128,8 +128,8 @@ export default {
   }
   .btnSize {
     height: 33px;
-    line-height: 0;
-    padding: 4px 10px;
+    line-height: 33px;
+    /*padding: 4px 10px;*/
     @include theBtnColor
   }
   .btnSize2 {

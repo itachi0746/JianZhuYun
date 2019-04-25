@@ -30,7 +30,7 @@
                     </div>
                   </div>
                   <div class="action-box">
-                    <div class="status">{{item.ReferenceValues.RE34_STATUS}}</div>
+                    <div class="status" :style="{color: colorMap[item.RE34_STATUS]}">{{item.ReferenceValues.RE34_STATUS}}</div>
                     <div class="action-btn" v-if="item.RE34_STATUS==='BD0902' || item.RE34_STATUS==='BD0903'">
                       <van-button class="btnSize" type="info" @click="clickHandle(item.RE34_RCV_ID)">处理</van-button>
                     </div>
@@ -66,7 +66,14 @@ export default {
       resData: null,
       loading: false,
       finished: false,
-      isLoading: false
+      isLoading: false,
+      colorMap: {
+        BD0909: '#999',
+        BD0904: '#01C0CC',
+        BD0903: '#F9514E',
+        BD0902: '#F9514E',
+        BD0901: '#F9514E'
+      }
     }
   },
   components: {
@@ -99,7 +106,8 @@ export default {
       }
     },
     clickHandle (id) {
-      this.$router.push({name: 'Handle', params: {id: id}})
+      GoToPage('', 'EPRecordDetail.html', {id: id})
+//      this.$router.push({name: 'Handle', params: {id: id}})
     },
     onLoad () {
       this.loading = false // 测试
@@ -142,7 +150,7 @@ export default {
         this.loading = false
         this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
         for (let obj of this.resData) {
-          obj.RE34_SEND_DATE = myModule.handleTime(obj.RE34_SEND_DATE)
+          obj.RE34_SEND_DATE = myModule.handleTime(obj.RE34_SEND_DATE, true)
         }
       })
     }
@@ -260,8 +268,8 @@ export default {
   }
   .btnSize {
     height: 33px;
-    line-height: 0;
-    padding: 3px 14px;
+    line-height: 33px;
+    /*padding: 3px 14px;*/
     @include theBtnColor
   }
 

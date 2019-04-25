@@ -53,7 +53,7 @@ export default {
         'RE34_RESUME_RCV': 'EPRecordDetail.html',
         'RE37_INTERVIEW_MSG': 'EPInterviewDetail.html',
         'RE32_OFFER_MSG': 'EPOfferDetail.html',
-        'RE33_SIGN_CONTRACT': 'EPContractDetail.html'
+        'RE33_SIGN_CONTRACT': ''
       }
     }
   },
@@ -170,7 +170,7 @@ export default {
         this.loading = false
         this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
         for (let obj of this.resData) {
-          obj = myModule.formatObj(obj)
+          obj = myModule.formatObj(obj, true)
         }
       })
     }

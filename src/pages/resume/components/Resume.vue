@@ -10,7 +10,7 @@
             <UserHead :theId="resData.RE23_CANDIDATE_ID" :theUrl="resData.RE23_PIC_URL"></UserHead>
           </div>
           <van-uploader :after-read="onRead" v-show="false">
-            <van-icon name="photograph" />
+            <van-icon name="photograph"/>
           </van-uploader>
         </div>
         <div v-if="theFieldArr.length">
@@ -44,6 +44,7 @@
         </van-button>
       </div>
     </div>
+    <div class="bottom-fillter" ref="fillter" v-show="showFillter"></div>
   </div>
 </template>
 
@@ -70,6 +71,7 @@ export default {
       theShowDate: null,
       datetimeType: 'date',
       isDisable: false,
+      //      showFillter: false, // 显示底部填充元素 把页面往上推 因为页面放在app中 输入框 被输入法挡住 不会像web那样页面会向上滚
       theRadioData: null, // 单选数据
       theFieldArr: [
         {
@@ -82,7 +84,8 @@ export default {
           popType: '',
           fieldName: 'RE23_NAME',
           required: true,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '出生日期',
@@ -97,7 +100,8 @@ export default {
           datetimeType: 'date',
           fieldName: 'RE23_BIRTHDAY',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: true
         },
         {
           name: '性别',
@@ -109,7 +113,8 @@ export default {
           popType: 'radio',
           fieldName: 'RE23_SEX',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: true
         },
         {
           name: '年龄',
@@ -121,7 +126,8 @@ export default {
           popType: '',
           fieldName: 'RE23_AGE',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '婚姻状况',
@@ -133,7 +139,8 @@ export default {
           popType: 'radio',
           fieldName: 'RE23_MARITAL_STATUS',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: true
         },
         {
           name: '学历',
@@ -145,13 +152,34 @@ export default {
           popType: 'radio',
           fieldName: 'RE23_EDUCATION',
           required: true,
-          clearable: true
+          clearable: true,
+          disabled: true
         },
         {
-          name: '现居住地', label: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS', required: false, clearable: true
+          name: '现居住地',
+          label: '现居住地',
+          code: '',
+          value: '',
+          placeHolder: '现居住地',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_ADDRESS',
+          required: false,
+          clearable: true,
+          disabled: false
         },
         {
-          name: '求职意向', label: '求职意向', code: 'UDRE015', value: '', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
+          name: '求职意向',
+          label: '求职意向',
+          code: 'UDRE015',
+          value: '',
+          placeHolder: '求职意向',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_JOB_INTENSION',
+          required: true,
+          clearable: true,
+          disabled: true
         },
         {
           name: '期待工作性质',
@@ -163,7 +191,8 @@ export default {
           popType: 'radio',
           fieldName: 'RE23_WORK_PROP',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: true
         },
         {
           name: '期待工作地点',
@@ -175,7 +204,8 @@ export default {
           popType: '',
           fieldName: 'RE23_WORK_PLACE',
           required: true,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '期待职能',
@@ -187,7 +217,8 @@ export default {
           popType: 'radio',
           fieldName: 'RE23_EXPECTED_FX',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: true
         },
         {
           name: '期待年薪',
@@ -195,11 +226,12 @@ export default {
           code: '',
           value: '',
           placeHolder: '期待年薪',
-          type: 'text',
+          type: 'number',
           popType: '',
           fieldName: 'RE23_ANNUAL_SALARY_E',
           required: true,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '目前薪酬',
@@ -211,7 +243,8 @@ export default {
           popType: '',
           fieldName: 'RE23_ANNUAL_SALARY_C',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '驾驶证书',
@@ -223,7 +256,8 @@ export default {
           popType: '',
           fieldName: 'RE23_DRIVING_LICENSE',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '工作经验',
@@ -235,7 +269,9 @@ export default {
           popType: 'radio',
           fieldName: 'RE23_WORK_YEARS',
           required: true,
-          clearable: true
+          clearable: true,
+          disabled: true
+
         },
         {
           name: '工作经历',
@@ -247,7 +283,8 @@ export default {
           popType: '',
           fieldName: 'RE24_WORK_EXPERIENCE',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: false
         },
         {
           name: '到岗时间',
@@ -262,7 +299,9 @@ export default {
           datetimeType: 'date',
           fieldName: 'RE23_CAN_WORK_TIME',
           required: false,
-          clearable: true
+          clearable: true,
+          disabled: true
+
           //          datetimeType: 'year-month'
         },
         {
@@ -275,7 +314,9 @@ export default {
           popType: '',
           fieldName: 'RE23_CANDIDATE_ID',
           required: false,
-          clearable: false
+          clearable: false,
+          disabled: true
+
         },
         {
           name: '图片地址',
@@ -287,7 +328,9 @@ export default {
           popType: '',
           fieldName: 'RE23_PIC_URL',
           required: false,
-          clearable: false
+          clearable: false,
+          disabled: true
+
         }
       ],
       curFieldDIdx: null, // 当前字段index
@@ -303,7 +346,13 @@ export default {
     Field,
     UserHead
   },
-  watch: {},
+  computed: {
+    showFillter () { // 显示底部填充元素 把页面往上推 因为页面放在app中 输入框 被输入法挡住 不会像web那样页面会向上滚
+      if (this.curFieldDIdx !== null) {
+        return !this.theFieldArr[this.curFieldDIdx].disabled
+      }
+    }
+  },
   mounted () {
     console.log(myModule)
   },
@@ -393,7 +442,7 @@ export default {
       this.curFieldDIdx = index
       this.theMinDate = item.minDate
       this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
-//      this.theShowDate = item.showDate
+      //      this.theShowDate = item.showDate
       this.datetimeType = item.datetimeType
       const thePopType = item.popType
       const theCode = item.code
@@ -493,7 +542,8 @@ export default {
       this.headerHeight = height.headerHeight
       if (this.headerHeight) {
         const WH = myModule.getClientHeight()
-        this.$refs.body.style.height = WH - this.headerHeight + 'px'
+//        this.$refs.body.style.height = WH - this.headerHeight + 'px'
+        this.$refs['fillter'].style.height = WH / 2 + 'px'
       }
     }
   }
@@ -561,6 +611,7 @@ export default {
   .van-popup60 {
     width: 60%;
   }
+
   .head-logo-box {
     padding: 10px 15px;
     display: flex;
@@ -568,8 +619,13 @@ export default {
     align-items: center;
     @include font-size(14px)
   }
+
   .head-logo {
     width: 50px;
     height: 50px;
+  }
+
+  .bottom-fillter {
+    width: 100%;
   }
 </style>

@@ -9,6 +9,7 @@
           :theMemo="resData.RE23_MEMO"
           :theUrl="resData.RE23_PIC_URL"
           :theId="resData.RE23_CANDIDATE_ID"
+          :isVerified="resData.IS_VERIFIED"
         ></ProfileItem>
         <div class="tab">
           <van-row>
@@ -23,7 +24,7 @@
             <van-col span="12">
               <div class="tab-cell">
                 <div class="van-hairline--right" @click="clickInterview">
-                  <!--<div class="tab-cell-num">0</div>-->
+                  <div class="tab-cell-num" v-if="resData.INTERVIEW_COUNT">{{resData.INTERVIEW_COUNT}}</div>
                   <div class="tab-cell-name">面试</div>
                 </div>
               </div>
@@ -31,7 +32,7 @@
             <van-col span="12">
               <div class="tab-cell" @click="clickRecord">
                 <div class="van-hairline--right">
-                  <!--<div class="tab-cell-num">{{resData.RE23_APPLICATION_RECORD}}</div>-->
+                  <div class="tab-cell-num" v-if="resData.APPLY_COUNT">{{resData.APPLY_COUNT}}</div>
                   <div class="tab-cell-name">申请记录</div>
                 </div>
               </div>

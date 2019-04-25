@@ -54,7 +54,8 @@ export default {
 
   methods: {
     clickBtn2 (id) {
-      this.$router.push({name: 'Handle', params: {id: id}})
+      GoToPage('', 'EPOfferDetail.html', {id: id})
+//      this.$router.push({name: 'Handle', params: {id: id}})
     },
     clickBtn1 () {
     }

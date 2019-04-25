@@ -12,7 +12,9 @@
           </div>
         </van-col>
         <van-col span="4">
-          <useHead :theUrl="resData.RE23_PIC_URL"></useHead>
+          <div style="width: 50px;height: 50px;">
+            <useHead :theUrl="resData.RE23_PIC_URL"></useHead>
+          </div>
         </van-col>
       </van-row>
     </div>

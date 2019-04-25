@@ -1,6 +1,7 @@
 <template>
   <div class="box">
-    <div class="un-read-num" v-if="theNum">{{theNum}}</div>
+    <!--<div class="un-read-num" v-if="theNum">{{theNum}}</div>-->
+    <div class="un-read-num" v-if="theNum"></div>
 
     <div class="data-head" v-if="theUrl">
       <img :src="url" alt="">
@@ -83,5 +84,29 @@ export default {
   .box {
     width: 100%;
     height: 100%;
+    position: relative;
+  }
+  .un-read-num {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 4px;
+    top: -4px;
+    color: #fff;
+    font-size: 0.24rem;
+    font-weight: 500;
+    font-family: PingFang SC,Helvetica Neue,Arial,sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 0.06rem;
+    /*min-width: 0.32rem;*/
+    line-height: 0.28rem;
+    border: 0.02rem solid #f44;
+    border-radius: 0.32rem;
+    background-color: #f44;
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+    -webkit-transform-origin: 100%;
+    transform-origin: 100%;
   }
 </style>

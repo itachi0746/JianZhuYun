@@ -7,7 +7,7 @@
           <ContractItem :resData="resData" :enterprise="true"></ContractItem>
         </div>
         <div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">
-          <van-button type="info" @click.native="clickDownload">下载合同</van-button>
+          <!--<van-button type="info" @click.native="clickDownload">下载合同</van-button>-->
           <van-button type="info" @click.native="clickView">查看合同</van-button>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default {
   .action-box {
     padding: 0 70px;
     @include defaultFlex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     margin: 40px 0 50px;
     button {
       background-color: $mainColor;

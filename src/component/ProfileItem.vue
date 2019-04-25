@@ -5,20 +5,21 @@
         <van-col span="12">
           <div class="user-data" v-if="enterprise">
             <div class="user-name">{{theName}}</div>
+            <div class="user-remarks">{{font}}</div>
           </div>
           <div class="user-data" v-else>
             <div class="user-name">{{theName}}</div>
             <!--备注-->
-            <div class="user-remarks">{{theMemo}}</div>
+            <div class="user-remarks">{{font}}</div>
           </div>
         </van-col>
         <van-col span="12">
           <div class="user-head-box">
             <div class="user-head">
-              <div v-if="enterprise">
+              <div v-if="enterprise" style="width: 100%;height: 100%;">
                 <EPHead :theUrl="theUrl" :theId="theId"></EPHead>
               </div>
-              <div v-else>
+              <div style="width: 100%;height: 100%;" v-else>
                 <UserHead :theUrl="theUrl" :theId="theId"></UserHead>
               </div>
             </div>
@@ -46,24 +47,28 @@ export default {
     EPHead
   },
   props: {
-    enterprise: {
+    enterprise: { // 是否是企业
       type: Boolean,
       default: null
     },
-    theName: {
+    theName: { // 名字
       type: String,
       default: null
     },
-    theMemo: {
+    theMemo: { // 备注
       type: String,
       default: null
     },
-    theUrl: {
+    theUrl: { // 头像url
       type: String,
       default: null
     },
-    theId: {
+    theId: { // 用户id
       type: [Number, String],
+      default: null
+    },
+    isVerified: { // 是否已实名验证
+      type: Boolean,
       default: null
     }
   },
@@ -94,7 +99,7 @@ export default {
   created () {},
 
   mounted () {
-    this.font = this.enterprise ? '切换到个人身份' : '切换到企业身份'
+    this.font = this.isVerified ? '已实名验证' : '尚未实名验证'
   },
 
   beforeDestroy () {}

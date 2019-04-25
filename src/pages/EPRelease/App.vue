@@ -17,4 +17,7 @@ export default {
   .van-field__control {
     height: 100%;
   }
+  .cell-mb {
+    margin-bottom: 0;
+  }
 </style>

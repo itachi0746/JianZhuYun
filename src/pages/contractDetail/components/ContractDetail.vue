@@ -14,8 +14,8 @@
           <van-button type="info" @click.native="goToSign">去签署</van-button>
           <!--<van-button type="info" @click.native="clickReturn">返回</van-button>-->
         </div>
-        <div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">
-          <van-button type="info" @click.native="clickDownload">下载合同</van-button>
+        <div class="action-box2" v-if="resData.RE33_STATUS==='BD0907'">
+          <!--<van-button type="info" @click.native="clickDownload">下载合同</van-button>-->
           <van-button type="info" @click.native="clickView">查看合同</van-button>
         </div>
         <!--BD0909 是拒绝-->

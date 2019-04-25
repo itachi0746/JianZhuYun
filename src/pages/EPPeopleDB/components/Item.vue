@@ -14,7 +14,7 @@
             <!--<div class="man-tag1">申请建筑电工</div>-->
           </div>
           <div class="man-tag1-box">
-            <div class="man-tag1">{{item.RE01_CRT_TIME}}</div>
+            <div class="man-tag1">创建时间: {{item.RE01_CRT_TIME}}</div>
           </div>
         </div>
         <div class="action-box" v-if="actionObj">
@@ -37,11 +37,11 @@ export default {
   data () {
     return {
       actionMap: { // 按钮映射
-        0: {act1: '查看简历', act2: {name: '邀请面试', routerName: 'Invitation'}},
-        1: {act1: '查看简历', act2: {name: '面试结果', routerName: 'InterviewResult'}},
-        2: {act1: '查看简历', act2: {name: '发送offer', routerName: 'SendOffer'}},
-        3: {act1: '查看简历', act2: {name: '发起签约', routerName: 'InitiateContract'}},
-        4: {act1: '查看简历', act2: {name: '邀请面试', routerName: 'Invitation'}},
+        0: {act1: '查看简历', act2: {name: '邀请面试', routerName: 'EPInvitation'}},
+        1: {act1: '查看简历', act2: {name: '面试结果', routerName: 'EPInterviewDetail'}},
+        2: {act1: '查看简历', act2: {name: '发送offer', routerName: 'EPSendOffer'}},
+        3: {act1: '查看简历', act2: {name: '发起签约', routerName: 'EPInitiateContract'}},
+        4: {act1: '查看简历', act2: {name: '邀请面试', routerName: 'EPInvitation'}},
         5: {act1: '查看简历', act2: {name: '移到人才库', routerName: ''}}
       },
       actionObj: null // 按钮对应操作
@@ -80,7 +80,8 @@ export default {
       if (this.pageId === 5) {
         return
       }
-      this.$router.push({name: routerName, params: {id: id, pageId: this.pageId}})
+//      this.$router.push({name: routerName, params: {id: id, pageId: this.pageId}})
+      GoToPage('', routerName + '.html', {id: id, pageId: this.pageId})
     },
     clickBtn1 (id) {
       GoToPage('', 'EPResumeDetail.html', {id: id})

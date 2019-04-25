@@ -61,7 +61,7 @@ export default {
       }
       this.resData = res.ReturnData
       for (let obj of this.resData) {
-        obj = myModule.formatObj(obj)
+        obj = myModule.formatObj(obj, true)
       }
     })
   },
