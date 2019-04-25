@@ -15,21 +15,21 @@
               <img src="../assets/edit.png" alt="">
             </div>
             <div class="line line1">
-              <div class="name">陈明华</div>
+              <div class="name">{{theItemData[0].data[0].name}}</div>
               <div class="call">/先生</div>
             </div>
             <div class="line line2">
               <van-row>
                 <van-col span="10">
                   <div class="line2-item">
-                    <div class="label">年龄</div>
-                    <div class="line2-value">无</div>
+                    <div class="label">{{theItemData[0].data[1].name}}</div>
+                    <div class="line2-value">{theItemData[0].data[2].value}}</div>
                   </div>
                 </van-col>
                 <van-col span="14">
                   <div class="line2-item">
-                    <div class="label">学历</div>
-                    <div class="line2-value">无</div>
+                    <div class="label">{{theItemData[0].data[2].name}}</div>
+                    <div class="line2-value">{theItemData[0].data[2].value}}</div>
                   </div>
                 </van-col>
               </van-row>
@@ -38,22 +38,22 @@
               <van-row>
                 <van-col span="10">
                   <div class="line2-item">
-                    <div class="label">籍贯</div>
-                    <div class="line2-value">无</div>
+                    <div class="label">{{theItemData[0].data[3].name}}</div>
+                    <div class="line2-value">{{theItemData[0].data[3].value}}</div>
                   </div>
                 </van-col>
                 <van-col span="14">
                   <div class="line2-item">
-                    <div class="label">手机</div>
-                    <div class="line2-value">12345678911</div>
+                    <div class="label">{{theItemData[0].data[4].name}}</div>
+                    <div class="line2-value">{{theItemData[0].data[4].value}}</div>
                   </div>
                 </van-col>
               </van-row>
             </div>
             <div class="line line2 line3">
               <div class="line2-item">
-                <div class="label">身份证</div>
-                <div class="line2-value">4331011995212014045</div>
+                <div class="label">{{theItemData[0].data[5].name}}</div>
+                <div class="line2-value">{{theItemData[0].data[5].value}}</div>
               </div>
             </div>
           </div>
@@ -61,23 +61,8 @@
         <div class="main">
           <!--组件-->
           <div v-for="(item,index) in theItemData" :key="index" :class="{'van-hairline--bottom': item.border}">
-            <ResumeItem2 :theData="item"></ResumeItem2>
+            <ResumeItem2 v-if="item.part!=='p1'" :theData="item"></ResumeItem2>
           </div>
-          <!--<div class="main-item-box van-hairline&#45;&#45;bottom">-->
-            <!--<div class="title">-->
-              <!--<div class="title-name">-->
-                <!--<i class="title-icon"></i>-->
-                <!--<span>求职期望</span>-->
-              <!--</div>-->
-              <!--<div class="add">添加</div>-->
-            <!--</div>-->
-            <!--<div class="main-content">-->
-              <!--<div class="empty-content">-->
-                <!--您还未编辑此项信息哦~快来编辑吧-->
-              <!--</div>-->
-              <!--<div class="the-content"></div>-->
-            <!--</div>-->
-          <!--</div>-->
         </div>
       </div>
 
@@ -96,18 +81,354 @@ import ResumeItem2 from '../../../component/ResumeItem2.vue'
 export default {
   data () {
     return {
-      headerName: '简历详情',
+      headerName: '我的简历',
       id: null,
       resData: null,
       workExperienceData: null, // 工作经历
       theItemData: [
-        {titleName: '求职期望', border: true},
-        {titleName: '工作经历', border: true},
-        {titleName: '项目经历', border: true},
-        {titleName: '教育经历', border: true},
-        {titleName: '培训经历', border: true},
-        {titleName: '技能标签', border: false}
-      ]
+        {
+          titleName: '个人信息',
+          part: 'p1',
+          border: true,
+          data: [
+            {
+              name: '姓名',
+              label: '姓名',
+              code: '',
+              value: '',
+              placeHolder: '请输入您的姓名',
+              type: 'text',
+              popType: '',
+              fieldName: 'RE23_NAME',
+              required: false,
+              clearable: true
+            },
+            {
+              name: '年龄',
+              label: '年龄',
+              code: '',
+              value: '',
+              placeHolder: '年龄',
+              type: 'number',
+              popType: '',
+              fieldName: 'RE23_AGE',
+              required: false,
+              clearable: true
+            },
+            {
+              name: '学历',
+              label: '学历',
+              code: 'UDHR021',
+              value: '',
+              placeHolder: '学历',
+              type: 'text',
+              popType: 'radio',
+              fieldName: 'RE23_EDUCATION',
+              required: false,
+              clearable: true
+            },
+            {
+              name: '籍贯',
+              label: '籍贯',
+              code: '',
+              value: '',
+              placeHolder: '籍贯',
+              type: 'text',
+              popType: '',
+              fieldName: 'RE23_BORN_IN',
+              required: false,
+              clearable: true
+            },
+            {
+              name: '手机',
+              label: '手机',
+              code: '',
+              value: '',
+              placeHolder: '手机',
+              type: 'number',
+              popType: '',
+              fieldName: 'RE23_MOBILE_PHONE',
+              required: false,
+              clearable: true
+            },
+            {
+              name: '身份证',
+              label: '身份证',
+              code: '',
+              value: '',
+              placeHolder: '身份证',
+              type: 'text',
+              popType: '',
+              fieldName: 'RE23_IDENTIY_CARD_NO',
+              required: false,
+              clearable: true
+            }
+          ]
+          //        {titleName: '工作经历', border: true, data: {}},
+          //        {titleName: '项目经历', border: true, data: {}},
+          //        {titleName: '教育经历', border: true, data: {}},
+          //        {titleName: '培训经历', border: true, data: {}},
+          //        {titleName: '技能标签', border: false, data: {}}
+        },
+        {
+          titleName: '求职期望',
+          part: 'p2',
+          border: true,
+          data: [
+            {
+              name: '求职意向', label: '求职意向', code: 'UDRE015', value: '', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
+            },
+            {
+              name: '期待工作地点',
+              label: '期待工作地点',
+              code: '',
+              value: '',
+              placeHolder: '期待工作地点',
+              type: 'text',
+              popType: '',
+              fieldName: 'RE23_WORK_PLACE',
+              required: true,
+              clearable: true
+            },
+            {
+              name: '期待年薪',
+              label: '期待年薪',
+              code: '',
+              value: '',
+              placeHolder: '期待年薪',
+              type: 'text',
+              popType: '',
+              fieldName: 'RE23_ANNUAL_SALARY_E',
+              required: true,
+              clearable: true
+            },
+          ]
+          //        {titleName: '工作经历', border: true, data: {}},
+          //        {titleName: '项目经历', border: true, data: {}},
+          //        {titleName: '教育经历', border: true, data: {}},
+          //        {titleName: '培训经历', border: true, data: {}},
+          //        {titleName: '技能标签', border: false, data: {}}
+        }
+      ],
+      theFieldArr: [
+        {
+          name: '姓名',
+          label: '姓名',
+          code: '',
+          value: '',
+          placeHolder: '请输入您的姓名',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_NAME',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '出生日期',
+          label: '出生日期',
+          code: '',
+          value: '',
+          placeHolder: '出生日期',
+          type: 'text',
+          popType: 'date',
+          showDate: new Date(1970, 0, 1),
+          minDate: new Date(1970, 0, 1),
+          datetimeType: 'date',
+          fieldName: 'RE23_BIRTHDAY',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '性别',
+          label: '性别',
+          code: 'UDHR027',
+          value: '',
+          placeHolder: '性别',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_SEX',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '年龄',
+          label: '年龄',
+          code: '',
+          value: '',
+          placeHolder: '年龄',
+          type: 'number',
+          popType: '',
+          fieldName: 'RE23_AGE',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '婚姻状况',
+          label: '婚姻状况',
+          code: 'UDHR007',
+          value: '',
+          placeHolder: '婚姻状况',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_MARITAL_STATUS',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '学历',
+          label: '学历',
+          code: 'UDHR021',
+          value: '',
+          placeHolder: '学历',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_EDUCATION',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '现居住地', label: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS', required: false, clearable: true
+        },
+        {
+          name: '求职意向', label: '求职意向', code: 'UDRE015', value: '', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
+        },
+        {
+          name: '期待工作性质',
+          label: '期待工作性质',
+          code: 'UDRE003',
+          value: '',
+          placeHolder: '期待工作性质',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_WORK_PROP',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '期待工作地点',
+          label: '期待工作地点',
+          code: '',
+          value: '',
+          placeHolder: '期待工作地点',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_WORK_PLACE',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '期待职能',
+          label: '期待职能',
+          code: 'UDRE004',
+          value: '',
+          placeHolder: '期待职能',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_EXPECTED_FX',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '期待年薪',
+          label: '期待年薪',
+          code: '',
+          value: '',
+          placeHolder: '期待年薪',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_ANNUAL_SALARY_E',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '目前薪酬',
+          label: '目前薪酬',
+          code: '',
+          value: '',
+          placeHolder: '目前薪酬',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_ANNUAL_SALARY_C',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '驾驶证书',
+          label: '驾驶证书',
+          code: '',
+          value: '',
+          placeHolder: '驾驶证书',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_DRIVING_LICENSE',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '工作经验',
+          label: '工作经验',
+          code: 'UDRE014',
+          value: '',
+          placeHolder: '工作经验',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_WORK_YEARS',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '工作经历',
+          label: '工作经历',
+          code: '',
+          value: '',
+          placeHolder: '工作经历',
+          type: 'textarea',
+          popType: '',
+          fieldName: 'RE24_WORK_EXPERIENCE',
+          required: false,
+          clearable: true
+        },
+        {
+          name: '到岗时间',
+          label: '到岗时间',
+          code: '',
+          value: '',
+          placeHolder: '到岗时间',
+          type: 'text',
+          popType: 'date',
+          showDate: new Date(),
+          minDate: new Date(),
+          datetimeType: 'date',
+          fieldName: 'RE23_CAN_WORK_TIME',
+          required: false,
+          clearable: true
+          //          datetimeType: 'year-month'
+        },
+        {
+          name: '',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'RE23_CANDIDATE_ID',
+          required: false,
+          clearable: false
+        },
+        {
+          name: '图片地址',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'RE23_PIC_URL',
+          required: false,
+          clearable: false
+        }
+      ],
     }
   },
 
@@ -118,7 +439,8 @@ export default {
     ResumeItem2
   },
 
-  computed: {},
+  computed: {
+  },
 
   methods: {
     handleHeight (height) {

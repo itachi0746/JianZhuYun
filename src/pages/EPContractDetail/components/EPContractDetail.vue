@@ -7,7 +7,6 @@
           <ContractItem :resData="resData" :enterprise="true"></ContractItem>
         </div>
         <div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">
-        <!--<div class="action-box">-->
           <van-button type="info" @click.native="clickDownload">下载合同</van-button>
           <van-button type="info" @click.native="clickView">查看合同</van-button>
         </div>

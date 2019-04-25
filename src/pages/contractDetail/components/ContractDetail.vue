@@ -10,12 +10,11 @@
           <van-button type="info" @click.native="clickAccept">接受</van-button>
           <van-button type="info" @click.native="clickRefuse">拒绝</van-button>
         </div>
-        <div class="action-box" v-if="resData.RE33_STATUS==='BD0904'">
+        <div class="action-box2" v-if="resData.RE33_STATUS==='BD0904'">
           <van-button type="info" @click.native="goToSign">去签署</van-button>
-          <van-button type="info" @click.native="clickReturn">返回</van-button>
+          <!--<van-button type="info" @click.native="clickReturn">返回</van-button>-->
         </div>
-        <!--<div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">-->
-        <div class="action-box">
+        <div class="action-box" v-if="resData.RE33_STATUS==='BD0907'">
           <van-button type="info" @click.native="clickDownload">下载合同</van-button>
           <van-button type="info" @click.native="clickView">查看合同</van-button>
         </div>
@@ -89,16 +88,71 @@ export default {
     },
     // 拒绝
     clickRefuse () {
-      window.history.back()
-//      this.resData.RE33_STATUS = 'BD0909'
-//      this.resData.ReferenceValues.RE33_STATUS = '已拒绝'
-//      this.resData.RE33_CHG_TIME = myModule.formatTime(new Date())
+      this.$dialog.confirm({
+        title: '温馨提示',
+        message: '确定要拒绝签约吗?'
+      }).then(() => {
+        // on confirm
+        this.$toast.loading({
+          mask: false,
+          message: '正在加载...',
+          duration: 0,
+          forbidClick: true // 禁用背景点击
+        })
+        const data = {
+          id: this.id,
+          note: ''
+        }
+        postData('/ReService/RejectContract', data).then((res) => {
+          console.log(res)
+          this.$toast.success({
+            mask: false,
+            message: '操作成功, 正在为您刷新页面',
+            forbidClick: true, // 禁用背景点击
+            duration: 1000 // 持续展示 toast
+          })
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+      }).catch(() => {
+        // on cancel
+      })
     },
     /**
      * 接受 显示去签署按钮
      */
     clickAccept () {
-      this.resData.RE33_STATUS = 'BD0904'
+      this.$dialog.confirm({
+        title: '温馨提示',
+        message: '确定要接受签约吗?'
+      }).then(() => {
+        // on confirm
+        this.$toast.loading({
+          mask: false,
+          message: '正在加载...',
+          duration: 0,
+          forbidClick: true // 禁用背景点击
+        })
+        const data = {
+          id: this.id,
+          note: ''
+        }
+        postData('/ReService/AcceptContract', data).then((res) => {
+          console.log(res)
+          this.$toast.success({
+            mask: false,
+            message: '操作成功, 正在为您刷新页面',
+            forbidClick: true, // 禁用背景点击
+            duration: 1000 // 持续展示 toast
+          })
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+      }).catch(() => {
+        // on cancel
+      })
     },
     // 点击 返回按钮
     clickReturn () {
@@ -241,7 +295,7 @@ export default {
   .action-box2 {
     padding: 0 70px;
     @include defaultFlex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     margin: 40px 0 50px;
     button {
       background-color: $mainColor;
