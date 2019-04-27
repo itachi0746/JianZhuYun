@@ -19,7 +19,7 @@
         <div class="main">
           {{resData.RE37_OFFER_CONTENT}}
         </div>
-        <div class="btn-box" v-if="resData.RE37_STATUS!=='BD0904' && resData.RE37_STATUS!=='BD0909'">
+        <div class="btn-box" v-if="resData.RE37_STATUS==='BD0903' || resData.RE37_STATUS==='BD0902'">
           <van-button type="default" @click="clickRefuse">拒绝</van-button>
           <van-button type="info" @click="clickAccept">接受</van-button>
         </div>
@@ -27,6 +27,7 @@
           :statusCode="resData.RE37_STATUS"
           :status="resData.ReferenceValues.RE37_STATUS"
           :theTime="resData.RE37_CHG_TIME"
+          :isInterview="true"
         ></ResultItem>
       </div>
     </div>

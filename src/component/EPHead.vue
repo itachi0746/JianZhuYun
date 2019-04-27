@@ -79,8 +79,8 @@ export default {
     height: 100%;
   }
   .un-read-num {
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     position: absolute;
     right: 0;
     top: -0.16rem;
@@ -94,7 +94,7 @@ export default {
     /*min-width: 0.32rem;*/
     line-height: 0.28rem;
     border: 0.02rem solid #f44;
-    border-radius: 0.32rem;
+    border-radius: 50%;
     background-color: #f44;
     -webkit-transform: translateX(50%);
     transform: translateX(50%);

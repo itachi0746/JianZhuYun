@@ -4,13 +4,13 @@
     <div class="body" ref="body">
       <div v-if="resData">
         <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
-        <van-cell-group>
-          <van-cell title="期望工作地点" :value="resData.RE23_WORK_PLACE" />
-          <van-cell title="期望工作性质" :value="resData.RE23_WORK_PROP" />
-          <van-cell title="期望职能" :value="resData.RE23_EXPECTED_FX" />
-          <van-cell title="期望年薪" :value="resData.RE23_ANNUAL_SALARY_E" />
-          <van-cell title="到岗时间" :value="resData.RE23_CAN_WORK_TIME" />
-        </van-cell-group>
+        <!--<van-cell-group>-->
+          <!--<van-cell title="期望工作地点" :value="resData.RE23_WORK_PLACE" />-->
+          <!--<van-cell title="期望工作性质" :value="resData.RE23_WORK_PROP" />-->
+          <!--<van-cell title="期望职能" :value="resData.RE23_EXPECTED_FX" />-->
+          <!--<van-cell title="期望年薪" :value="resData.RE23_ANNUAL_SALARY_E" />-->
+          <!--<van-cell title="到岗时间" :value="resData.RE23_CAN_WORK_TIME" />-->
+        <!--</van-cell-group>-->
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default {
         return
       }
       this.resData = res.ReturnData
-      this.resData.RE23_CAN_WORK_TIME = myModule.handleTime(this.resData.RE23_CAN_WORK_TIME, false)
+      // this.resData.RE23_CAN_WORK_TIME = myModule.handleTime(this.resData.RE23_CAN_WORK_TIME, false)
     })
   },
 

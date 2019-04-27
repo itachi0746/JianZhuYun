@@ -9,7 +9,7 @@
           <div v-for="(item,index) in theFieldArr" :key="index">
             <div v-if="item.groupName==='B'">
               <!--<van-cell :title="item.name" :value="resData[item.fieldName]" :class="{'hidden': item.hidden}" title-class="title-class" value-class="value-class" />-->
-              <Field :index="index" :item="item"  @clickInput="clickInput"></Field>
+              <Field :index="index" :item="item" @clickInput="clickInput"></Field>
             </div>
           </div>
         </van-cell-group>
@@ -70,12 +70,12 @@
 import myModule from '../common'
 import Field from './Field.vue'
 import PopDate from './PopDate.vue'
-import {postData} from '../common/server'
+import { postData } from '../common/server'
 
 export default {
   data () {
     return {
-      theFieldArr: null,
+      //      theFieldArr: null,
       datetimeType: 'date',
       theMinDate: new Date(),
       theMaxDate: new Date(2030, 0, 1),
@@ -122,7 +122,343 @@ export default {
       '交易号|RE33_TRANSACTION_ID|hidden|D||;\n' +
       '本地地址|RE33_LOCAL_URL|hidden|D||;\n' +
       '下载地址|RE33_DOWNLOAD_URL|hidden|D||;\n' +
-      '查看地址|RE33_VIEWPDF_URL|hidden|D||;\n'
+      '查看地址|RE33_VIEWPDF_URL|hidden|D||;\n',
+      theFieldArr: [
+        {
+          'label': '记录ID',
+          'fieldName': 'RE33_SIGN_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '求职者ID',
+          'fieldName': 'RE33_CANDIDATE_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '求职者EntId',
+          'fieldName': 'RE33_CANDIDATE_ENT_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '姓名',
+          'fieldName': 'RE33_NAME',
+          'type': 'text',
+          'groupName': 'A',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '身份证号',
+          'fieldName': 'RE33_ID_NO',
+          'type': 'text',
+          'groupName': 'A',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '合同文件',
+          'fieldName': 'RE33_CONTRACT_URL',
+          'type': 'hidden',
+          'groupName': 'A',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '工作地点',
+          'fieldName': 'RE33_WORK_ADDR',
+          'type': 'text',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '项目',
+          'fieldName': 'RE33_PRJ_NAME',
+          'type': 'text',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '签订时间',
+          'fieldName': 'RE33_SIGN_DATE',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '合同开始时间',
+          'fieldName': 'RE33_START_TIME',
+          'type': 'text',
+          'groupName': 'C',
+          'popType': 'date',
+          'placeHolder': '请选择',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '合同结束时间',
+          'fieldName': 'RE33_END_TIME',
+          'type': 'text',
+          'groupName': 'C',
+          'popType': 'date',
+          'placeHolder': '请选择',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '签约年限',
+          'fieldName': 'RE33_SIGN_YEARS',
+          'type': 'text',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '年薪',
+          'fieldName': 'RE33_SALARY_Y',
+          'type': 'number',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '月薪',
+          'fieldName': 'RE33_SALARY_M',
+          'type': 'number',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '日薪',
+          'fieldName': 'RE33_SALARY_D',
+          'type': 'number',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '时薪',
+          'fieldName': 'RE33_SALARY_H',
+          'type': 'number',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '创建人',
+          'fieldName': 'RE33_CRT_USR',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '创建时间',
+          'fieldName': 'RE33_CRT_TIME',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '最后修改人',
+          'fieldName': 'RE33_CHG_USR',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '最后修改时间',
+          'fieldName': 'RE33_CHG_TIME',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '企业ID',
+          'fieldName': 'RE33_ENT_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '组织ID',
+          'fieldName': 'RE33_ORG_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '状态',
+          'fieldName': 'RE33_STATUS',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '公司名称',
+          'fieldName': 'RE33_CO_NAME',
+          'type': 'text',
+          'groupName': 'B',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '公司地址',
+          'fieldName': 'RE33_CO_ADDR',
+          'type': 'text',
+          'groupName': 'B',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '公司法人',
+          'fieldName': 'RE33_CO_PERSON',
+          'type': 'text',
+          'groupName': 'B',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '公司签约代表',
+          'fieldName': 'RE33_CO_SIGNER',
+          'type': 'hidden',
+          'groupName': 'B',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '联系方式',
+          'fieldName': 'RE33_CO_LINK',
+          'type': 'text',
+          'groupName': 'B',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '公司信用代码',
+          'fieldName': 'RE33_CO_ID',
+          'type': 'hidden',
+          'groupName': 'B',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '联系方式',
+          'fieldName': 'RE33_CANDIDATE_PHONE',
+          'type': 'text',
+          'groupName': 'A',
+          'popType': '',
+          'placeHolder': '请填写',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '求职者通信地址',
+          'fieldName': 'RE33_CANDIDATE_ADDR',
+          'type': 'hidden',
+          'groupName': 'A',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '签署通知时间',
+          'fieldName': 'RE33_NOTIFY_TIME',
+          'type': 'hidden',
+          'groupName': 'C',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '合同模板ID',
+          'fieldName': 'RE33_TEMPLATE_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '交易号',
+          'fieldName': 'RE33_TRANSACTION_ID',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '本地地址',
+          'fieldName': 'RE33_LOCAL_URL',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '下载地址',
+          'fieldName': 'RE33_DOWNLOAD_URL',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }, {
+          'label': '查看地址',
+          'fieldName': 'RE33_VIEWPDF_URL',
+          'type': 'hidden',
+          'groupName': 'D',
+          'popType': '',
+          'placeHolder': '',
+          'value': '',
+          'disabled': false
+        }
+      ]
     }
   },
 
@@ -160,9 +496,9 @@ export default {
     clickInput (obj) {
       let index = obj.index, item = obj.item
       this.curFieldDIdx = index
-//      this.theMinDate = item.minDate
-//      this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
-//      this.datetimeType = item.datetimeType
+      //      this.theMinDate = item.minDate
+      this.theShowDate = this.theShowDate ? this.theShowDate : item.showDate
+      //      this.datetimeType = item.datetimeType
       const thePopType = item.popType
       const theCode = item.code
       if (!theCode) {
@@ -224,13 +560,13 @@ export default {
       for (let str of arr) {
         if (!str) continue
         let strArr = str.split('|')
-//        let itemObj = {
-//          name: strArr[0],
-//          fieldName: strArr[1],
-//          hidden: strArr[2] === 'hidden',
-//          groupName: strArr[3]
-//        }
-//        debugger
+        //        let itemObj = {
+        //          name: strArr[0],
+        //          fieldName: strArr[1],
+        //          hidden: strArr[2] === 'hidden',
+        //          groupName: strArr[3]
+        //        }
+        //        debugger
         let itemObj = {
           label: strArr[0],
           fieldName: strArr[1],
@@ -275,19 +611,33 @@ export default {
       for (let obj of this.theFieldArr) {
         obj['disabled'] = true
       }
+    },
+    /**
+     * 为合同开始 结束时间字段设置showDate属性
+     */
+    setFieldTime () {
+      for (let obj of this.theFieldArr) {
+        if (obj.fieldName === 'RE33_START_TIME') {
+          obj['showDate'] = this.resData[obj.fieldName]
+        }
+        if (obj.fieldName === 'RE33_END_TIME') {
+          obj['showDate'] = this.resData[obj.fieldName]
+        }
+      }
     }
   },
 
   created () {
-    this.handleStr()
+//    this.handleStr()
   },
 
   mounted () {
     this.formatData()
     this.setFieldValue()
-//    if (!this.enterprise) {
-//      this.disableField()
-//    }
+    this.setFieldTime()
+    //    if (!this.enterprise) {
+    //      this.disableField()
+    //    }
     if (this.resData.RE33_STATUS !== 'BD0901') {
       this.disableField()
     }
@@ -301,15 +651,19 @@ export default {
   .contractDetail {
     @include font-size(16px)
   }
+
   .body {
     background-color: #F5F9FA;
-    overflow-y: auto;overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;/* 解决ios滑动不流畅问题 */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
+
   .result {
     @include font-size(16px);
     color: #666;
   }
+
   .result-logo {
     width: 100%;
     @include defaultFlex;
@@ -319,42 +673,52 @@ export default {
       height: 25px;
     }
   }
+
   .result-data {
     @include font-size(14px);
     text-align: center;
   }
+
   .result-msg {
     text-align: center;
   }
+
   .tac {
     text-align: center;
   }
+
   .title {
     text-align: center;
     @include font-size(16px);
     padding: 10px 15px 0;
     color: $mainColor;
   }
+
   .title-box {
     padding-bottom: 15px;
     font-weight: bold;
   }
+
   .value-class {
     flex: 3;
     text-align: left;
     color: #333;
   }
+
   .title-class {
     color: #666;
   }
+
   .title-class2 {
     color: #333;
     font-weight: bold;
     @include font-size(17px);
   }
+
   .mb-box {
     margin-bottom: 15px;
   }
+
   .action-box {
     @include defaultFlex;
     margin: 40px 0 50px;
@@ -365,13 +729,16 @@ export default {
       /*height: 43px;*/
     }
   }
+
   .btnClass {
     @include theBtnColor;
     padding: 0 20px;
   }
+
   .hidden {
     display: none;
   }
+
   .p10 {
     width: 90%;
   }

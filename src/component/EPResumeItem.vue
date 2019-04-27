@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--人才库用的简历详情组件-->
-    <div v-if="resData" class="header van-hairline--bottom">
+    <div v-if="resData" class="header">
       <van-row>
         <van-col span="20">
           <div class="data-name">{{resData.RE01_NAME}}</div>
@@ -16,6 +16,13 @@
           <UserHead :theUrl="resData.RE01_PIC_URL"></UserHead>
         </van-col>
       </van-row>
+      <van-cell-group>
+        <van-cell title="期望工作地点" :value="resData.RE01_WORK_PLACE" />
+        <van-cell title="期望工作性质" :value="resData.RE01_WORK_PROP" />
+        <van-cell title="期望职能" :value="resData.RE01_EXPECTED_FX" />
+        <van-cell title="期望年薪" :value="resData.RE01_ANNUAL_SALARY_E" />
+        <van-cell title="到岗时间" :value="resData.RE01_CAN_WORK_TIME" />
+      </van-cell-group>
     </div>
     <div v-if="workExperienceData" class="item-box van-hairline--bottom">
       <div class="title">
@@ -49,9 +56,9 @@ export default {
       dataMap: {
         RE01_AGE: '年龄',
         RE01_SEX: '性别',
-        RE01_BORN_IN: '籍贯',
+//        RE01_BORN_IN: '籍贯',
         RE01_MOBILE_PHONE: '手机',
-        RE01_IDENTIY_CARD_NO: '身份证'
+//        RE01_IDENTIY_CARD_NO: '身份证'
       },
       detailData: []
     }
@@ -80,6 +87,7 @@ export default {
   },
 
   mounted () {
+    this.resData.RE01_CAN_WORK_TIME = myModule.handleTime(this.resData.RE01_CAN_WORK_TIME)
     this.detailData = myModule.handleMapData(this.dataMap, this.resData)
   },
 
@@ -149,7 +157,7 @@ export default {
   .data-name {
     color: #323233;
     font-weight: bold;
-    @include font-size(18px)
+    @include font-size(22px)
   }
   .data-item-box {
     display: flex;

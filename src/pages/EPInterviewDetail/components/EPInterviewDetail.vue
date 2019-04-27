@@ -4,7 +4,7 @@
     <div class="body" ref="body">
       <div v-if="resData">
         <EPResumeItem :resData="resData" :workExperienceData="workExperienceData"></EPResumeItem>
-        <div class="action-box" v-show="resData.RE01_STATUS!=='BD0904' && resData.RE01_STATUS!=='BD0909'">
+        <div class="action-box" v-if="resData.RE01_STATUS==='BD0904'">
           <div class="btn-box">
             <van-button type="info" @click.native="clickAccept">同意</van-button>
           </div>
@@ -16,9 +16,10 @@
           </div>
         </div>
         <ResultItem
-          :statusCode="resData.RE34_STATUS"
-          :status="resData.ReferenceValues.RE34_STATUS"
-          :theTime="resData.RE34_CHG_TIME"
+          :statusCode="resData.RE01_STATUS"
+          :status="resData.ReferenceValues.RE01_STATUS"
+          :theTime="resData.RE01_CHG_TIME"
+          :isInterview="true"
         ></ResultItem>
       </div>
     </div>
@@ -59,6 +60,7 @@ export default {
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
     },
+    // 面试不通过
     clickRefuse () {
       this.$toast.loading({
         mask: false,
@@ -68,7 +70,7 @@ export default {
       })
       const data = {
         id: this.id,
-        status: 'BD0909',
+        status: 'BD0906',
         note: '',
         folder: ''
       }
@@ -86,6 +88,7 @@ export default {
         }, 2000)
       })
     },
+    // 面试通过
     clickAccept () {
       this.$toast.loading({
         mask: false,
@@ -95,7 +98,7 @@ export default {
       })
       const data = {
         id: this.id,
-        status: 'BD0904',
+        status: 'BD0905',
         note: '',
         folder: ''
       }
@@ -140,7 +143,7 @@ export default {
   created () {
     const param = myModule.getUrlParams()
     this.id = param.id
-    postData('/EntService/ResumeDetails', {id: this.id}).then((res) => {
+    postData('/EntService/InverviewDetail', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')

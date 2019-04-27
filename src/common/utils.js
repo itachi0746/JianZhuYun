@@ -167,8 +167,8 @@ export default {
     return form
   },
   /**
-   * 格式化后台返回的日期字符串, 返回时间抽
-   * @param dateStr
+   * 格式化后台返回的日期字符串, 返回时间戳
+   * @param dateStr 例如 '/Date(157737600000)/'
    */
   formatDate: function (dateStr) {
     if (!dateStr || typeof dateStr !== 'string') {
@@ -203,7 +203,7 @@ export default {
   },
   /**
    * 统一处理时间
-   * @param dateStr
+   * @param dateStr /Date(157737600000)/
    * @param hm 是否需要小时分钟
    */
   handleTime: function (dateStr, hm = false) {
@@ -379,5 +379,16 @@ export default {
   checkPhoneNum (theValue) {
     let reg = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/
     return reg.test(theValue)
+  },
+  /**
+   * 检查年龄
+   * @param theValue 字符串
+   */
+  checkAge (theValue) {
+    if (!theValue) {
+      return false
+    }
+    let Value = eval(theValue), min = 10, max = 70
+    return Value<=min || Value>=max
   }
 }

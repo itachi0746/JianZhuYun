@@ -53,7 +53,8 @@ export default {
       }, 300)
     },
     clickSearch () {
-      this.$router.push({name: 'Search', params: {}})
+      GoToPage('', 'search.html', {})
+//      this.$router.push({name: 'Search', params: {}})
     },
     clickConfig () {
       this.$router.push({name: 'Config', params: {}})

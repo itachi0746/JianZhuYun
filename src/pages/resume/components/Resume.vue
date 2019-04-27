@@ -40,11 +40,11 @@
         </van-button>
         <van-button v-if="activePage===2" @click="clickSubmit" class="btnClass" type="info" size="large"
                     :disabled="isDisable">
-          确定
+          保存
         </van-button>
       </div>
     </div>
-    <div class="bottom-fillter" ref="fillter" v-show="showFillter"></div>
+    <!--<div class="bottom-fillter" ref="fillter" v-show="showFillter"></div>-->
   </div>
 </template>
 
@@ -125,7 +125,7 @@ export default {
           type: 'number',
           popType: '',
           fieldName: 'RE23_AGE',
-          required: false,
+          required: true,
           clearable: true,
           disabled: false
         },
@@ -522,6 +522,14 @@ export default {
      */
     clickSubmit () {
       // todo 检验输入
+      for (let obj of this.theFieldArr) {
+        if (obj.name === '年龄') {
+          if (myModule.checkAge(obj.value)) {
+            this.$toast.fail('请输入正确年龄')
+            return
+          }
+        }
+      }
       this.$toast.loading({
         mask: false,
         message: '加载中...',

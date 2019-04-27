@@ -3,7 +3,7 @@
     <div v-if="pageId!==null">
       <DBHeader @changeTab="changeTab" :back="true" :active="pageId" @sendHeight="handleHeight" :search="false"></DBHeader>
     </div>
-    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list
         v-model="loading"
         :finished="finished"
@@ -108,6 +108,11 @@ export default {
       this.getData()
     },
     onRefresh () {
+      this.PageIndex = 1
+      this.PageCount = null
+      this.resData = null
+      this.getData()
+//      window.location.reload()
       //      setTimeout(() => {
       //        this.$toast('刷新成功')
       //        this.isLoading = false
@@ -150,6 +155,7 @@ export default {
         this.PageCount = res.PageCount
         this.PageIndex = res.PageIndex
         this.loading = false
+        this.isLoading = false
         this.formatTime()
       })
     },
@@ -158,7 +164,7 @@ export default {
      */
     formatTime () {
       for (let obj of this.resData) {
-        obj.RE01_CRT_TIME = myModule.handleTime(obj.RE01_CRT_TIME)
+        obj.RE01_CHG_TIME = myModule.handleTime(obj.RE01_CHG_TIME, true)
       }
     }
 

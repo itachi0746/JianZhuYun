@@ -6,7 +6,7 @@
       <div class="mt30">
         <BigButton :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
       </div>
-      <div class="bottom-fillter" ref="fillter" v-show="showFillter"></div>
+      <!--<div class="bottom-fillter" ref="fillter" v-show="showFillter"></div>-->
 
     </div>
   </div>
@@ -36,7 +36,7 @@ export default {
       curDate: new Date(),
       theShowDate: null,
       theFieldArr: [
-        {name: '身份证号码', code: '', value: '', placeHolder: '请输入您的身份证号码', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
+        {name: '身份证号码', code: '', value: '', placeHolder: '请上传您的身份证正面照', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
         {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'Name', required: true, clearable: true},
         {name: '密码1', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: false, rightIcon: 'theEye'},

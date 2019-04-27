@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="result" v-if="statusCode==='BD0904'">
+    <div class="result" v-if="statusCode===acceptCode">
       <div class="result-logo">
         <img src="./assets/accept.png" alt="">
       </div>
       <div class="result-msg">{{status}}</div>
       <div class="result-data">{{theTime}}</div>
     </div>
-    <div class="result" v-if="statusCode==='BD0909'">
+    <div class="result" v-if="statusCode===refuseCode">
       <div class="result-logo">
         <img src="./assets/refuse.png" alt="">
       </div>
@@ -21,6 +21,8 @@
 export default {
   data () {
     return {
+      acceptCode: 'BD0904', // 同意的code
+      refuseCode: 'BD0909' // 拒绝的code
     }
   },
   props: {
@@ -35,6 +37,10 @@ export default {
     theTime: {
       type: String,
       default: null
+    },
+    isInterview: {
+      type: Boolean,
+      default: null
     }
   },
 
@@ -46,7 +52,12 @@ export default {
 
   created () {},
 
-  mounted () {},
+  mounted () {
+    if (this.isInterview) {
+      this.acceptCode = 'BD0905'
+      this.refuseCode = 'BD0906'
+    }
+  },
 
   beforeDestroy () {}
 }

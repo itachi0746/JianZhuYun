@@ -27,7 +27,7 @@
             <!--自荐信-->
           <!--</div>-->
           <div class="main-field">
-            <van-field type="textarea" v-model="value" placeholder="请编辑您的offer邀请内容" />
+            <van-field type="textarea" v-model="value" placeholder="请编辑您的offer邀请内容(10个汉字以上)" />
           </div>
         </div>
         <div class="result" v-if="isSend">
@@ -41,7 +41,7 @@
           <van-row class="theRow">
             <van-col span="12">
               <div class="btn-box">
-                <van-button class="btnClass" type="info" @click.native="clickSend">发送</van-button>
+                <van-button :disabled="value.length<=10" class="btnClass" type="info" @click.native="clickSend">发送</van-button>
               </div>
             </van-col>
             <van-col span="12">
@@ -107,7 +107,8 @@ export default {
       })
     },
     clickBack () {
-      GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+      window.history.back()
+//      GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
     }
   },
 
@@ -197,11 +198,13 @@ export default {
     margin-bottom: 10px;
   }
   .main-field {
+    /*padding: 15px;*/
     background-color: #F5F9FA;
-    border-radius: 5px;
-    height: 180px;
+    border-radius: 10px;
+    height: 273px;
+    overflow-y: auto;
+    @include borderBox();
     @include font-size(22px);
-    /*padding: 10px;*/
   }
   .action-box {
     margin-top: 25px;

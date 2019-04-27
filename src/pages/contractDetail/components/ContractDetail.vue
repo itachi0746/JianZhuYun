@@ -154,10 +154,6 @@ export default {
         // on cancel
       })
     },
-    // 点击 返回按钮
-    clickReturn () {
-      this.resData.RE33_STATUS = 'BD0903'
-    },
     // 下载合同
     clickDownload () {
       this.$toast.loading({

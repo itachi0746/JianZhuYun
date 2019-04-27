@@ -183,7 +183,7 @@ export default {
   }
 
   .main {
-    height: 352px;
+    height: 273px;
     padding: 15px;
     @include borderBox();
     margin-top: 10px;

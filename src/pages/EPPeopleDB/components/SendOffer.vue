@@ -197,11 +197,13 @@ export default {
     margin-bottom: 10px;
   }
   .main-field {
+    padding: 15px;
     background-color: #F5F9FA;
-    border-radius: 5px;
-    height: 180px;
+    border-radius: 10px;
+    height: 273px;
+    overflow-y: auto;
+    @include borderBox();
     @include font-size(22px);
-    /*padding: 10px;*/
   }
   .action-box {
     margin-top: 25px;

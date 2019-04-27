@@ -16,9 +16,9 @@
           </div>
         </div>
         <ResultItem
-          :statusCode="resData.RE34_STATUS"
-          :status="resData.ReferenceValues.RE34_STATUS"
-          :theTime="resData.RE34_CHG_TIME"
+          :statusCode="resData.RE01_STATUS"
+          :status="resData.ReferenceValues.RE01_STATUS"
+          :theTime="resData.RE01_CHG_TIME"
         ></ResultItem>
       </div>
     </div>

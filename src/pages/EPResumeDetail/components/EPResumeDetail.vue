@@ -4,6 +4,13 @@
     <div class="body" ref="body">
       <div v-if="resData">
         <EPResumeItem :resData="resData" :workExperienceData="workExperienceData"></EPResumeItem>
+        <!--<van-cell-group>-->
+          <!--<van-cell title="期望工作地点" :value="resData.RE23_WORK_PLACE" />-->
+          <!--<van-cell title="期望工作性质" :value="resData.RE23_WORK_PROP" />-->
+          <!--<van-cell title="期望职能" :value="resData.RE23_EXPECTED_FX" />-->
+          <!--<van-cell title="期望年薪" :value="resData.RE23_ANNUAL_SALARY_E" />-->
+          <!--<van-cell title="到岗时间" :value="resData.RE23_CAN_WORK_TIME" />-->
+        <!--</van-cell-group>-->
       </div>
       <div class="action-box">
         <div class="p10">
@@ -113,12 +120,13 @@ export default {
         this.$toast.fail({
           mask: false,
           message: '暂无数据',
-            forbidClick: false // 禁用背景点击
+          forbidClick: false // 禁用背景点击
         })
         return
       }
       this.$toast.clear()
       this.resData = res.ReturnData
+      this.resData.RE23_CAN_WORK_TIME = myModule.handleTime(this.resData.RE23_CAN_WORK_TIME, false)
     })
 //    postData('/EntService/MyWorkExperience', {id: this.id}).then((res) => {
 //      console.log(res)

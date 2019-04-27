@@ -2,10 +2,13 @@
   <div class="register">
     <div>
       <div v-if="theFieldArr.length">
-        <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
-               @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"
-               @changeValue="changeValue"
-        ></Field>
+        <div v-for="(item,index) in theFieldArr" :key="index" v-if="pagingCondition(index)">
+          <Field :index="index" :item="item"
+                 @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"
+                 @changeValue="changeValue"
+          ></Field>
+        </div>
+
       </div>
       <!--日期选择-->
       <PopDate v-if="showPicker"
@@ -22,7 +25,15 @@
         <!--<van-button @click="clickSubmit" :class="['btnStyle2']" type="info" size="large">-->
         <!--确定-->
         <!--</van-button>-->
-        <BigButton :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
+        <van-button type="info" v-if="activePage>1" class="btnClass" size="large" @click="clickPrev"
+                    :disabled="false">
+          上一页
+        </van-button>
+        <van-button v-if="activePage===1" type="info" class="btnClass" size="large" @click="clickNext"
+                    :disabled="false">
+          下一页
+        </van-button>
+        <BigButton v-if="activePage===2" class="" :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
       </div>
     </div>
   </div>
@@ -37,7 +48,6 @@ import Field from '../../../component/Field.vue'
 import BigButton from '../../../component/BigButton.vue'
 
 export default {
-  name: 'register',
   data () {
     return {
       theFieldArr: [
@@ -53,45 +63,45 @@ export default {
           required: true,
           clearable: true
         },
-        {
-          name: '所属行业',
-          label: '所属行业',
-          code: 'SS07_ENT_INDUSTRY',
-          value: '',
-          placeHolder: '请选择所属行业',
-          type: 'text',
-          popType: 'radio',
-          fieldName: 'SSA7_INDUSTRY',
-          required: false,
-          clearable: true,
-          disabled: true
-        },
-        {
-          name: '企业性质',
-          label: '企业性质',
-          code: 'SS06_ENT_PROPERTY',
-          value: '',
-          placeHolder: '请选择企业性质',
-          type: 'text',
-          popType: 'radio',
-          fieldName: 'SSA7_PROPERTY',
-          required: false,
-          clearable: true,
-          disabled: true
-        },
-        {
-          name: '注册类型',
-          label: '注册类型',
-          code: 'SS05_REG_TYPE',
-          value: '',
-          placeHolder: '请选择注册类型',
-          type: 'text',
-          popType: 'radio',
-          fieldName: 'SSA7_REG_TYPE',
-          required: false,
-          clearable: true,
-          disabled: true
-        },
+//        {
+//          name: '所属行业',
+//          label: '所属行业',
+//          code: 'SS07_ENT_INDUSTRY',
+//          value: '',
+//          placeHolder: '请选择所属行业',
+//          type: 'text',
+//          popType: 'radio',
+//          fieldName: 'SSA7_INDUSTRY',
+//          required: false,
+//          clearable: true,
+//          disabled: true
+//        },
+//        {
+//          name: '企业性质',
+//          label: '企业性质',
+//          code: 'SS06_ENT_PROPERTY',
+//          value: '',
+//          placeHolder: '请选择企业性质',
+//          type: 'text',
+//          popType: 'radio',
+//          fieldName: 'SSA7_PROPERTY',
+//          required: false,
+//          clearable: true,
+//          disabled: true
+//        },
+//        {
+//          name: '注册类型',
+//          label: '注册类型',
+//          code: 'SS05_REG_TYPE',
+//          value: '',
+//          placeHolder: '请选择注册类型',
+//          type: 'text',
+//          popType: 'radio',
+//          fieldName: 'SSA7_REG_TYPE',
+//          required: false,
+//          clearable: true,
+//          disabled: true
+//        },
         {
           name: '企业法人',
           label: '企业法人',
@@ -225,7 +235,7 @@ export default {
           code: '',
           value: '',
           placeHolder: '请输入验证码',
-          type: 'text',
+          type: 'number',
           popType: '',
           fieldName: 'Code',
           isCode: true,
@@ -258,6 +268,12 @@ export default {
   },
   watch: {},
   methods: {
+    clickNext () {
+      this.activePage++
+    },
+    clickPrev () {
+      this.activePage--
+    },
     clickRightIcon (item) {
       if (item.rightIcon === 'eye') {
         item.type = item.type === 'password' ? 'text' : 'password'
@@ -292,7 +308,7 @@ export default {
         this.$toast.success('注册成功')
         setTimeout(() => {
           GoToPage('', 'EPLogin.html', {})
-        }, 2000)
+        }, 1000)
       })
     },
     onRead (file) {
@@ -497,5 +513,11 @@ export default {
     position: absolute;
     right: 0;
     top: -15px;
+  }
+  .btnClass {
+    @include theBtnColor
+  }
+  .mb15 {
+    margin-bottom: 15px;
   }
 </style>

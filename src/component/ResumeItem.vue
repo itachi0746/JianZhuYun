@@ -17,6 +17,13 @@
           </div>
         </van-col>
       </van-row>
+      <van-cell-group>
+        <van-cell title="期望工作地点" :value="resData.RE23_WORK_PLACE" />
+        <van-cell title="期望工作性质" :value="resData.RE23_WORK_PROP" />
+        <van-cell title="期望职能" :value="resData.RE23_EXPECTED_FX" />
+        <van-cell title="期望年薪" :value="resData.RE23_ANNUAL_SALARY_E" />
+        <van-cell title="到岗时间" :value="resData.RE23_CAN_WORK_TIME" />
+      </van-cell-group>
     </div>
     <div v-if="workExperienceData" class="item-box van-hairline--bottom">
       <div class="title">
@@ -50,9 +57,9 @@ export default {
       dataMap: {
         RE23_AGE: '年龄',
         RE23_SEX: '性别',
-        RE23_BORN_IN: '籍贯',
+//        RE23_BORN_IN: '籍贯',
         RE23_MOBILE_PHONE: '手机',
-        RE23_IDENTIY_CARD_NO: '身份证'
+//        RE23_IDENTIY_CARD_NO: '身份证'
       },
       detailData: []
     }
@@ -80,6 +87,7 @@ export default {
   },
 
   mounted () {
+    this.resData.RE23_CAN_WORK_TIME = myModule.handleTime(this.resData.RE23_CAN_WORK_TIME)
     this.detailData = myModule.handleMapData(this.dataMap, this.resData)
   },
 
@@ -149,7 +157,7 @@ export default {
   .data-name {
     color: #323233;
     font-weight: bold;
-    @include font-size(18px)
+    @include font-size(22px)
   }
   .data-item-box {
     display: flex;

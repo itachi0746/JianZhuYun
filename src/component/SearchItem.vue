@@ -50,7 +50,8 @@ export default {
       this.$emit('search', this.value)
     },
     clickBack () {
-      this.$router.back()
+      window.history.back()
+//      this.$router.back()
     },
     handleHeight () {
       setTimeout(() => {

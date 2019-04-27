@@ -13,14 +13,14 @@
         </ul>
       </div>
     </div>
-    <div class="van-hairline--bottom" v-if="false">
+    <div>
       <ul class="c-tag" v-if="tagData.length">
         <li>
           <van-tag v-for="(item,index) in tagData" :key="index" color="#F1F1F1" text-color="#999999" size="medium">{{item}}</van-tag>
         </li>
       </ul>
     </div>
-    <div class="c-msg" v-show="false">
+    <div class="c-msg" v-if="false">
       <div>热招：设计师等2886个职位</div>
       <van-icon name="arrow"/>
     </div>
@@ -52,11 +52,11 @@ export default {
     tagData () {
       let arr = []
       if (this.companyData) {
-        let ReferenceValues = this.companyData.ReferenceValues
+//        let ReferenceValues = this.companyData.ReferenceValues
         for (let obj of this.dataArr) {
           let theKey = obj.fieldName
-          if (ReferenceValues[theKey] && ReferenceValues[theKey] !== 'null') {
-            arr.push(ReferenceValues[theKey])
+          if (this.companyData[theKey] && this.companyData[theKey] !== 'null') {
+            arr.push(this.companyData[theKey])
           }
         }
       }

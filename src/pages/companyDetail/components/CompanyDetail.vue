@@ -5,7 +5,10 @@
       <div v-if="resData">
         <van-panel :title="resData.HRA0_ENT_NAME" :desc="resData.HRA0_ENT_ADDR_L1">
           <van-cell>
-            <div class="note">{{resData.HRA0_NOTE_1}}</div>
+            <div class="note-title">公司简介</div>
+            <div class="note">{{resData.HRA0_DESC}}</div>
+            <div class="note-title">公司官网</div>
+            <div class="note">{{resData.HRA0_WEB_URL}}</div>
           </van-cell>
         </van-panel>
         <van-panel class="mb20" title="工商信息">
@@ -32,10 +35,10 @@ export default {
         HRA0_ENT_NAME: '公司全称',
         HRA0_ENT_LP: '企业法人',
         HRA0_ENT_RT: '注册时间',
-        HRA0_ENT_RC: '注册资本',
-        SSA7_INDUSTRY: '所属行业',
-        SSA7_PROPERTY: '企业性质',
-        SSA7_REG_TYPE: '注册类型'
+        HRA0_ENT_RC: '注册资本'
+//        SSA7_INDUSTRY: '所属行业',
+//        SSA7_PROPERTY: '企业性质',
+//        SSA7_REG_TYPE: '注册类型'
       },
       detailData: []
     }
@@ -102,5 +105,9 @@ export default {
   }
   .van-cell__label {
     @include font-size(16px)
+  }
+  .note-title {
+    @include font-size(22px);
+    margin: 20px 0;
   }
 </style>

@@ -14,7 +14,7 @@
             <!--<div class="man-tag1">申请建筑电工</div>-->
           </div>
           <div class="man-tag1-box">
-            <div class="man-tag1">创建时间: {{item.RE01_CRT_TIME}}</div>
+            <div class="man-tag1">{{item.RE01_CHG_TIME}}</div>
           </div>
         </div>
         <div class="action-box" v-if="actionObj">

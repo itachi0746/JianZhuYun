@@ -28,7 +28,7 @@
             <!--自荐信-->
           <!--</div>-->
           <div class="main-field">
-            <van-field type="textarea" v-model="value" placeholder="请编辑您的面试邀请内容" />
+            <van-field type="textarea" v-model="value" placeholder="请编辑您的面试邀请内容(10个汉字以上)" />
           </div>
         </div>
         <div class="result" v-if="isSend">
@@ -40,7 +40,7 @@
         </div>
         <div class="action-box" v-else>
           <div class="p10">
-            <van-button class="btnClass" type="info" size="large" @click.native="clickSend">发送</van-button>
+            <van-button class="btnClass" :disabled="value.length<=10" type="info" size="large" @click.native="clickSend">发送</van-button>
           </div>
           <!--<van-row class="theRow">-->
             <!--<van-col span="12">-->
@@ -105,13 +105,14 @@ export default {
         this.$toast.success('提交成功')
         this.isSend = true
 //        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
-        setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-        }, 2000)
+//        setTimeout(() => {
+//          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+//        }, 2000)
       })
     },
     clickBack () {
-      GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+      window.history.back()
+//      GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
     }
   },
 
@@ -197,13 +198,16 @@ export default {
     margin-bottom: 10px;
   }
   .main-field {
+    /*padding: 15px;*/
     background-color: #F5F9FA;
-    border-radius: 5px;
-    height: 180px;
-    /*padding: 10px;*/
+    border-radius: 10px;
+    height: 273px;
+    overflow-y: auto;
+    @include borderBox();
+    @include font-size(22px);
   }
   .action-box {
-    margin-top: 25px;
+    margin-top: 50px;
     display: flex;
     justify-content: space-between;
   }

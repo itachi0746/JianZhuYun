@@ -228,6 +228,7 @@ export default {
     margin-bottom: 10px;
   }
   .main-field {
+    @include borderBox();
     background-color: #F5F9FA;
     border-radius: 5px;
     height: 273px;
