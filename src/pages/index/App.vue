@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style>@import "../../styles/font.css";
   .van-icon.van-icon-search {
     font-size: 20px;
   }

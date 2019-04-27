@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style>@import "../../styles/font.css";
   .van-field__body {
     height: 100%;
   }

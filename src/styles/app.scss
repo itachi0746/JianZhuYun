@@ -1,3 +1,4 @@
+@import "font.css";
 //通用样式文件
 .van-button {
   -webkit-border-radius: 5px;
@@ -11,9 +12,7 @@
   height: 43px;
   line-height: 43px;
 }
-html {
-  font-family: PingFang SC,Helvetica Neue,Arial,sans-serif;
-}
 .van-field__body {
   height: 100%;
 }
+

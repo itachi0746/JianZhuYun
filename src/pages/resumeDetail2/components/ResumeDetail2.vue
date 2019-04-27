@@ -174,35 +174,45 @@ export default {
           titleName: '求职期望',
           part: 'p2',
           border: true,
-          data: [
-            {
-              name: '求职意向', label: '求职意向', code: 'UDRE015', value: 'UI设计师', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
-            },
-            {
-              name: '期待年薪',
-              label: '期待年薪',
-              code: '',
-              value: '23333',
-              placeHolder: '期待年薪',
+          data: {
+            name: {
+              name: '求职意向',
+              label: '求职意向',
+              code: 'UDRE015',
+              value: 'UI设计师',
+              placeHolder: '求职意向',
               type: 'text',
-              popType: '',
-              fieldName: 'RE23_ANNUAL_SALARY_E',
-              required: false,
+              popType: 'radio',
+              fieldName: 'RE23_JOB_INTENSION',
+              required: true,
               clearable: true
             },
-            {
-              name: '期待工作地点',
-              label: '期待工作地点',
-              code: '',
-              value: '工作',
-              placeHolder: '期待工作地点',
-              type: 'text',
-              popType: '',
-              fieldName: 'RE23_WORK_PLACE',
-              required: false,
-              clearable: true
-            }
-          ]
+
+            //            {
+            //              name: '期待年薪',
+            //              label: '期待年薪',
+            //              code: '',
+            //              value: '23333',
+            //              placeHolder: '期待年薪',
+            //              type: 'text',
+            //              popType: '',
+            //              fieldName: 'RE23_ANNUAL_SALARY_E',
+            //              required: false,
+            //              clearable: true
+            //            },
+            //            {
+            //              name: '期待工作地点',
+            //              label: '期待工作地点',
+            //              code: '',
+            //              value: '工作',
+            //              placeHolder: '期待工作地点',
+            //              type: 'text',
+            //              popType: '',
+            //              fieldName: 'RE23_WORK_PLACE',
+            //              required: false,
+            //              clearable: true
+            //            }
+          }
           //        {titleName: '工作经历', border: true, data: {}},
           //        {titleName: '项目经历', border: true, data: {}},
           //        {titleName: '教育经历', border: true, data: {}},
@@ -287,10 +297,28 @@ export default {
           clearable: true
         },
         {
-          name: '现居住地', label: '现居住地', code: '', value: '', placeHolder: '现居住地', type: 'text', popType: '', fieldName: 'RE23_ADDRESS', required: false, clearable: true
+          name: '现居住地',
+          label: '现居住地',
+          code: '',
+          value: '',
+          placeHolder: '现居住地',
+          type: 'text',
+          popType: '',
+          fieldName: 'RE23_ADDRESS',
+          required: false,
+          clearable: true
         },
         {
-          name: '求职意向', label: '求职意向', code: 'UDRE015', value: '', placeHolder: '求职意向', type: 'text', popType: 'radio', fieldName: 'RE23_JOB_INTENSION', required: true, clearable: true
+          name: '求职意向',
+          label: '求职意向',
+          code: 'UDRE015',
+          value: '',
+          placeHolder: '求职意向',
+          type: 'text',
+          popType: 'radio',
+          fieldName: 'RE23_JOB_INTENSION',
+          required: true,
+          clearable: true
         },
         {
           name: '期待工作性质',
@@ -439,8 +467,7 @@ export default {
     ResumeItem2
   },
 
-  computed: {
-  },
+  computed: {},
 
   methods: {
     handleHeight (height) {
@@ -453,28 +480,28 @@ export default {
   },
 
   created () {
-//    this.$toast.loading({
-//      mask: false,
-//      message: '加载中...',
-//      duration: 0,
-//      forbidClick: true // 禁用背景点击
-//    })
-//    const param = myModule.getUrlParams()
-//    this.id = param.id
-//    postData('/EntService/peopleDetail', {id: this.id}).then((res) => {
-//      console.log(res)
-//      if (myModule.isEmpty(res.ReturnData)) {
-//        console.log('暂无数据')
-//        this.$toast.fail({
-//          mask: false,
-//          message: '暂无数据',
-//          forbidClick: false // 禁用背景点击
-//        })
-//        return
-//      }
-//      this.$toast.clear()
-//      this.resData = res.ReturnData
-//    })
+    //    this.$toast.loading({
+    //      mask: false,
+    //      message: '加载中...',
+    //      duration: 0,
+    //      forbidClick: true // 禁用背景点击
+    //    })
+    //    const param = myModule.getUrlParams()
+    //    this.id = param.id
+    //    postData('/EntService/peopleDetail', {id: this.id}).then((res) => {
+    //      console.log(res)
+    //      if (myModule.isEmpty(res.ReturnData)) {
+    //        console.log('暂无数据')
+    //        this.$toast.fail({
+    //          mask: false,
+    //          message: '暂无数据',
+    //          forbidClick: false // 禁用背景点击
+    //        })
+    //        return
+    //      }
+    //      this.$toast.clear()
+    //      this.resData = res.ReturnData
+    //    })
 
   },
 
@@ -489,17 +516,21 @@ export default {
     @include font-size(16px);
     color: #666;
   }
+
   .body {
     padding: 15px 18px;
     @include borderBox()
   }
+
   .header {
     padding-bottom: 20px;
     display: flex;
   }
+
   .line {
     margin-bottom: 20px;
   }
+
   .header-data-box {
     position: relative;
     flex: 1;
@@ -520,6 +551,7 @@ export default {
       }
     }
   }
+
   .icon-box {
     position: absolute;
     top: 0;
@@ -531,20 +563,24 @@ export default {
       height: 100%;
     }
   }
+
   .logo-box {
     min-width: 55px;
     margin-right: 11px;
   }
+
   .logo-box-inner {
     width: 53px;
     height: 53px;
   }
+
   .line2 {
     width: 100%;
     /*height: 27px;*/
     /*display: flex;*/
     /*justify-content: space-between;*/
   }
+
   .line2-value {
     height: 27px;
     min-width: 67px;
@@ -554,15 +590,17 @@ export default {
     box-sizing: border-box;
     @include defaultFlex
   }
+
   .line2-item {
     display: flex;
     align-items: center;
   }
+
   .line3 {
     margin-bottom: 0;
     .line2-value {
       padding: 0 25px;
-      white-space:nowrap;
+      white-space: nowrap;
     }
   }
 </style>

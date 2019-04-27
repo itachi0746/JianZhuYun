@@ -21,11 +21,11 @@
             </div>
           </div>
           <!--时间-->
-          <div class="content-line content-time" v-if="theData.data.time">
-            <span>{{theData.data.time}}</span>
+          <div class="content-line content-time" v-if="theData.data[1].value">
+            <span>{{theData.data[1].value}}</span>
           </div>
-          <div class="content-line job-name" v-if="theData.data.jobData">
-            <span>{{theData.data.jobData}}</span>
+          <div class="content-line job-name" v-if="theData.data[2].value">
+            <span>{{theData.data[2].value}}</span>
           </div>
           <!--内容-->
           <div class="content-line" v-if="theData.data.content">

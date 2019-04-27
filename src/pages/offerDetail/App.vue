@@ -10,6 +10,6 @@ export default {
 }
 </script>
 
-<style>
+<style>@import "../../styles/font.css";
 
 </style>

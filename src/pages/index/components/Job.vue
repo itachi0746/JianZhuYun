@@ -155,6 +155,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .body {
+    /*font-family: myFont, sans-serif;*/
     background-color: #F5F9FA;
     overflow-y: auto;overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */

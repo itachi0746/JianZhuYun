@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style>@import "../../styles/font.css";
   .van-field--disabled .van-field__control, .van-field__right-icon {
     color: #323233;
   }
