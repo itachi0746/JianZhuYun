@@ -27,6 +27,7 @@
         <!--</div>-->
       </van-list>
     </van-pull-refresh>
+    <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
   </div>
 </template>
 
@@ -35,11 +36,13 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import DBHeader from '../../../component/DBHeader.vue'
 import Item from './Item.vue'
+import Footer from '../../../component/Footer.vue'
 
 export default {
   name: 'profile',
   data () {
     return {
+      activeNum: 1,
       headerHeight: null,
       footerHeight: null,
       PageIndex: 1, // 记录当前第几页
@@ -62,7 +65,8 @@ export default {
   },
   components: {
     DBHeader,
-    Item
+    Item,
+    Footer
   },
   watch: {
     curHeadItem () { // 头部切换, 就请求

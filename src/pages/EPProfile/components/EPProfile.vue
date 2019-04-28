@@ -37,7 +37,8 @@ export default {
       headerHeight: null,
       footerHeight: null,
       items: [
-        {name: '人才库', link: 'EPPeopleDB.html', param: {pageid: 0}},
+//        {name: '人才库', link: 'EPPeopleDB.html', param: {pageid: 0}},
+        {name: '申请记录', link: 'EPRecord.html', param: {}},
         {name: '发布职位', link: 'EPRelease.html', param: {}},
         {name: '职位列表', link: 'EPJob.html', param: {}},
 //        {name: '浏览记录', link: '', param: {}},

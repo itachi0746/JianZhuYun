@@ -68,11 +68,18 @@ export default {
         {
           normal: require('./assets/home_shengqingjilu_nor.png'),
           active: require('./assets/home_shengqingjulu_sel.png'),
-          name: '申请记录',
-          link: 'EPRecord.html',
-          param: null
-
+          name: '人才库',
+          link: 'EPPeopleDB.html',
+          param: {pageid: 0}
         },
+//        {
+//          normal: require('./assets/home_shengqingjilu_nor.png'),
+//          active: require('./assets/home_shengqingjulu_sel.png'),
+//          name: '申请记录',
+//          link: 'EPRecord.html',
+//          param: null
+//
+//        },
         {
           normal: require('./assets/f3.png'),
           active: require('./assets/f3_active.png'),

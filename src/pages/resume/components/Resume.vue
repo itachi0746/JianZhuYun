@@ -65,14 +65,16 @@ export default {
       id: null,
       activePage: 1,
       resData: null,
-      theWorkTime: new Date(),
       theMinDate: new Date(1970, 0, 1),
       curDate: new Date(),
       theShowDate: null,
       datetimeType: 'date',
       isDisable: false,
-      //      showFillter: false, // 显示底部填充元素 把页面往上推 因为页面放在app中 输入框 被输入法挡住 不会像web那样页面会向上滚
       theRadioData: null, // 单选数据
+      curFieldDIdx: null, // 当前字段index
+      curPopType: null, // 当前弹窗类型
+      showRadio: false, // 显示单选弹窗
+      showPicker: false, // 显示日期选择器弹窗
       theFieldArr: [
         {
           name: '姓名',
@@ -332,11 +334,7 @@ export default {
           disabled: true
 
         }
-      ],
-      curFieldDIdx: null, // 当前字段index
-      curPopType: null, // 当前弹窗类型
-      showRadio: false, // 显示单选弹窗
-      showPicker: false // 显示日期选择器弹窗
+      ]
     }
   },
   components: {
@@ -458,7 +456,8 @@ export default {
       this.$toast.loading({
         mask: true,
         message: '加载中...',
-        forbidClick: true // 禁用背景点击
+        forbidClick: true, // 禁用背景点击
+        duration: 0
       })
       postData('/Share/GetDictVals', {code: theCode}).then((res) => {
         console.log(res)

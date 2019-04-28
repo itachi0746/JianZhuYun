@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :headerName="headerName" :search="false"></Header>
+    <Header @sendHeight="handleHeight" :headerName="headerName" :search="false" :back="true"></Header>
     <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list
         v-model="loading"
@@ -42,7 +42,7 @@
         </div>
       </van-list>
     </van-pull-refresh>
-    <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
+    <!--<Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>-->
   </div>
 </template>
 
@@ -54,7 +54,6 @@ import Header from '../../../component/Header.vue'
 import UserHead from '../../../component/UserHead.vue'
 
 export default {
-  name: 'profile',
   data () {
     return {
       headerName: '申请记录',

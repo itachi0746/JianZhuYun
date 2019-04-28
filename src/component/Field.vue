@@ -164,7 +164,7 @@ export default {
     @include theBtnColor;
   }
   .textarea-class {
-    height: 400px;
+    height: 280px;
   }
   .wb {
     word-break: break-all;

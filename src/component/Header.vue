@@ -8,6 +8,8 @@
         <div class="icon-box">
           <img v-if="search" src="./assets/search.png" alt="" @click="clickSearch">
           <img v-if="config" src="./assets/config.png" alt="" @click="clickConfig">
+          <img v-if="config" src="./assets/config.png" alt="" @click="clickConfig">
+          <img v-if="save" src="./assets/save.png" alt="" @click="clickSave">
         </div>
       </div>
     </div>
@@ -25,19 +27,23 @@ export default {
   components: {},
 
   props: {
-    headerName: {
+    headerName: { // 名字
       type: String,
       default: ''
     },
-    back: {
+    back: { // 回退
       type: Boolean,
       default: false
     },
-    search: {
+    search: { // 搜索按钮
       type: Boolean,
       default: false
     },
-    config: {
+    config: { // 设置按钮
+      type: Boolean,
+      default: false
+    },
+    save: { // 保存按钮
       type: Boolean,
       default: false
     }
@@ -60,8 +66,10 @@ export default {
       this.$router.push({name: 'Config', params: {}})
     },
     clickBack () {
-      console.log('back')
       this.$router.go(-1)
+    },
+    clickSave () {
+      this.$emit('save', {})
     }
   },
 

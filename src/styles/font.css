@@ -1,10 +1,11 @@
-@font-face {
-  font-family: 'myFont';
-  src: url('./font/pingfang-zhun.ttf');
-  font-weight: 400;
-  font-style: normal;
-}
+/*@font-face {*/
+  /*font-family: 'myFont';*/
+  /*src: url('./font/pingfang-zhun.ttf');*/
+  /*font-weight: 400;*/
+  /*font-style: normal;*/
+/*}*/
 
 html, body, #app {
-  font-family: myFont, sans-serif;
+  /*font-family: myFont, sans-serif;*/
+  font-family: sans-serif;
 }

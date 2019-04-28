@@ -9,12 +9,12 @@
           {{resData.RE23_NAME}}
         </div>
         <div class="man-tag1-box">
-          <div v-for="(item,index) in detailData" :key="index" class="man-tag1 van-hairline--right">
+          <div v-for="(item,index) in detailData" :key="index" :class="['man-tag1', {'van-hairline--right': index!==detailData.length-1}]">
             {{item.value}}
           </div>
         </div>
         <div class="man-tag1-box">
-          <div class="man-tag1 van-hairline--right">{{resData.RE23_JOB_INTENSION}}</div>
+          <div class="man-tag1">{{resData.RE23_JOB_INTENSION}}</div>
           <!--<div class="man-tag1 van-hairline&#45;&#45;right">全城科技有限公司</div>-->
         </div>
       </div>

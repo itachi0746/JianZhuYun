@@ -53,7 +53,7 @@ export default {
         'RE34_RESUME_RCV': 'EPRecordDetail.html',
         'RE37_INTERVIEW_MSG': 'EPInterviewDetail.html',
         'RE32_OFFER_MSG': 'EPOfferDetail.html',
-        'RE33_SIGN_CONTRACT': ''
+        'RE33_SIGN_CONTRACT': 'EPContractDetail.html'
       }
     }
   },
