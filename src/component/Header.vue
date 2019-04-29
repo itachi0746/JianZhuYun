@@ -8,7 +8,6 @@
         <div class="icon-box">
           <img v-if="search" src="./assets/search.png" alt="" @click="clickSearch">
           <img v-if="config" src="./assets/config.png" alt="" @click="clickConfig">
-          <img v-if="config" src="./assets/config.png" alt="" @click="clickConfig">
           <img v-if="save" src="./assets/save.png" alt="" @click="clickSave">
         </div>
       </div>

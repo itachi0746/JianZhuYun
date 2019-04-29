@@ -139,7 +139,8 @@ export default {
     let form = new FormData()
     for (let obj of dataArr) {
       if (!obj.value) {
-        console.log(`${obj.name} 为空`)
+        console.log(`${obj.name} 的值为 ${obj.value}`)
+        obj.value = ''
         // return false
       }
       try {
@@ -160,6 +161,7 @@ export default {
     for (let key in dataObj) {
       if (!dataObj[key]) {
         console.log(`${key} 为空: ${dataObj[key]}`)
+        dataObj[key] = ''
         // return false
       }
       form.append(key, dataObj[key])

@@ -3,14 +3,9 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>
-        <!--<van-cell-group>-->
-          <!--<van-cell title="期望工作地点" :value="resData.RE23_WORK_PLACE" />-->
-          <!--<van-cell title="期望工作性质" :value="resData.RE23_WORK_PROP" />-->
-          <!--<van-cell title="期望职能" :value="resData.RE23_EXPECTED_FX" />-->
-          <!--<van-cell title="期望年薪" :value="resData.RE23_ANNUAL_SALARY_E" />-->
-          <!--<van-cell title="到岗时间" :value="resData.RE23_CAN_WORK_TIME" />-->
-        <!--</van-cell-group>-->
+        <!--<ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>-->
+        <ResumeItem2 :resData="resData" :isEdit="false"></ResumeItem2>
+
       </div>
     </div>
   </div>
@@ -22,6 +17,7 @@ import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import UserHead from '../../../component/UserHead.vue'
 import ResumeItem from '../../../component/ResumeItem.vue'
+import ResumeItem2 from '../../../component/ResumeItem2.vue'
 
 export default {
   data () {
@@ -35,7 +31,8 @@ export default {
   components: {
     Header,
     UserHead,
-    ResumeItem
+    ResumeItem,
+    ResumeItem2
   },
 
   computed: {},
@@ -52,7 +49,7 @@ export default {
 
   created () {
     const param = myModule.getUrlParams()
-    postData('/EntService/PeopleDetail', {id: param.id}).then((res) => {
+    postData('/EntService/PeopleDetail', {id: param.id, RequireDetail: true}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')

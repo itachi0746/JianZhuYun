@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <div v-if="pageId!==null">
-      <DBHeader @changeTab="changeTab" :back="true" :active="pageId" @sendHeight="handleHeight" :search="false"></DBHeader>
+      <DBHeader @changeTab="changeTab" :back="false" :active="pageId" @sendHeight="handleHeight" :search="false"></DBHeader>
     </div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list

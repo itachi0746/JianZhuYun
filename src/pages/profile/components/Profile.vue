@@ -85,8 +85,9 @@ export default {
       resData: null,
       id: null,
       items: [
-        {name: '我的简历', icon: require('../assets/home_icon_jianli.png'), link: 'resume.html', param: {}},
-        {name: '附件简历', icon: require('../assets/home_icon_fujianjianli.png'), link: '', param: {}},
+//        {name: '我的简历', icon: require('../assets/home_icon_jianli.png'), link: 'resume.html', param: {}},
+        {name: '我的简历', icon: require('../assets/home_icon_jianli.png'), link: 'resumeDetail2.html', param: {id: this.id}},
+//        {name: '附件简历', icon: require('../assets/home_icon_fujianjianli.png'), link: '', param: {}},
         {name: '我的offer', icon: require('../assets/home_icon_wodeoffer.png'), link: 'offer.html', param: {}},
         {name: '我的合同', icon: require('../assets/home_icon_hetong.png'), link: 'contract.html', param: {}}
       ]

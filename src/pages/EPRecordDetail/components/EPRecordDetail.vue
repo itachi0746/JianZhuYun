@@ -134,7 +134,8 @@ export default {
     },
     clickCheck () {
 //      this.$router.push({name: 'ResumeDetail', params: {id: this.resData.RE34_CANDIDATE_ID}})
-      GoToPage('', 'resumeDetail.html', {id: this.resData.RE34_CANDIDATE_ID})
+//      GoToPage('', 'resumeDetail.html', {id: this.resData.RE34_CANDIDATE_ID})
+      GoToPage('', 'EPResumeDetail.html', {id: this.resData.RE34_RCV_ID, FromType: 'RE34_RESUME_RCV'})
     }
   },
 
