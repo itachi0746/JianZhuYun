@@ -42,7 +42,7 @@ export default {
       showRadio: false, // 单选显示隐藏
       theRadioData: null,
       theCellArr: [
-//        {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true},
+        {name: '实名验证', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
         {name: '切换到个人', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
         {name: '重置密码', popType: '', value: '', code: '', fieldName: '', show: true, isLink: true},
         {name: '清理缓存', popType: '', value: '', code: '', fieldName: '', show: true, isLink: false}
@@ -76,7 +76,7 @@ export default {
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      postData('/ReService/GoVerify', {}).then((res) => {
+      postData('/EntService/GoVerify', {}).then((res) => {
         console.log(res)
         if (res.Result) {
           window.location.href = res.Result
@@ -127,12 +127,15 @@ export default {
     clickCell (item, index) {
       switch (index) {
       case 0:
-        this.changeRole()
+        this.clickVerify()
         break
       case 1:
-        this.clickReset()
+        this.changeRole()
         break
       case 2:
+        this.clickReset()
+        break
+      case 3:
         this.clearCache()
         break
       }

@@ -111,7 +111,10 @@ export default {
 
   mounted () {
     if (this.index === 0) {
-      this.$refs['theField'].focus()
+//      this.$refs['theField'].focus()
+      setTimeout(() => {
+        this.$refs['theField'].focus()
+      }, 400)
     }
   },
 

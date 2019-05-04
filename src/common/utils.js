@@ -89,7 +89,7 @@ export default {
     if (document.documentElement.clientHeight) {
       clientHeight = document.documentElement.clientHeight
     }
-    console.log('窗口高度:', clientHeight)
+    console.log('可视区域高度:', clientHeight)
     return clientHeight
   },
   add0 (m) {
@@ -330,6 +330,7 @@ export default {
         }
         continue
       }
+      // obj[key] = obj[key].trim()
       if (obj[key].indexOf('/Date') !== -1) {
         obj[key] = this.handleTime(obj[key], hm)
       }
@@ -392,5 +393,15 @@ export default {
     }
     let Value = eval(theValue), min = 10, max = 70
     return Value<=min || Value>=max
+  },
+  /**
+   * 格式化 数字 0 和负数
+   * @param num 数字
+   */
+  formatZero (num) {
+    if (typeof num !== 'number') {
+      return num
+    }
+    return num <= 0 ? null : num
   }
 }

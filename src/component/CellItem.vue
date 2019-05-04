@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import {postData} from '../common/server'
 export default {
   data () {
     return {
@@ -33,14 +34,30 @@ export default {
 
   methods: {
     clickItem (item) {
-      GoToPage('', item.link, item.param)
-      //      let data = {}
-//      if (link === 'resume.html') {
-//        data = {id: this.id}
-//        GoToPage('', link, data)
-//      } else {
-//        GoToPage('', link, {})
+//      if (item.name === '实名验证') {
+//        this.clickVerify()
 //      }
+      GoToPage('', item.link, item.param)
+    },
+    /**
+     * 点击实名验证
+     */
+    clickVerify () {
+      this.$toast.loading({
+        mask: false,
+        message: '加载中...',
+        duration: 0,
+        forbidClick: true // 禁用背景点击
+      })
+      postData('/EntService/GoVerify', {}).then((res) => {
+        console.log(res)
+        if (res.Result) {
+          window.location.href = res.Result
+        } else {
+          this.$toast.clear()
+          console.log('没有链接地址')
+        }
+      })
     }
   },
 

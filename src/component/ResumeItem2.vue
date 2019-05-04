@@ -14,7 +14,14 @@
         </div>
         <div class="line line1" v-for="(item,index) in p0Data" :key="index" v-if="index===0">
           <div class="name">{{item.value}}</div>
-          <div class="call">/先生</div>
+          <div v-if="isEnt">
+            <div class="call" v-if="resData.RE01.RE01_SEX==='男'">/先生</div>
+            <div class="call" v-if="resData.RE01.RE01_SEX==='女'">/女士</div>
+          </div>
+          <div v-else>
+            <div class="call" v-if="resData.RE23.RE23_SEX==='男'">/先生</div>
+            <div class="call" v-if="resData.RE23.RE23_SEX==='女'">/女士</div>
+          </div>
         </div>
         <div class="line line2">
           <div class="line2-item">
@@ -28,11 +35,6 @@
       </div>
     </div>
     <div class="main">
-      <!--组件-->
-      <!--<div v-for="(item,index) in theItemData" :key="index" :class="{'van-hairline&#45;&#45;bottom': item.border}">-->
-      <!--<ResumeItem2 :theData="item" :index="index"></ResumeItem2>-->
-      <!--</div>-->
-
       <!--求职期望-->
       <div class="main-item-box">
         <div class="title">
@@ -40,9 +42,6 @@
             <i class="title-icon"></i>
             <span>求职期望</span>
           </div>
-          <!--<div class="content-edit" @click="clickEdit('p1', p1Data.RE23_CANDIDATE_ID)">-->
-          <!--<img src="./assets/edit.png" alt="">-->
-          <!--</div>-->
         </div>
         <div class="main-content">
           <div class="the-content" v-if="!isNoValueObj(p1Data)">
@@ -73,7 +72,6 @@
                 <span>{{p1Data.RE23_WORK_PLACE}}</span>
               </div>
             </div>
-
           </div>
           <div v-else>
             <div class="empty-content" v-if="isEdit">
@@ -347,7 +345,6 @@
 <script>
 import UserHead from './UserHead.vue'
 import myModule from '../common'
-import { postData } from '../common/server'
 export default {
   data () {
     return {
@@ -359,7 +356,7 @@ export default {
           'RE01_EDUCATION',
           'RE01_BORN_IN',
           'RE01_MOBILE_PHONE',
-          'RE01_IDENTIY_CARD_NO',
+          'RE01_ID_NUMBER',
           'RE01_ID'
         ],
         p1: [ // 求职期望
@@ -411,7 +408,7 @@ export default {
           'RE23_EDUCATION',
           'RE23_BORN_IN',
           'RE23_MOBILE_PHONE',
-          'RE23_IDENTIY_CARD_NO',
+          'RE23_ID_NUMBER',
           'RE23_CANDIDATE_ID'
         ],
         p1: [ // 求职期望
@@ -457,22 +454,22 @@ export default {
         ]
       },
       dataMap: [],
-      p0Data2: [ // 个人信息
+      p0Data2: [ // 个人信息 2代表企业端的字段
         {label: '姓名', value: '', fieldName: 'RE01_NAME'},
         {label: '年龄', value: '', fieldName: 'RE01_AGE'},
         {label: '学历', value: '', fieldName: 'RE01_EDUCATION'},
         {label: '籍贯', value: '', fieldName: 'RE01_BORN_IN'},
         {label: '手机', value: '', fieldName: 'RE01_MOBILE_PHONE'},
-        {label: '身份证', value: '', fieldName: 'RE01_IDENTIY_CARD_NO'},
+        {label: '身份证', value: '', fieldName: 'RE01_ID_NUMBER'},
         {label: '求职者ID', value: '', fieldName: 'RE01_ID'}
       ],
-      p0Data1: [ // 个人信息
+      p0Data1: [ // 个人信息 1代表个人端的字段
         {label: '姓名', value: '', fieldName: 'RE23_NAME'},
         {label: '年龄', value: '', fieldName: 'RE23_AGE'},
         {label: '学历', value: '', fieldName: 'RE23_EDUCATION'},
         {label: '籍贯', value: '', fieldName: 'RE23_BORN_IN'},
         {label: '手机', value: '', fieldName: 'RE23_MOBILE_PHONE'},
-        {label: '身份证', value: '', fieldName: 'RE23_IDENTIY_CARD_NO'},
+        {label: '身份证', value: '', fieldName: 'RE23_ID_NUMBER'},
         {label: '求职者ID', value: '', fieldName: 'RE23_CANDIDATE_ID'}
       ],
       p0Data: [], // 个人信息
@@ -570,13 +567,6 @@ export default {
         RE27 = {data: this.resData.RE27, reKey: 'p5', theArr: this.p5Data}
         RE29 = {data: this.resData.RE29, reKey: 'p6', theArr: this.p6Data}
       }
-//      let RE23 = myModule.formatObj(this.resData.RE23), // 个人信息 对象
-//        RE24 = {data: this.resData.RE24, reKey: 'p2', theArr: this.p2Data},
-//        RE25 = {data: this.resData.RE25, reKey: 'p3', theArr: this.p3Data},
-//        RE26 = {data: this.resData.RE26, reKey: 'p4', theArr: this.p4Data},
-//        RE27 = {data: this.resData.RE27, reKey: 'p5', theArr: this.p5Data},
-//        RE29 = {data: this.resData.RE29, reKey: 'p6', theArr: this.p6Data};
-      //        RE29 = this.resData.RE29; // 技能标签 数组
       [RE24, RE25, RE26, RE27, RE29].map((reObj) => {
         //        debugger
         //          obj = myModule.formatObj(obj, false)
@@ -603,7 +593,7 @@ export default {
       for (let obj of this.p0Data) { // 个人信息
         for (let key in RE23) {
           if (obj.fieldName === key) {
-            obj.value = RE23[key]
+            obj.value = myModule.formatZero(RE23[key])
             break
           }
         }
@@ -612,7 +602,7 @@ export default {
       for (let item of p1Arr) { // 求职期望
         for (let key in RE23) {
           if (item === key) {
-            this.p1Data[item] = RE23[key]
+            this.p1Data[item] = myModule.formatZero(RE23[key])
             break
           }
         }

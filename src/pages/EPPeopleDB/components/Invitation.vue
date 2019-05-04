@@ -202,7 +202,7 @@ export default {
     height: 273px;
     overflow-y: auto;
     @include borderBox();
-    @include font-size(22px);
+    @include font-size(19px);
   }
   .action-box {
     margin-top: 25px;

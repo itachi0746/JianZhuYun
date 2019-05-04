@@ -2,7 +2,7 @@
   <div class="message">
     <Header @sendHeight="handleHeight" :headerName="headerName"></Header>
 
-    <van-pull-refresh v-model="isLoading" disabled @refresh="onRefresh" id="body" class="body" ref="body">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh" id="body" class="body" ref="body">
       <van-list
         v-model="loading"
         :finished="finished"
@@ -134,6 +134,10 @@ export default {
       this.getData()
     },
     onRefresh () {
+      this.PageIndex = 1
+      this.PageCount = null
+      this.resData = null
+      this.getData()
       //      setTimeout(() => {
       //        this.$toast('刷新成功')
       //        this.isLoading = false
@@ -168,6 +172,7 @@ export default {
         this.PageCount = res.PageCount
         this.PageIndex = res.PageIndex
         this.loading = false
+        this.isLoading = false
         this.resData = this.resData === null ? res.ReturnData : this.resData.concat(res.ReturnData)
         for (let obj of this.resData) {
           obj = myModule.formatObj(obj, true)

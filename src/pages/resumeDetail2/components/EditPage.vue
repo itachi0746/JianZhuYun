@@ -2,13 +2,24 @@
   <div>
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true" :save="true" @save="onSave"></Header>
     <div class="body" id="body" ref="body">
+      <!--头像-->
+      <div @click="clickBox" class="head-logo-box van-hairline--bottom" v-if="this.headerName==='个人信息'">
+        <div>头像</div>
+        <div class="head-logo">
+          <UserHead v-if="resData" :theId="resData.RE23_CANDIDATE_ID" :theUrl="resData.RE23_PIC_URL"></UserHead>
+          <UserHead v-else></UserHead>
+        </div>
+        <van-uploader :after-read="onRead" v-show="false">
+          <van-icon name="photograph"/>
+        </van-uploader>
+      </div>
       <div v-if="theFieldArr">
         <div v-for="(item, index) in theFieldArr" :key="index">
           <Field :index="index" :item="item" @clickInput="clickInput"></Field>
         </div>
       </div>
-      <div class="btn-box" v-if="headerName!=='个人信息'">
-        <van-button @click="clickDel" class="btnClass" type="info" size="large" :disabled="isDisabled">
+      <div class="btn-box" v-if="showBtn && this.headerName!=='个人信息'">
+        <van-button @click="clickDel" class="btnClass" type="info" size="large">
           删除
         </van-button>
       </div>
@@ -32,14 +43,16 @@ import { postData } from '../../../common/server'
 import myModule from '../../../common'
 import PopRadio from '../../../component/PopRadio.vue'
 import PopDate from '../../../component/PopDate.vue'
+import UserHead from '../../../component/UserHead.vue'
 
 export default {
   data () {
     return {
       id: null, // 编辑的id
-      userid: null, // 用户的id
       headerName: '',
-      isDisabled: false,
+      docmHeight: null, // 默认屏幕高度
+      showHeight: null, // 实时屏幕高度
+      showBtn: true, // 显示按钮
       theFieldArr: null,
       resData: null,
       theMinDate: new Date(1970, 0, 1),
@@ -93,15 +106,15 @@ export default {
               fieldName: 'RE23_EDUCATION',
               required: false,
               clearable: true,
-              disabled: false
+              disabled: true
             },
             {
               label: '籍贯',
               code: '',
               value: '',
-              placeHolder: '请选择籍贯',
+              placeHolder: '请选填写籍贯',
               type: 'text',
-              popType: 'radio',
+              popType: 'place',
               fieldName: 'RE23_BORN_IN',
               required: false,
               clearable: true,
@@ -126,7 +139,7 @@ export default {
               placeHolder: '请填写身份证',
               type: 'text',
               popType: '',
-              fieldName: 'RE23_IDENTIY_CARD_NO',
+              fieldName: 'RE23_ID_NUMBER',
               required: false,
               clearable: true,
               disabled: true
@@ -141,14 +154,14 @@ export default {
               popType: 'radio',
               required: false,
               clearable: true,
-              disabled: false
+              disabled: true
             },
             {
               label: '期待薪资',
               value: '',
               code: '',
               placeHolder: '期待薪资',
-              type: 'text',
+              type: 'number',
               popType: '',
               fieldName: 'RE23_ANNUAL_SALARY_E',
               required: false,
@@ -178,6 +191,19 @@ export default {
               required: false,
               clearable: true,
               disabled: false
+            },
+            {
+              name: '图片地址',
+              label: '',
+              code: '',
+              value: '',
+              placeHolder: '',
+              type: 'hidden',
+              popType: '',
+              fieldName: 'RE23_PIC_URL',
+              required: false,
+              clearable: true,
+              disabled: false
             }
           ]
         },
@@ -196,7 +222,7 @@ export default {
               popType: 'radio',
               required: false,
               clearable: true,
-              disabled: false
+              disabled: true
             },
             {
               label: '期待薪资',
@@ -259,12 +285,12 @@ export default {
               value: '', // 开始时间
               fieldName: 'RE24_BEGIN_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -274,12 +300,12 @@ export default {
               value: '',
               fieldName: 'RE24_END_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -357,12 +383,12 @@ export default {
               value: '', // 开始时间
               fieldName: 'RE25_BEGIN_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -372,12 +398,12 @@ export default {
               value: '',
               fieldName: 'RE25_END_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -431,12 +457,12 @@ export default {
               value: '', // 开始时间
               fieldName: 'RE26_BEGIN_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -446,12 +472,12 @@ export default {
               value: '',
               fieldName: 'RE26_END_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -466,7 +492,7 @@ export default {
               fieldName: 'RE26_EDU_BACKGROUND',
               required: false,
               clearable: true,
-              disabled: false
+              disabled: true
             },
             {
               label: '专业',
@@ -517,12 +543,12 @@ export default {
               value: '', // 开始时间
               fieldName: 'RE27_BEGIN_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -532,12 +558,12 @@ export default {
               value: '',
               fieldName: 'RE27_END_DATE',
               code: '',
-              placeHolder: '',
+              placeHolder: '请选择时间',
               type: 'text',
               popType: 'date',
               required: false,
               clearable: true,
-              disabled: false,
+              disabled: true,
               showDate: new Date(),
               //          minDate: new Date(),
               datetimeType: 'date'
@@ -608,12 +634,46 @@ export default {
     Header,
     Field,
     PopRadio,
-    PopDate
+    PopDate,
+    UserHead
   },
 
   computed: {},
 
   methods: {
+    // 触发上传
+    clickBox () {
+      let upIcon = document.getElementsByClassName('van-uploader__input')[0]
+      upIcon.click()
+    },
+    onRead (file) {
+      this.$toast.loading({
+        //        mask: true,
+        message: '加载中...',
+        duration: 0
+      })
+      console.log(file)
+      const data = {
+        Name: file.file.name,
+        Data: file.content
+      }
+      let form = myModule.createFormData2(data)
+      postData('/ReService/Upload', form).then((res) => {
+        console.log(res)
+        this.$toast.success({
+          //          mask: true,
+          message: '上传成功',
+          duration: 1000
+        })
+        this.resData.RE23_PIC_URL = res.ReturnData.PicUrl
+        for (let obj of this.theFieldArr) {
+          if (obj.name === '图片地址') {
+            obj.value = res.ReturnData.PicUrl
+            break
+          }
+        }
+      })
+    },
     /**
      * 点击input
      */
@@ -667,6 +727,8 @@ export default {
       this.headerHeight = height.headerHeight
       if (this.headerHeight) {
         const WH = myModule.getClientHeight()
+        this.docmHeight = WH
+        this.showHeight = WH
         this.$refs['body'].style.height = WH - this.headerHeight + 'px'
       }
     },
@@ -699,6 +761,14 @@ export default {
         this.$toast.fail('必填项不能为空')
         return
       }
+      for (let obj of this.theFieldArr) {
+        if (obj.label === '年龄') {
+          if (myModule.checkAge(obj.value)) {
+            this.$toast.fail('请输入正确年龄')
+            return
+          }
+        }
+      }
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -715,13 +785,10 @@ export default {
           forbidClick: true, // 禁用背景点击
           duration: 1000 // 持续展示 toast
         })
-        setTimeout(() => {
-//          this.$router.back()
-          this.$router.replace({name: 'ResumeDetail', params: {}})
-//          history.replaceState(null, null, '?id=' + this.userid)
-        }, 1000)
+//        setTimeout(() => {
+//          this.$router.replace({name: 'ResumeDetail', params: {}})
+//        }, 1000)
       })
-      //      this.$router.replace({name: '/', params: {dataArr: this.theFieldArr}})
     },
     /**
      * 请求数据
@@ -774,37 +841,54 @@ export default {
           forbidClick: true, // 禁用背景点击
           duration: 1000 // 持续展示 toast
         })
-        this.isDisabled = true
-        setTimeout(() => {
-//          this.$router.back()
-          this.$router.replace({name: 'ResumeDetail', params: {}})
-        }, 1000)
+//        setTimeout(() => {
+//          this.$router.replace({name: 'ResumeDetail', params: {}})
+//        }, 1000)
       })
     }
   },
 
   created () {
     const part = this.$route.params.part // 哪个部分
-    const id = this.$route.params.id // id
-//    this.userid = this.$route.params.userid // userid
+    this.id = this.$route.params.id // id
     const curPart = this.dataMap[part]
     this.theFieldArr = curPart.arr
     this.theSaveLink = curPart.saveLink
     this.theDelLink = curPart.delLink
     this.headerName = curPart['headerName']
     let link = this.dataMap[part].getLink
-
-//    debugger
-    if (!id) {
-      console.log(`没有id: ${id}`)
-      this.isDisabled = true
+    //    debugger
+    if (!this.id) {
+      console.log(`没有id: ${this.id}`)
+      this.showBtn = false
       return
     }
-    this.id = id
+    if (this.headerName === '个人信息') {
+      this.showBtn = false
+    }
     this.getData(link, this.id)
   },
 
-  mounted () {},
+  mounted () {
+    // window.onresize监听页面高度的变化
+    window.onresize = () => {
+      return (() => {
+        this.showHeight = document.documentElement.clientHeight // 实际的显示高度
+      })()
+    }
+  },
+  watch: {
+    showHeight () {
+      console.log(`docmHeight: ${this.docmHeight}, showHeight: ${this.showHeight}`)
+      if (this.docmHeight > this.showHeight) { // 如果实际显示高度小于原高度 隐藏按钮
+        this.showBtn = false
+      } else {
+        if (this.id) {
+          this.showBtn = true
+        }
+      }
+    }
+  },
 
   beforeDestroy () {}
 }
@@ -819,10 +903,12 @@ export default {
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* 解决ios滑动不流畅问题 */
   }
+
   .btnClass {
     @include theBtnColor;
 
   }
+
   .btn-box {
     padding: 0 18px;
     position: absolute;
@@ -830,5 +916,17 @@ export default {
     left: 0;
     width: 100%;
     @include borderBox()
+  }
+  .head-logo-box {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include font-size(14px)
+  }
+
+  .head-logo {
+    width: 50px;
+    height: 50px;
   }
 </style>

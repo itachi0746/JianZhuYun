@@ -113,7 +113,7 @@ export default {
     color: #ffffff;
     width: 100%;
     /*height: 150px;*/
-    padding: 30px 30px 20px;
+    padding: 30px 18px 20px;
     background-color: $mainColor;
   }
   .user-data {

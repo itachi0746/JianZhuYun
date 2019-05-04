@@ -121,6 +121,8 @@ export default {
   .c-tag {
     overflow: hidden;
     padding: 15px 0;
+    @include borderBox();
+    padding-left: 56px;
     li {
       float: left;
       margin-right: 10px;

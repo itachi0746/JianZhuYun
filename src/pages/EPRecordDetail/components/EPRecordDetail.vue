@@ -123,7 +123,7 @@ export default {
       }
       postData('/EntService/UpdateApplyStatus', data).then((res) => {
         console.log(res)
-        this.$toast.success('操作成功, 请到人才库查看记录')
+        this.$toast.success('操作成功, 请到人才库查看')
         this.resData.RE34_STATUS = res.ReturnData.RE34_STATUS
         this.resData.ReferenceValues.RE34_STATUS = res.ReturnData.ReferenceValues.RE34_STATUS
         this.resData.RE34_CHG_TIME = myModule.handleTime(res.ReturnData.RE34_CHG_TIME)
@@ -181,20 +181,19 @@ export default {
   .data-box {
     display: flex;
     flex-direction: column;
+    @include font-size(14px);
   }
   .data-name {
-    @include font-size(25px);
+    @include font-size(22px);
     color: #323233;
     margin-top: 17px;
     margin-bottom: 5px;
     font-weight: bold;
   }
   .data-line {
-    @include font-size(15px);
     margin: 5px 0;
   }
   .data-line2 {
-    @include font-size(15px);
   }
   .data-head {
     width: 53px;
@@ -234,7 +233,7 @@ export default {
     border-radius: 5px;
     height: 273px;
     padding: 10px;
-    @include font-size(22px);
+    @include font-size(19px);
     overflow-y: auto;
   }
   .action-box {

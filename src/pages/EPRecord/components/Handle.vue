@@ -180,7 +180,7 @@ export default {
     flex-direction: column;
   }
   .data-name {
-    @include font-size(25px);
+    @include font-size(22px);
     color: #323233;
     margin-top: 17px;
     margin-bottom: 5px;
@@ -230,7 +230,7 @@ export default {
     border-radius: 5px;
     height: 273px;
     padding: 10px;
-    @include font-size(22px);
+    @include font-size(19px);
     overflow-y: auto;
   }
   .action-box {

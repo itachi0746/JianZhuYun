@@ -2,12 +2,12 @@
   <div class="data-head">
     <div class="un-read-num" v-if="theNum"></div>
     <!--<div class="un-read-num" v-if="theNum">{{theNum}}</div>-->
-    <div v-if="theUrl">
+    <div>
       <img :src="url" alt="">
     </div>
-    <div v-else>
-      <img src="./assets/default_head_ep.png" alt="">
-    </div>
+    <!--<div v-else>-->
+      <!--<img src="./assets/default_head_ep.png" alt="">-->
+    <!--</div>-->
   </div>
 </template>
 

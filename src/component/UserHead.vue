@@ -3,13 +3,12 @@
     <!--<div class="un-read-num" v-if="theNum">{{theNum}}</div>-->
     <div class="un-read-num" v-if="theNum"></div>
 
-    <div class="data-head" v-if="theUrl">
+    <div class="data-head">
       <img :src="url" alt="">
     </div>
-    <div class="data-head" v-else>
-      <img src="./assets/default_head_pr.png" alt="">
-      <!--<img src="./assets/default_head_ep.png" alt="">-->
-    </div>
+    <!--<div class="data-head" v-else>-->
+      <!--<img src="./assets/default_head_pr.png" alt="">-->
+    <!--</div>-->
   </div>
 </template>
 

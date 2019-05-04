@@ -75,6 +75,7 @@ export default {
         console.log(res)
         this.$toast.success('登录成功')
         myModule.clearHistory()
+        this.$toast.clear()
         GoToPage('', 'index.html', {})
       })
     },
