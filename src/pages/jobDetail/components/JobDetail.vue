@@ -7,7 +7,7 @@
 
       </div>
     </div>
-    <footer ref="footer" class="van-hairline--top">
+    <footer ref="footer">
       <van-button class="btn" type="info" size="large" @click="clickSend">投简历</van-button>
     </footer>
     <van-dialog
@@ -172,7 +172,7 @@ export default {
   footer {
     @include font-size(16px);
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     left: 0;
     padding: 10px;
     width: 100%;
