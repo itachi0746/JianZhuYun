@@ -5,7 +5,7 @@
         <div v-for="(item,index) in theFieldArr" :key="index" v-if="pagingCondition(index)">
           <Field :index="index" :item="item"
                  @clickRightIcon="clickRightIcon" @clickInput="clickInput" @clickSend="clickSend"
-                 @changeValue="changeValue"
+                 @changeValue="changeValue" @onRead="onRead"
           ></Field>
         </div>
 
@@ -63,45 +63,6 @@ export default {
           required: true,
           clearable: true
         },
-//        {
-//          name: '所属行业',
-//          label: '所属行业',
-//          code: 'SS07_ENT_INDUSTRY',
-//          value: '',
-//          placeHolder: '请选择所属行业',
-//          type: 'text',
-//          popType: 'radio',
-//          fieldName: 'SSA7_INDUSTRY',
-//          required: false,
-//          clearable: true,
-//          disabled: true
-//        },
-//        {
-//          name: '企业性质',
-//          label: '企业性质',
-//          code: 'SS06_ENT_PROPERTY',
-//          value: '',
-//          placeHolder: '请选择企业性质',
-//          type: 'text',
-//          popType: 'radio',
-//          fieldName: 'SSA7_PROPERTY',
-//          required: false,
-//          clearable: true,
-//          disabled: true
-//        },
-//        {
-//          name: '注册类型',
-//          label: '注册类型',
-//          code: 'SS05_REG_TYPE',
-//          value: '',
-//          placeHolder: '请选择注册类型',
-//          type: 'text',
-//          popType: 'radio',
-//          fieldName: 'SSA7_REG_TYPE',
-//          required: false,
-//          clearable: true,
-//          disabled: true
-//        },
         {
           name: '企业法人',
           label: '企业法人',
@@ -111,6 +72,31 @@ export default {
           type: 'text',
           popType: '',
           fieldName: 'HRA0_ENT_LP',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '法人身份证',
+          label: '法人身份证',
+          code: '',
+          value: '',
+          placeHolder: '请填写法人身份证',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_ID_CARD_NO',
+          required: true,
+          clearable: false,
+          disabled: true
+        },
+        {
+          name: '营业注册号',
+          label: '营业注册号',
+          code: '',
+          value: '',
+          placeHolder: '请填写营业注册号',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_LICENCE',
           required: true,
           clearable: true
         },
@@ -171,7 +157,7 @@ export default {
           name: '公司网站',
           label: '公司网站',
           code: '',
-          value: '',
+          value: 'http://',
           placeHolder: '请完善公司网站',
           type: 'text',
           popType: '',
@@ -196,7 +182,7 @@ export default {
           label: '密码',
           code: '',
           value: '',
-          placeHolder: '请设置密码(6-20位数字与字母组合)',
+          placeHolder: '6-20位数字或字母组合',
           type: 'password',
           popType: '',
           fieldName: 'SSA7_REG_PWD',
@@ -242,6 +228,70 @@ export default {
           required: true,
           clearable: true,
           isActiveBtn: false
+        },
+        {
+          name: '身份证图片1',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'HRA0_ID_IMG_URL1',
+          required: false,
+          clearable: false,
+          disabled: false,
+          isUpload: true,
+          class: 'hidden-input',
+          imgUrl: ''
+        },
+        {
+          name: '身份证图片2',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'HRA0_ID_IMG_URL2',
+          required: false,
+          clearable: false,
+          disabled: false,
+          isUpload: true,
+          class: 'hidden-input',
+          imgUrl: ''
+        },
+        {
+          name: '营业执照1',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'HRA0_LICENCE_IMG_URL1',
+          required: false,
+          clearable: false,
+          disabled: false,
+          isUpload: true,
+          class: 'hidden-input',
+          imgUrl: ''
+        },
+        {
+          name: '营业执照2',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'HRA0_LICENCE_IMG_URL2',
+          required: false,
+          clearable: false,
+          disabled: false,
+          isUpload: true,
+          class: 'hidden-input',
+          imgUrl: ''
         }
       ],
       activePage: 1,
@@ -287,15 +337,20 @@ export default {
       this.showPicker = false
     },
     clickSubmit () {
+      if (!myModule.checkRequired(this.theFieldArr)) {
+        this.$toast.fail('必填项不能为空')
+        return
+      }
+      if (!myModule.checkPSW2(this.theFieldArr)) {
+        this.$toast.fail('密码格式不正确')
+        return
+      }
       if (!myModule.checkPSW(this.theFieldArr)) {
         console.log('两次输入的密码不一致')
         this.$toast.fail('两次输入的密码不一致')
         return
       }
-      if (!myModule.checkRequired(this.theFieldArr)) {
-        this.$toast.fail('必填项不能为空')
-        return
-      }
+
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -311,40 +366,20 @@ export default {
         }, 1000)
       })
     },
-    onRead (file) {
-      this.$toast.loading({
-        //        mask: true,
-        message: '加载中...',
-        duration: 0
-      })
-      console.log(file)
-      const data = {
-        FileName: file.file.name,
-        ImageData: file.content,
-        Type: 'ID' // 身份证识别
-      }
-      postData('/Card/ScanResult', data).then((res) => {
-        console.log(res)
-        if (myModule.isEmpty(res.ReturnData)) {
-          console.log('暂无数据')
-          this.$toast.fail({
-            mask: false,
-            message: '暂无数据',
-            forbidClick: false // 禁用背景点击
-          })
-          return
+    // 上传图片
+    onRead (data) {
+//      this.$toast.loading({
+//        //        mask: true,
+//        message: '加载中...',
+//        duration: 0
+//      })
+      console.log(data.file, data.detail)
+      for (let obj of this.theFieldArr) {
+        if (obj.name === data.detail.name) {
+          obj.imgUrl = data.file.content
+          break
         }
-        const theData = res.ReturnData
-        //        this.$toast.success('上传成功')
-        this.$toast.success({
-          //          mask: true,
-          message: '上传成功',
-          duration: 3
-        })
-        this.IdCard = theData.No
-        this.Name = theData.Name
-        //        this.FileUrl = theData.FileUrl
-      })
+      }
     },
     // 发验证码
     clickSend () {
@@ -391,7 +426,7 @@ export default {
       if (this.activePage === 1) {
         return index <= 7
       } else if (this.activePage === 2) {
-        return index <= 16 && index >= 8
+        return index <= 17 && index >= 8
       }
     },
     /**

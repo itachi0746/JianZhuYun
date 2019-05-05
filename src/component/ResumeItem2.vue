@@ -102,7 +102,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE02_BEGIN_DATE}} - {{item.RE02_END_DATE}}</span>
+                  <span>{{item.RE02_BEGIN_DATE}} ~ {{item.RE02_END_DATE}}</span>
                 </div>
                 <!--职位 部门-->
                 <div class="content-line job-name">
@@ -123,7 +123,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE24_BEGIN_DATE}} - {{item.RE24_END_DATE}}</span>
+                  <span>{{item.RE24_BEGIN_DATE}} ~ {{item.RE24_END_DATE}}</span>
                 </div>
                 <!--职位 部门-->
                 <div class="content-line job-name">
@@ -165,7 +165,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE03_BEGIN_DATE}} - {{item.RE03_END_DATE}}</span>
+                  <span>{{item.RE03_BEGIN_DATE}} ~ {{item.RE03_END_DATE}}</span>
                 </div>
                 <!--内容-->
                 <div class="content-line">
@@ -182,7 +182,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE25_BEGIN_DATE}} - {{item.RE25_END_DATE}}</span>
+                  <span>{{item.RE25_BEGIN_DATE}} ~ {{item.RE25_END_DATE}}</span>
                 </div>
                 <!--内容-->
                 <div class="content-line">
@@ -220,7 +220,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE04_BEGIN_DATE}} - {{item.RE04_END_DATE}}</span>
+                  <span>{{item.RE04_BEGIN_DATE}} ~ {{item.RE04_END_DATE}}</span>
                 </div>
                 <!--内容-->
                 <div class="content-line">
@@ -237,7 +237,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE26_BEGIN_DATE}} - {{item.RE26_END_DATE}}</span>
+                  <span>{{item.RE26_BEGIN_DATE}} ~ {{item.RE26_END_DATE}}</span>
                 </div>
                 <!--内容-->
                 <div class="content-line">
@@ -275,7 +275,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE05_BEGIN_DATE}} - {{item.RE05_END_DATE}}</span>
+                  <span>{{item.RE05_BEGIN_DATE}} ~ {{item.RE05_END_DATE}}</span>
                 </div>
                 <!--内容-->
                 <div class="content-line">
@@ -292,7 +292,7 @@
                 </div>
                 <!--时间-->
                 <div class="content-line content-time">
-                  <span>{{item.RE27_BEGIN_DATE}} - {{item.RE27_END_DATE}}</span>
+                  <span>{{item.RE27_BEGIN_DATE}} ~ {{item.RE27_END_DATE}}</span>
                 </div>
                 <!--内容-->
                 <div class="content-line">

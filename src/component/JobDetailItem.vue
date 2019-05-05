@@ -16,7 +16,10 @@
         <div class="job-tag-item">{{jobData.RE13_WORK_PROP}}</div>
       </div>
       <div class="job-position">
-        <div class="position-item">{{jobData.RE13_WORK_PLACE}}</div>
+        <div class="position-item">
+          <img src="./assets/pos.png" alt="">
+          {{jobData.RE13_WORK_PLACE}}
+        </div>
       </div>
     </div>
     <div class="mid">
@@ -144,7 +147,13 @@ export default {
     margin-top: 14px;
   }
   .position-item {
+    display: flex;
+    align-items: center;
     @include font-size(14px);
+
+    img {
+      width: 16px;
+    }
   }
   .mid {
     @include font-size(14px);

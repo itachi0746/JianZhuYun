@@ -107,5 +107,6 @@ export default {
   .man-tag1 {
     margin-right: 5px;
     padding-right: 5px;
+    @include defaultFlex
   }
 </style>

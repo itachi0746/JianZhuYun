@@ -273,6 +273,19 @@ export default {
     return psw1 === psw2
   },
   /**
+   * 检查密码长度 长度在6~20之间，只能包含字母、数字和下划线
+   */
+  checkPSW2 (theFieldArr) {
+    // debugger
+    let reg = /^(\w){6,20}$/, psw1
+    for (let obj of theFieldArr) {
+      if (obj.name === '密码1') {
+        psw1 = obj.value
+        return reg.test(psw1)
+      }
+    }
+  },
+  /**
    * 检查必填项
    */
   checkRequired (theFieldArr) {

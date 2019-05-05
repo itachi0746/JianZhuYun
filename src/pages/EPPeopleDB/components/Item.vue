@@ -167,15 +167,11 @@ export default {
     padding-right: 5px;
   }
   .btnSize {
-    height: 30px;
-    line-height: 0;
-    padding: 10px 12px;
+    @include btnSize;
     @include theBtnColor
   }
   .btnSize2 {
-    height: 30px;
-    line-height: 0;
-    padding: 10px 12px;
+    @include btnSize;
   }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'van-hairline--bottom': item.type !== 'hidden'}" v-show="item.type !== 'hidden'" @click="clickInput(item, index)">
+  <div :class="{'van-hairline--bottom': item.type !== 'hidden', 'fl': item.isUpload}" @click="clickInput(item, index)">
     <div v-if="item.isCode">
       <!--发送验证码-->
       <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField"
@@ -26,8 +26,27 @@
         </div>
       </div>
       <div v-else>
+        <!--上传图片-->
+        <div v-if="item.isUpload">
+          <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
+                     :data-index="index" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)" :readonly="item.readonly"
+                     :type="item.type" :class="[{'cell-mb': cellMB}, 'wb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label">
+          </van-field>
+          <div class="upload-box">
+            <div class="upload-box-inner">
+              <van-uploader class="" :name="item.name" :after-read="onRead">
+                <van-icon name="photograph" :size="'40px'" />
+              </van-uploader>
+              <div v-if="item.imgUrl" class="imgPreView">
+                <img :src="item.imgUrl" alt="">
+              </div>
+            </div>
+            <div class="upload-name">{{item.name}}</div>
+          </div>
+
+        </div>
         <!--默认输入框-->
-        <div style="position: relative;width: 100%;">
+        <div style="position: relative;width: 100%;" v-else>
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled"
                      :data-index="index" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)" :readonly="item.readonly"
                      :type="item.type" :class="[{'cell-mb': cellMB}, 'wb', item.class]" v-model="item.value" :placeholder="item.placeHolder" :label="item.label" @input="changeValue(item)">
@@ -89,8 +108,9 @@ export default {
     clickSend () {
       this.$emit('clickSend', {})
     },
-    onRead (file) {
-      this.$emit('onRead', file)
+    onRead (file, detail) {
+      console.log(file, detail)
+      this.$emit('onRead', {file: file, detail: detail})
     },
     clickBox () {
       let upIcon = document.getElementsByClassName('van-uploader__input')[0]
@@ -171,6 +191,55 @@ export default {
   }
   .wb {
     word-break: break-all;
+  }
+  .input-class {
+    @include font-size(16px);
+    padding-top: 15px;
+  }
+  .hidden-input {
+    margin: 0;
+    padding: 0;
+  }
+  .imgPreView {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 64px;
+    height: 64px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .van-uploader {
+    z-index: 10;
+  }
+  .upload-box {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    float: left;
+    width: 150px;
+    /*height: 66px;*/
+    @include font-size(14px);
+    color: #323233;
+  }
+  .upload-box-inner {
+    border: 1px dashed #323233;
+    width: 66px;
+    height: 66px;
+    position: relative;
+    z-index: 10;
+    @include defaultFlex;
+  }
+  .upload-name {
+    /*position: absolute;*/
+
+  }
+  .fl {
+    float: left;
   }
 
 </style>

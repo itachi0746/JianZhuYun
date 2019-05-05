@@ -38,11 +38,11 @@ export default {
       theFieldArr: [
         {name: '身份证号码', code: '', value: '', placeHolder: '请上传您的身份证正面照', type: 'text', popType: '', fieldName: 'IdCard', required: true, clearable: true, isIDCard: true, disabled: true},
         {name: '姓名', code: '', value: '', placeHolder: '请输入您的姓名', type: 'text', popType: '', fieldName: 'Name', required: true, clearable: true},
-        {name: '密码1', code: '', value: '', placeHolder: '请设置密码', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码1', code: '', value: '', placeHolder: '6-20位数字或字母组合', type: 'password', popType: '', fieldName: 'PassWord1', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '密码2', code: '', value: '', placeHolder: '请确认您的密码', type: 'password', popType: '', fieldName: 'PassWord2', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
         {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'number', popType: '', fieldName: 'Code', required: true, clearable: true, isCode: true, isActiveBtn: false},
-        {name: '文件地址', code: '', value: '', placeHolder: '', type: 'hidden', popType: '', fieldName: 'FileUrl', required: false, clearable: false}
+        {name: '文件地址', code: '', value: '', placeHolder: '', type: 'hidden', popType: '', fieldName: 'FileUrl', required: false, clearable: false, class: 'hidden-input'}
       ]
     }
   },
@@ -69,14 +69,19 @@ export default {
       this.$refs['fillter'].style.height = WH / 2 + 'px'
     },
     clickSubmit () {
-      if (!myModule.checkPSW(this.theFieldArr)) {
-        this.$toast.fail('两次输入的密码不一致')
-        return
-      }
       if (!myModule.checkRequired(this.theFieldArr)) {
         this.$toast.fail('必填项不能为空')
         return
       }
+      if (!myModule.checkPSW2(this.theFieldArr)) {
+        this.$toast.fail('密码格式不正确')
+        return
+      }
+      if (!myModule.checkPSW(this.theFieldArr)) {
+        this.$toast.fail('两次输入的密码不一致')
+        return
+      }
+
       this.$toast.loading({
         mask: false,
         message: '加载中...',
@@ -98,19 +103,19 @@ export default {
         item.type = item.type === 'password' ? 'text' : 'password'
       }
     },
-    onRead (file) {
+    onRead (data) {
       this.$toast.loading({
 //        mask: true,
         message: '加载中...',
         duration: 0
       })
-      console.log(file)
-      const data = {
-        FileName: file.file.name,
-        ImageData: file.content,
+      console.log(data.file)
+      const theData = {
+        FileName: data.file.file.name,
+        ImageData: data.file.content,
         Type: 'ID' // 身份证识别
       }
-      let form = myModule.createFormData2(data)
+      let form = myModule.createFormData2(theData)
       postData('/Card/ScanResult', form).then((res) => {
         console.log(res)
         if (myModule.isEmpty(res.ReturnData)) {

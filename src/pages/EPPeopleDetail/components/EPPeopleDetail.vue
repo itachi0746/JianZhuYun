@@ -3,7 +3,6 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <!--<ResumeItem :resData="resData" :workExperienceData="workExperienceData"></ResumeItem>-->
         <ResumeItem2 :resData="resData" :isEdit="false"></ResumeItem2>
 
       </div>
@@ -16,7 +15,6 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import UserHead from '../../../component/UserHead.vue'
-import ResumeItem from '../../../component/ResumeItem.vue'
 import ResumeItem2 from '../../../component/ResumeItem2.vue'
 
 export default {
@@ -31,7 +29,6 @@ export default {
   components: {
     Header,
     UserHead,
-    ResumeItem,
     ResumeItem2
   },
 

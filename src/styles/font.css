@@ -9,3 +9,6 @@ html, body, #app {
   /*font-family: myFont, sans-serif;*/
   font-family: sans-serif;
 }
+.van-dialog__confirm, .van-dialog__confirm:active {
+  color: #00A7DD;
+}

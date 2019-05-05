@@ -45,7 +45,7 @@ export default {
       resData: null,
       fieldData: [
         {name: '记录ID', popType: '', value: '', code: '', fieldName: 'RE13_ID', show: false, required: false},
-        {name: '职位名称', popType: 'field', value: '', code: '', type: 'text', placeHolder: '请输入职位名称', clearable: false, fieldName: 'RE13_NAME', show: true, required: true},
+        {name: '职位名称', popType: 'field', value: '', code: '', type: 'text', placeHolder: '请输入职位名称', clearable: false, fieldName: 'RE13_NAME', show: true, required: true, class: 'input-class'},
         {name: '职位类型', popType: 'radio', value: '', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true, required: false},
         {name: '工作地点', popType: 'radio', value: '', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true, required: true},
         {name: '工作性质', popType: 'radio', value: '', code: 'UDRE003', fieldName: 'RE13_WORK_PROP', show: true, required: false},

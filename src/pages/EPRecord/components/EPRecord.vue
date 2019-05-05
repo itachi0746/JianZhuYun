@@ -269,6 +269,7 @@ export default {
     height: 33px;
     line-height: 33px;
     /*padding: 3px 14px;*/
+//    @include btnSize;
     @include theBtnColor
   }
 

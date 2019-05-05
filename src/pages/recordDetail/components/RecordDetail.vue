@@ -19,7 +19,7 @@ import JobDetailItem from '../../../component/JobDetailItem.vue'
 export default {
   data () {
     return {
-      headerName: '记录详情',
+      headerName: '职位详情',
       headerHeight: null,
       resData: null,
       jobData: null, // 职位信息

@@ -139,10 +139,6 @@ export default {
       this.PageCount = null
       this.resData = null
       this.getData()
-      //      setTimeout(() => {
-      //        this.$toast('刷新成功')
-      //        this.isLoading = false
-      //      }, 500)
     },
     getData () {
       this.$toast.loading({

@@ -8,7 +8,10 @@
             <div class="note-title">公司简介</div>
             <div class="note">{{resData.HRA0_DESC}}</div>
             <div class="note-title">公司官网</div>
-            <div class="note">{{resData.HRA0_WEB_URL}}</div>
+            <div class="note">
+              <a :href="resData.HRA0_WEB_URL">{{resData.HRA0_WEB_URL}}</a>
+              <!--{{resData.HRA0_WEB_URL}}-->
+            </div>
           </van-cell>
         </van-panel>
         <van-panel class="mb20" title="工商信息">

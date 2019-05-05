@@ -136,3 +136,9 @@ $mainColor: #00A7DD;
   padding: 0;
   line-height: 0;
 }
+
+@mixin btnSize() {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 12px;
+}

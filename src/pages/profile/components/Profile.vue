@@ -49,14 +49,6 @@
         </div>
         <div class="item-list">
           <CellItem :items="items"></CellItem>
-          <!--<van-cell-group class="out-warp">-->
-            <!--<div>-->
-              <!--<van-cell v-for="(item, index) in items" :key="index" class="cell-padding" @click="clickItem(item.link)"-->
-                        <!--:title="item.name" icon="" is-link>-->
-                <!--<img class="cell-icon" :src="item.img" alt="">-->
-              <!--</van-cell>-->
-            <!--</div>-->
-          <!--</van-cell-group>-->
         </div>
       </div>
 
@@ -148,30 +140,6 @@ export default {
         this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
       }
     },
-    clickItem (link) {
-      let data = {}
-      if (link) {
-        if (link === 'resume.html') {
-          data = {id: this.id}
-          GoToPage('', link, data)
-        } else {
-          GoToPage('', link, {})
-        }
-      }
-    },
-    /**
-     * 点击实名验证
-     */
-    clickVerify () {
-      postData('/ReService/GoVerify', {}).then((res) => {
-        console.log(res)
-        if (res.Result) {
-          window.location.href = res.Result
-        } else {
-          console.log('没有链接地址')
-        }
-      })
-    },
     /**
      * 申请记录
      */
@@ -180,12 +148,6 @@ export default {
     },
     clickInterview () {
       GoToPage('', 'interview.html', {})
-    },
-    /**
-     * 切换身份
-     */
-    changeRole () {
-      GoToPage('', 'EPLogin.html', {})
     }
   }
 }
