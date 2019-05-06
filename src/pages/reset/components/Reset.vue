@@ -25,14 +25,14 @@ export default {
       entArr: [
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
         {name: '用户名', code: '', value: '', placeHolder: '请输入您的用户名', type: 'hidden', popType: '', fieldName: 'Name', required: true, clearable: true},
-        {name: '密码1', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password1', required: true, clearable: false, rightIcon: 'theEye'},
-        {name: '密码2', code: '', value: '', placeHolder: '再次确认您的密码', type: 'password', popType: '', fieldName: 'Password2', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码1', code: '', value: '', placeHolder: '请输入您的新密码', type: 'password', popType: '', fieldName: 'Password1', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码2', code: '', value: '', placeHolder: '再次确认您的新密码', type: 'password', popType: '', fieldName: 'Password2', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true, isActiveBtn: false}
       ],
       normalArr: [
         {name: '手机号码', code: '', value: '', placeHolder: '请输入您的手机号码', type: 'number', popType: '', fieldName: 'Mobile', required: true, clearable: true},
-        {name: '密码1', code: '', value: '', placeHolder: '请输入您的密码', type: 'password', popType: '', fieldName: 'Password1', required: true, clearable: false, rightIcon: 'theEye'},
-        {name: '密码2', code: '', value: '', placeHolder: '再次确认您的密码', type: 'password', popType: '', fieldName: 'Password2', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码1', code: '', value: '', placeHolder: '请输入您的新密码', type: 'password', popType: '', fieldName: 'Password1', required: true, clearable: false, rightIcon: 'theEye'},
+        {name: '密码2', code: '', value: '', placeHolder: '再次确认您的新密码', type: 'password', popType: '', fieldName: 'Password2', required: true, clearable: false, rightIcon: 'theEye'},
         {name: '验证码', code: '', value: '', placeHolder: '请输入验证码', type: 'text', popType: '', fieldName: 'Code', isCode: true, required: true, clearable: true, isActiveBtn: false}
 
       ]

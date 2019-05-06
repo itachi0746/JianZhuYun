@@ -94,15 +94,11 @@ export default {
       console.log(height)
       if (height.headerHeight) {
         this.headerHeight = height.headerHeight
-      } else {
-        this.footerHeight = height.footerHeight
       }
-      if (this.headerHeight && this.footerHeight) {
-        const WH = myModule.getClientHeight()
-        let body = document.getElementById('body')
-        body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
+      const WH = myModule.getClientHeight()
+      let body = document.getElementById('body')
+      body.style.height = WH - this.headerHeight + 'px'
 //        this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
-      }
     },
     clickHandle (id) {
       GoToPage('', 'EPRecordDetail.html', {id: id})

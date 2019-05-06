@@ -36,6 +36,12 @@ export default {
   created () {
     const params = myModule.getUrlParams()
     this.id = params.id
+    this.$toast.loading({
+      mask: false,
+      message: '加载中...',
+      duration: 0,
+      forbidClick: true // 禁用背景点击
+    })
 //    postData('/ReService/SendDetials', {id: this.id}).then((res) => {
 //      console.log(res)
 //      if (myModule.isEmpty(res.ReturnData)) {
@@ -61,6 +67,7 @@ export default {
         })
         return
       }
+      this.$toast.clear()
       this.jobData = res.ReturnData
     })
   },

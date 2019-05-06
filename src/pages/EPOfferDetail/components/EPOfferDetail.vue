@@ -63,7 +63,7 @@ import ResultItem from '../../../component/ResultItem.vue'
 export default {
   data () {
     return {
-      headerName: '查看详情',
+      headerName: '录用详情',
       value: '',
       id: null,
       resData: null,

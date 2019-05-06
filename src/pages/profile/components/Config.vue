@@ -13,7 +13,7 @@
               <!--</template>-->
             <!--</van-cell>-->
             <van-cell v-for="(item, index) in theCellArr" :key="index" class="cell-padding" @click="clickCell(item, index)"
-                      :title="item.name" icon="" is-link>
+                      :title="item.name" icon="" :is-link="item.isLink">
               <img class="cell-icon" :src="item.icon" alt="" v-if="item.icon">
             </van-cell>
           </div>

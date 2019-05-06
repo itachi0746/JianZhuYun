@@ -235,8 +235,8 @@ export default {
     @include defaultFlex;
   }
   .upload-name {
-    /*position: absolute;*/
     color: #323232;
+    margin-top: 5px;
   }
   .fl {
     float: left;
