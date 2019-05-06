@@ -64,6 +64,20 @@ export default {
           clearable: true
         },
         {
+          name: '法人身份证',
+          label: '法人身份证',
+          code: '',
+          value: '',
+          placeHolder: '请上传您的身份证正面照',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_ID_CARD_NO',
+          required: true,
+          clearable: false,
+          disabled: true,
+          isIDCard: true
+        },
+        {
           name: '企业法人',
           label: '企业法人',
           code: '',
@@ -75,19 +89,7 @@ export default {
           required: true,
           clearable: true
         },
-        {
-          name: '法人身份证',
-          label: '法人身份证',
-          code: '',
-          value: '',
-          placeHolder: '请填写法人身份证',
-          type: 'text',
-          popType: '',
-          fieldName: 'HRA0_ID_CARD_NO',
-          required: true,
-          clearable: false,
-          disabled: true
-        },
+
         {
           name: '营业注册号',
           label: '营业注册号',
@@ -230,7 +232,7 @@ export default {
           isActiveBtn: false
         },
         {
-          name: '身份证图片1',
+          name: '身份证正面',
           label: '',
           code: '',
           value: '',
@@ -245,24 +247,24 @@ export default {
           class: 'hidden-input',
           imgUrl: ''
         },
+//        {
+//          name: '身份证反面',
+//          label: '',
+//          code: '',
+//          value: '',
+//          placeHolder: '',
+//          type: 'hidden',
+//          popType: '',
+//          fieldName: 'HRA0_ID_IMG_URL2',
+//          required: false,
+//          clearable: false,
+//          disabled: false,
+//          isUpload: true,
+//          class: 'hidden-input',
+//          imgUrl: ''
+//        },
         {
-          name: '身份证图片2',
-          label: '',
-          code: '',
-          value: '',
-          placeHolder: '',
-          type: 'hidden',
-          popType: '',
-          fieldName: 'HRA0_ID_IMG_URL2',
-          required: false,
-          clearable: false,
-          disabled: false,
-          isUpload: true,
-          class: 'hidden-input',
-          imgUrl: ''
-        },
-        {
-          name: '营业执照1',
+          name: '营业执照正面',
           label: '',
           code: '',
           value: '',
@@ -277,22 +279,22 @@ export default {
           class: 'hidden-input',
           imgUrl: ''
         },
-        {
-          name: '营业执照2',
-          label: '',
-          code: '',
-          value: '',
-          placeHolder: '',
-          type: 'hidden',
-          popType: '',
-          fieldName: 'HRA0_LICENCE_IMG_URL2',
-          required: false,
-          clearable: false,
-          disabled: false,
-          isUpload: true,
-          class: 'hidden-input',
-          imgUrl: ''
-        }
+//        {
+//          name: '营业执照反面',
+//          label: '',
+//          code: '',
+//          value: '',
+//          placeHolder: '',
+//          type: 'hidden',
+//          popType: '',
+//          fieldName: 'HRA0_LICENCE_IMG_URL2',
+//          required: false,
+//          clearable: false,
+//          disabled: false,
+//          isUpload: true,
+//          class: 'hidden-input',
+//          imgUrl: ''
+//        }
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -368,25 +370,69 @@ export default {
     },
     // 上传图片
     onRead (data) {
-//      this.$toast.loading({
-//        //        mask: true,
-//        message: '加载中...',
-//        duration: 0
-//      })
-      console.log(data.file, data.detail)
-      for (let obj of this.theFieldArr) {
-        if (obj.name === data.detail.name) {
-          obj.imgUrl = data.file.content
-          break
+      this.$toast.loading({
+        //        mask: true,
+        message: '加载中...',
+        forbidClick: true, // 禁用背景点击
+        duration: 0
+      })
+      console.log(data)
+      let theName = data.detail.name // 字段名
+      let theData, fileName, theContent, link
+      if (theName === '法人身份证') {
+        theData = {
+          FileName: data.file.file.name,
+          ImageData: data.file.content,
+          Type: 'ID' // 身份证识别
         }
+        link = '/Card/ScanResult' // 身份证识别
+      } else {
+        fileName = data.file.file.name
+        theContent = data.file.content
+        theData = {
+          Name: fileName, // 文件名
+          Data: theContent // 图片数据
+        }
+        link = '/EntService/Upload' // 图片上传
       }
+
+      let form = myModule.createFormData2(theData)
+      postData(link, form).then((res) => {
+        console.log(res)
+        this.$toast.success({
+          //          mask: true,
+          message: '上传成功',
+          duration: 1000
+        })
+        let resData = res.ReturnData
+//        debugger
+        if (theName === '法人身份证') {
+          for (let obj of this.theFieldArr) { // 扫描身份证
+            if (obj.name === theName) {
+              obj.value = resData.No // 身份证号
+            }
+            if (obj.name === '企业法人') {
+              obj.value = resData.Name // 法人名字
+            }
+          }
+        } else {
+          for (let obj of this.theFieldArr) { // 上传图片
+            if (obj.name === theName) {
+              obj.value = resData.PicUrl
+              obj.imgUrl = theContent
+              break
+            }
+          }
+        }
+      })
     },
     // 发验证码
     clickSend () {
       this.$toast.loading({
         //        mask: true,
         message: '加载中...',
-        duration: 0
+        duration: 0,
+        forbidClick: true // 禁用背景点击
       })
       let theValue
       for (let obj of this.theFieldArr) {

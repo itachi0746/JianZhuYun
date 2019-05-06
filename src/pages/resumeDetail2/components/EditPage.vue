@@ -646,18 +646,18 @@ export default {
       let upIcon = document.getElementsByClassName('van-uploader__input')[0]
       upIcon.click()
     },
-    onRead (file) {
+    onRead (data) {
       this.$toast.loading({
         //        mask: true,
         message: '加载中...',
         duration: 0
       })
-      console.log(file)
-      const data = {
-        Name: file.file.name,
-        Data: file.content
+      console.log(data.file)
+      const theData = {
+        Name: data.file.file.name,
+        Data: data.file.content
       }
-      let form = myModule.createFormData2(data)
+      let form = myModule.createFormData2(theData)
       postData('/ReService/Upload', form).then((res) => {
         console.log(res)
         this.$toast.success({

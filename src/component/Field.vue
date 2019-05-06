@@ -12,7 +12,7 @@
     </div>
     <div v-else>
       <div v-if="item.isIDCard">
-        <!--上传文件-->
+        <!--身份证识别-->
         <div style="position: relative;width: 100%;">
           <van-field :data-code="item.code" :required="item.required" :clearable="item.clearable" ref="theField" :disabled="item.disabled" :label="item.label"
                      :data-index="index" :right-icon="item.rightIcon" @click-right-icon="clickRightIcon(item)"
@@ -20,7 +20,7 @@
           <div class="img-box2" @click="clickBox">
             <img src="./assets/recg.png" alt="">
           </div>
-          <van-uploader class="theUploadClass" :after-read="onRead" v-show="false">
+          <van-uploader class="theUploadClass" :name="item.name" :after-read="onRead" v-show="false">
             <van-icon id="upIcon" ref="upload" name="scan" :size="'25px'"/>
           </van-uploader>
         </div>
@@ -224,10 +224,10 @@ export default {
     width: 150px;
     /*height: 66px;*/
     @include font-size(14px);
-    color: #323233;
+    color: #aaaaaa;
   }
   .upload-box-inner {
-    border: 1px dashed #323233;
+    border: 1px dashed #aaaaaa;
     width: 66px;
     height: 66px;
     position: relative;
@@ -236,7 +236,7 @@ export default {
   }
   .upload-name {
     /*position: absolute;*/
-
+    color: #323232;
   }
   .fl {
     float: left;
