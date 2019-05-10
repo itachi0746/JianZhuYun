@@ -3,7 +3,7 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
-        <ResumeItem2 :resData="resData" :isEdit="false"></ResumeItem2>
+        <ResumeItem2 :resData="resData" :isEdit="false" :isEnt="false"></ResumeItem2>
 
       </div>
     </div>

@@ -2,8 +2,13 @@
   <div class="">
     <Header :back="true" @sendHeight="handleHeight" :headerName="headerName"></Header>
     <div class="body" ref="body">
-      <div v-if="jobData">
+      <div v-if="jobData" style="padding: 10px 0;">
         <JobDetailItem :jobData="jobData"></JobDetailItem>
+        <ResultItem
+          :statusCode="resData.RE34_STATUS"
+          :status="resData.ReferenceValues.RE34_STATUS"
+          :theTime="resData.RE34_CHG_TIME"
+        ></ResultItem>
       </div>
     </div>
 
@@ -15,6 +20,7 @@ import myModule from '../../../common'
 import { postData } from '../../../common/server'
 import Header from '../../../component/Header.vue'
 import JobDetailItem from '../../../component/JobDetailItem.vue'
+import ResultItem from '../../../component/ResultItem.vue'
 
 export default {
   data () {
@@ -28,7 +34,8 @@ export default {
   },
   components: {
     Header,
-    JobDetailItem
+    JobDetailItem,
+    ResultItem
   },
   mounted () {
     console.log(myModule)
@@ -68,7 +75,11 @@ export default {
         return
       }
       this.$toast.clear()
-      this.jobData = res.ReturnData
+      this.jobData = res.ReturnData.RE13
+      this.jobData.RE13_CHG_TIME = myModule.handleTime(this.jobData.RE13_CHG_TIME)
+      this.resData = res.ReturnData.RE34
+      this.resData.RE34_CHG_TIME = myModule.handleTime(this.resData.RE34_CHG_TIME)
+
     })
   },
   methods: {

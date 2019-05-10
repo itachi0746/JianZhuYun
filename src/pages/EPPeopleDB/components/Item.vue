@@ -21,7 +21,7 @@
           <div class="action-btn">
             <van-button class="btnSize2" plain type="info" @click="clickBtn1(item.RE01_ID)">{{actionObj.act1}}</van-button>
           </div>
-          <div class="action-btn">
+          <div class="action-btn" v-if="pageId!==5">
             <van-button class="btnSize" :disabled="item.OtherFieldValues.SEND_STATUS==='BD0902'" type="info" @click="clickBtn2(item.RE01_ID,actionObj.act2.routerName)">{{actionObj.act2.name}}</van-button>
           </div>
         </div>
@@ -42,7 +42,7 @@ export default {
         2: {act1: '查看简历', act2: {name: '发送offer', routerName: 'EPSendOffer'}},
         3: {act1: '查看简历', act2: {name: '发起签约', routerName: 'EPInitiateContract'}},
         4: {act1: '查看简历', act2: {name: '邀请面试', routerName: 'EPInvitation'}},
-        5: {act1: '查看简历', act2: {name: '移到人才库', routerName: ''}}
+        5: {act1: '查看简历', act2: {name: '移到人才库', routerName: ''}} // 历史库
       },
       actionObj: null // 按钮对应操作
     }

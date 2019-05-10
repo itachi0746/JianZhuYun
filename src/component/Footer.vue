@@ -145,7 +145,7 @@ export default {
         duration: 0,
         forbidClick: true // 禁用背景点击
       })
-      postData(this.link, {}).then((res) => {
+      postData(this.link, {IncludeDetail: false}).then((res) => {
         console.log(res)
         if (res.UnReadCount) {
           this.setInfoNum(res.UnReadCount)

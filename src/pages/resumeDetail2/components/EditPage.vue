@@ -29,6 +29,7 @@
              :show-date="theShowDate"
              :date-type="datetimeType"
              :min-date="theMinDate"
+             :max-date="theMaxDate"
              @confirm="clickConfirm"
              @cancel="clickCancel"></PopDate>
     <!--单选-->
@@ -56,6 +57,7 @@ export default {
       theFieldArr: null,
       resData: null,
       theMinDate: new Date(1970, 0, 1),
+      theMaxDate: new Date(),
       curDate: new Date(),
       theShowDate: null,
       datetimeType: 'date',
@@ -160,7 +162,7 @@ export default {
               label: '期待薪资',
               value: '',
               code: '',
-              placeHolder: '期待薪资',
+              placeHolder: '期待薪资(请输入纯数字)',
               type: 'number',
               popType: '',
               fieldName: 'RE23_ANNUAL_SALARY_E',
@@ -207,7 +209,7 @@ export default {
             }
           ]
         },
-        p1: { // 求职期望
+        p1: { // 求职期望 放在个人信息一起编辑了
           getLink: '/ReService/ResumeDetails',
           saveLink: '/ReService/SaveResume',
           headerName: '求职期望',
@@ -228,8 +230,8 @@ export default {
               label: '期待薪资',
               value: '',
               code: '',
-              placeHolder: '期待薪资',
-              type: 'text',
+              placeHolder: '期待薪资(请输入纯数字)',
+              type: 'number',
               popType: '',
               fieldName: 'RE23_ANNUAL_SALARY_E',
               required: false,
@@ -785,9 +787,10 @@ export default {
           forbidClick: true, // 禁用背景点击
           duration: 1000 // 持续展示 toast
         })
-//        setTimeout(() => {
+        setTimeout(() => {
+          window.history.back()
 //          this.$router.replace({name: 'ResumeDetail', params: {}})
-//        }, 1000)
+        }, 1000)
       })
     },
     /**
@@ -817,7 +820,7 @@ export default {
         for (let obj of this.theFieldArr) {
           for (let key in this.resData) {
             if (obj.fieldName === key) {
-              obj.value = this.resData[key]
+              obj.value = myModule.formatZero(this.resData[key])
             }
           }
         }
@@ -841,9 +844,10 @@ export default {
           forbidClick: true, // 禁用背景点击
           duration: 1000 // 持续展示 toast
         })
-//        setTimeout(() => {
+        setTimeout(() => {
+          window.history.back()
 //          this.$router.replace({name: 'ResumeDetail', params: {}})
-//        }, 1000)
+        }, 1000)
       })
     }
   },

@@ -89,7 +89,18 @@ export default {
           required: true,
           clearable: true
         },
-
+        {
+          name: '公司银行账号',
+          label: '公司银行账号',
+          code: '',
+          value: '',
+          placeHolder: '请填写银行账号',
+          type: 'number',
+          popType: '',
+          fieldName: 'HRA0_BANK_ACCOUNT',
+          required: true,
+          clearable: true
+        },
         {
           name: '营业注册号',
           label: '营业注册号',
@@ -99,6 +110,18 @@ export default {
           type: 'text',
           popType: '',
           fieldName: 'HRA0_LICENCE',
+          required: true,
+          clearable: true
+        },
+        {
+          name: '公司信用代码',
+          label: '公司信用代码',
+          code: '',
+          value: '',
+          placeHolder: '请填写公司信用代码',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_INFO_CODE',
           required: true,
           clearable: true
         },
@@ -232,22 +255,22 @@ export default {
           clearable: true,
           isActiveBtn: false
         },
-        {
-          name: '身份证正面',
-          label: '',
-          code: '',
-          value: '',
-          placeHolder: '',
-          type: 'hidden',
-          popType: '',
-          fieldName: 'HRA0_ID_IMG_URL1',
-          required: false,
-          clearable: false,
-          disabled: false,
-          isUpload: true,
-          class: 'hidden-input',
-          imgUrl: ''
-        },
+//        {
+//          name: '身份证正面',
+//          label: '',
+//          code: '',
+//          value: '',
+//          placeHolder: '',
+//          type: 'hidden',
+//          popType: '',
+//          fieldName: 'HRA0_ID_IMG_URL1',
+//          required: false,
+//          clearable: false,
+//          disabled: false,
+//          isUpload: true,
+//          class: 'hidden-input',
+//          imgUrl: ''
+//        },
 //        {
 //          name: '身份证反面',
 //          label: '',
@@ -296,6 +319,19 @@ export default {
 //          class: 'hidden-input',
 //          imgUrl: ''
 //        }
+        {
+          name: '身份证图片地址',
+          label: '',
+          code: '',
+          value: '',
+          placeHolder: '',
+          type: 'hidden',
+          popType: '',
+          fieldName: 'HRA0_ID_IMG_URL1',
+          required: false,
+          clearable: false,
+          disabled: false
+        }
       ],
       activePage: 1,
       datetimeType: 'date',
@@ -414,6 +450,9 @@ export default {
             }
             if (obj.name === '企业法人') {
               obj.value = resData.Name // 法人名字
+            }
+            if (obj.name === '身份证图片地址') {
+              obj.value = resData.FileUrl // 法人名字
             }
           }
         } else {

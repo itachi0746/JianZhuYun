@@ -49,9 +49,9 @@ export default {
       loading: false,
       finished: false,
       isLoading: false,
-      dataMap: { // todo 还有映射
+      dataMap: {
         'RE34_RESUME_RCV': 'EPRecordDetail.html',
-        'RE37_INTERVIEW_MSG': 'EPInterviewDetail.html',
+        'RE37_INTERVIEW_MSG': 'EPInterResult.html',
         'RE32_OFFER_MSG': 'EPOfferDetail.html',
         'RE33_SIGN_CONTRACT': 'EPContractDetail.html'
       }

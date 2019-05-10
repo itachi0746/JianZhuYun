@@ -526,7 +526,8 @@ export default {
      * @returns {boolean}
      */
     isNoValueObj: function (obj) {
-      for (let key in obj) {
+      for (let key in obj) { // RE23_CANDIDATE_ID 和 RE01_ID 跳过
+        if (key === 'RE23_CANDIDATE_ID' || key === 'RE01_ID') continue
         let theValue = obj[key]
         if (theValue && theValue !== 'null' && theValue !== 'undefined') { // 有一个是有值 就返回false
           return false

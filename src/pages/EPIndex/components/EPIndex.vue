@@ -30,18 +30,6 @@
         </div>
       </van-list>
     </van-pull-refresh>
-    <!--<div class="body" ref="body">-->
-    <!--<div class="job-list">-->
-    <!--<ul>-->
-    <!--<li class="job-li">-->
-    <!--<manItem></manItem>-->
-    <!--</li>-->
-    <!--<li class="job-li">-->
-    <!--<manItem></manItem>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</div>-->
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
   </div>
 </template>

@@ -5,23 +5,12 @@
       <div v-if="resData">
         <!--<EPResumeItem :resData="resData" :workExperienceData="workExperienceData"></EPResumeItem>-->
         <ResumeItem2 :resData="resData" :isEdit="false" :isEnt="true"></ResumeItem2>
-        <!--<ResultItem-->
-          <!--:statusCode="resData.RE01.RE01_STATUS"-->
-          <!--:status="resData.RE01.ReferenceValues.RE01_STATUS"-->
-          <!--:theTime="resData.RE01.RE01_CHG_TIME"-->
-          <!--:isInterview="true"-->
-        <!--&gt;</ResultItem>-->
-        <div class="action-box" v-if="resData.RE01.RE01_STATUS==='BD0904'">
-          <div class="btn-box">
-            <van-button type="info" @click.native="clickAccept">面试通过</van-button>
-          </div>
-          <div class="btn-box">
-            <van-button type="info" @click.native="clickRefuse">面试不通过</van-button>
-          </div>
-          <div class="btn-box">
-            <van-button type="info" @click.native="clickWait">放入备用人才</van-button>
-          </div>
-        </div>
+        <ResultItem
+          :statusCode="resData.RE01.RE01_STATUS"
+          :status="resData.RE01.ReferenceValues.RE01_STATUS"
+          :theTime="resData.RE01.RE01_CHG_TIME"
+          :isInterview="true"
+        ></ResultItem>
 
       </div>
     </div>
@@ -39,7 +28,7 @@ import ResumeItem2 from '../../../component/ResumeItem2.vue'
 export default {
   data () {
     return {
-      headerName: '面试处理',
+      headerName: '面试结果',
       id: null,
       resData: null,
       workExperienceData: null,
@@ -63,91 +52,13 @@ export default {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight + 'px'
       }
-    },
-    // 面试不通过
-    clickRefuse () {
-      this.$toast.loading({
-        mask: false,
-        message: '加载中...',
-        duration: 0,
-        forbidClick: true // 禁用背景点击
-      })
-      const data = {
-        id: this.id,
-        status: 'BD0906',
-        note: '',
-        folder: ''
-      }
-      postData('/EntService/UpdateInverviewStatus', data).then((res) => {
-        console.log(res)
-        this.$toast.success({
-          mask: false,
-          message: '提交成功',
-          forbidClick: true, // 禁用背景点击
-          duration: 2000 // 持续展示 toast
-        })
-        //        this.resData.RE23_STATUS = 'BD0909'
-        setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-        }, 2000)
-      })
-    },
-    // 面试通过
-    clickAccept () {
-      this.$toast.loading({
-        mask: false,
-        message: '加载中...',
-        duration: 0,
-        forbidClick: true // 禁用背景点击
-      })
-      const data = {
-        id: this.id,
-        status: 'BD0905',
-        note: '',
-        folder: ''
-      }
-      postData('/EntService/UpdateInverviewStatus', data).then((res) => {
-        console.log(res)
-        this.$toast.success({
-          mask: false,
-          message: '提交成功',
-          forbidClick: true, // 禁用背景点击
-          duration: 2000 // 持续展示 toast
-        })
-        //        this.resData.RE23_STATUS = 'BD0904'
-        setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-        }, 2000)
-      })
-    },
-    /**
-     * 移动到备用人才库
-     */
-    clickWait () {
-      this.$toast.loading({
-        mask: false,
-        message: '加载中...',
-        duration: 0,
-        forbidClick: true // 禁用背景点击
-      })
-      const data = {
-        id: this.id,
-        folder: 'RE0205'
-      }
-      postData('/EntService/UpdateResumeFolder', data).then((res) => {
-        console.log(res)
-        this.$toast.success('提交成功')
-        setTimeout(() => {
-          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-        }, 1000)
-      })
     }
   },
 
   created () {
     const param = myModule.getUrlParams()
     this.id = param.id
-    postData('/EntService/InverviewDetail', {id: this.id}).then((res) => {
+    postData('/EntService/InverviewResult', {id: this.id}).then((res) => {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')

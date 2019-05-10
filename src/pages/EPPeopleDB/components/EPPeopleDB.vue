@@ -18,13 +18,6 @@
             </li>
           </ul>
         </div>
-        <!--<div class="job-list">-->
-          <!--<ul>-->
-            <!--<li class="job-li">-->
-              <!--<Item :pageId="pageId"></Item>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</div>-->
       </van-list>
     </van-pull-refresh>
     <Footer @sendHeight="handleHeight" :active="activeNum" :enterprise="true"></Footer>
@@ -71,8 +64,9 @@ export default {
   watch: {
     curHeadItem () { // 头部切换, 就请求
       this.pageId = this.curHeadItem.id
-      this.resData = null
-      this.getData()
+      window.location.search = '?pageid=' + this.pageId
+//      this.resData = null
+//      this.getData()
     }
   },
   mounted () {

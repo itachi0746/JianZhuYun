@@ -28,7 +28,7 @@
             <!--自荐信-->
           <!--</div>-->
           <div class="main-field">
-            <van-field type="textarea" v-model="value" placeholder="请编辑您的面试邀请内容(10个汉字以上)" />
+            <van-field type="textarea" v-model="value" placeholder="请编辑您的面试邀请内容(最少10字)" />
           </div>
         </div>
         <div class="result" v-if="isSend">
@@ -36,7 +36,7 @@
             <img src="../assets/accept.png" alt="">
           </div>
           <div class="result-msg">已发送</div>
-          <!--<div class="result-data">{{resData.RE01_CHG_TIME}}</div>-->
+          <div class="result-data">{{changeTime}}</div>
         </div>
         <div class="action-box" v-else>
           <div class="p10">
@@ -75,7 +75,8 @@ export default {
       id: null,
       resData: null,
       isSend: false,
-      pageId: 0
+      pageId: 0,
+      changeTime: null // 修改时间
     }
   },
 
@@ -104,10 +105,10 @@ export default {
         console.log(res)
         this.$toast.success('提交成功')
         this.isSend = true
-//        this.resData.RE01_CHG_TIME = myModule.handleTime(res.ReturnData.RE01_CHG_TIME)
-//        setTimeout(() => {
-//          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-//        }, 2000)
+        this.changeTime = myModule.handleTime(res.ReturnData.RE37_CHG_TIME)
+        setTimeout(() => {
+          GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+        }, 1000)
       })
     },
     clickBack () {

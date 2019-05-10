@@ -11,7 +11,7 @@
             <img src="../assets/accept.png" alt="">
           </div>
           <div class="result-msg">发送成功</div>
-          <div class="result-data">{{resData.RE33_CHG_TIME}}</div>
+          <!--<div class="result-data">{{changeTime}}</div>-->
         </div>
         <div class="action-box" v-else>
           <div class="p10">
@@ -44,7 +44,8 @@ export default {
       showPop: false,
       theRadioData: null,
       pageId: 3,
-      popValue: null // 弹窗的值
+      popValue: null, // 弹窗的值
+      changeTime: null
     }
   },
   components: {
@@ -125,7 +126,7 @@ export default {
      * 监听弹窗关闭
      */
     closePop (theObj) {
-      console.log('q:', theObj)
+//      console.log('q:', theObj)
       if (!theObj.value) {
         console.log('没有返回值', theObj)
         this.showPop = false
@@ -160,10 +161,11 @@ export default {
           console.log(res)
           this.$toast.success('提交成功')
           this.isSend = true
+//          this.changeTime = myModule.handleTime(res.ReturnData.RE32_CHG_TIME)
 //          debugger
-          setTimeout(() => {
-            GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
-          }, 2000)
+//          setTimeout(() => {
+//            GoToPage('', 'EPPeopleDB.html', {pageid: this.pageId})
+//          }, 2000)
         })
       })
     },

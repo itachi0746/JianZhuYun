@@ -170,14 +170,16 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '合同文件',
+          'label': '', // 合同文件
           'fieldName': 'RE33_CONTRACT_URL',
           'type': 'hidden',
           'groupName': 'A',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
+
         }, {
           'label': '工作地点',
           'fieldName': 'RE33_WORK_ADDR',
@@ -197,14 +199,15 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '签订时间',
+          'label': '', // 签订时间
           'fieldName': 'RE33_SIGN_DATE',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
           'label': '合同开始时间',
           'fieldName': 'RE33_START_TIME',
@@ -269,43 +272,47 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '创建人',
+          'label': '', // 创建人
           'fieldName': 'RE33_CRT_USR',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
-          'label': '创建时间',
+          'label': '', // 创建时间
           'fieldName': 'RE33_CRT_TIME',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
-          'label': '最后修改人',
+          'label': '', // 最后修改人
           'fieldName': 'RE33_CHG_USR',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
-          'label': '最后修改时间',
+          'label': '', // 最后修改时间
           'fieldName': 'RE33_CHG_TIME',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
-          'label': '企业ID',
+          'label': '', // 企业ID
           'fieldName': 'RE33_ENT_ID',
           'type': 'hidden',
           'groupName': 'D',
@@ -314,7 +321,7 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '组织ID',
+          'label': '', // 组织ID
           'fieldName': 'RE33_ORG_ID',
           'type': 'hidden',
           'groupName': 'D',
@@ -323,14 +330,15 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '状态',
+          'label': '', // 状态
           'fieldName': 'RE33_STATUS',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
           'label': '公司名称',
           'fieldName': 'RE33_CO_NAME',
@@ -359,14 +367,15 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '公司签约代表',
+          'label': '', // 公司签约代表
           'fieldName': 'RE33_CO_SIGNER',
           'type': 'hidden',
           'groupName': 'B',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
           'label': '联系方式',
           'fieldName': 'RE33_CO_LINK',
@@ -377,14 +386,15 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '公司信用代码',
+          'label': '', // 公司信用代码
           'fieldName': 'RE33_CO_ID',
           'type': 'hidden',
           'groupName': 'B',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
           'label': '联系方式',
           'fieldName': 'RE33_CANDIDATE_PHONE',
@@ -395,23 +405,25 @@ export default {
           'value': '',
           'disabled': false
         }, {
-          'label': '求职者通信地址',
+          'label': '', // 求职者通信地址
           'fieldName': 'RE33_CANDIDATE_ADDR',
           'type': 'hidden',
           'groupName': 'A',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
-          'label': '签署通知时间',
+          'label': '', // 签署通知时间
           'fieldName': 'RE33_NOTIFY_TIME',
           'type': 'hidden',
           'groupName': 'C',
           'popType': '',
           'placeHolder': '',
           'value': '',
-          'disabled': false
+          'disabled': false,
+          'class': 'hidden-input'
         }, {
           'label': '合同模板ID',
           'fieldName': 'RE33_TEMPLATE_ID',

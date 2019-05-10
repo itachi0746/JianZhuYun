@@ -5,10 +5,16 @@
              @clickRightIcon="clickRightIcon"></Field>
 
       <van-cell>
-        <van-row type="flex" justify="space-between" class="mb30">
-          <van-col span="8" class="tac" @click.native="clickRegister">注册</van-col>
-          <van-col span="8" class="tac" @click.native="clickReset">忘记密码</van-col>
-          <van-col span="8" class="tac" @click.native="clickSwitch">企业登录</van-col>
+        <van-row type="flex" justify="space-between">
+          <van-col span="8" class="tac" @click.native="clickRegister">
+            <div class="login-tab">注册</div>
+          </van-col>
+          <van-col span="8" class="tac" @click.native="clickReset">
+            <div class="login-tab">忘记密码</div>
+          </van-col>
+          <van-col span="8" class="tac" @click.native="clickSwitch">
+            <div class="login-tab">企业登录</div>
+          </van-col>
         </van-row>
       </van-cell>
     </div>
@@ -123,5 +129,10 @@ export default {
   }
   .btnStyle.active {
     background-color: $mainColor;
+  }
+  .login-tab {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
   }
 </style>

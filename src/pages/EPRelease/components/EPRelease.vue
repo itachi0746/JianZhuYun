@@ -3,13 +3,29 @@
     <Header @sendHeight="handleHeight" :headerName="headerName" :back="true"></Header>
     <div class="body" ref="body">
       <van-cell-group v-if="fieldData.length">
-        <van-cell v-for="(item,index) in fieldData" v-show="item.show" :key="index" class="p-class" :value="item.value" is-link
-                  title-class="t-class" value-class="v-class" @click="clickCell(item, index)">
-          <template slot="title">
-            <span class="custom-text">{{item.name}}</span>
-            <div class="theStar" v-if="item.required">*</div>
-          </template>
-        </van-cell>
+        <div v-for="(item,index) in fieldData" :key="index" class="van-hairline--bottom">
+          <div v-if="item.fieldName==='RE13_SALARY_REQUIRED'">
+            <div class="van-hairline--bottom">
+              <div class="p-class van-cell">
+                <div class="van-cell__title t-class"><span class="custom-text">{{item.name}}</span>
+                  <div class="theStar">*</div>
+                </div>
+                <div class="van-cell__value v-class input-class2">
+                  <!--<input type="text" placeholder="请输入">-->
+                  <van-field class="xinzi" v-model="item.value" placeholder="请输入薪资范围" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <van-cell v-show="item.show" class="p-class" :value="item.value" is-link
+                    title-class="t-class" value-class="v-class" @click="clickCell(item, index)" v-else>
+            <template slot="title">
+              <span class="custom-text">{{item.name}}</span>
+              <div class="theStar" v-if="item.required">*</div>
+            </template>
+          </van-cell>
+        </div>
+
       </van-cell-group>
       <div class="btn-box">
         <van-button class="btnStyle" @click="clickFabu" type="info" size="large">发布</van-button>
@@ -45,17 +61,98 @@ export default {
       resData: null,
       fieldData: [
         {name: '记录ID', popType: '', value: '', code: '', fieldName: 'RE13_ID', show: false, required: false},
-        {name: '职位名称', popType: 'field', value: '', code: '', type: 'text', placeHolder: '请输入职位名称', clearable: false, fieldName: 'RE13_NAME', show: true, required: true, class: 'input-class'},
-        {name: '职位类型', popType: 'radio', value: '', code: 'UDHR011', fieldName: 'RE13_POSITION_TYPE', show: true, required: false},
-        {name: '工作地点', popType: 'radio', value: '', code: 'UDRE019', fieldName: 'RE13_WORK_PLACE', show: true, required: true},
-        {name: '工作性质', popType: 'radio', value: '', code: 'UDRE003', fieldName: 'RE13_WORK_PROP', show: true, required: false},
-        {name: '职位描述', popType: 'field', value: '', code: '', type: 'textarea', fieldName: 'RE13_DESC', placeHolder: '请输入职位描述', show: true, required: true, class: 'textarea-class', clearable: false},
-        {name: '经验要求', popType: 'radio', value: '', code: 'UDRE011', fieldName: 'RE13_WORK_YEAR', show: true, required: true},
-        {name: '薪资范围', popType: 'radio', value: '', code: 'UDRE005', fieldName: 'RE13_SALARY_REQUIRED', show: true, required: true},
-        {name: '最低学历', popType: 'radio', value: '', code: 'UDHR021', fieldName: 'RE13_EDU_DEGREE', show: true, required: true}
+        {
+          name: '职位名称',
+          popType: 'field',
+          value: '',
+          code: '',
+          type: 'text',
+          placeHolder: '请输入职位名称',
+          clearable: false,
+          fieldName: 'RE13_NAME',
+          show: true,
+          required: true,
+          class: 'input-class'
+        },
+        {
+          name: '职位类型',
+          popType: 'radio',
+          value: '',
+          code: 'UDHR011',
+          fieldName: 'RE13_POSITION_TYPE',
+          show: true,
+          required: false
+        },
+        {
+          name: '工作地点',
+          popType: 'radio',
+          value: '',
+          code: 'UDRE019',
+          fieldName: 'RE13_WORK_PLACE',
+          show: true,
+          required: true
+        },
+        {
+          name: '工作性质',
+          popType: 'radio',
+          value: '',
+          code: 'UDRE003',
+          fieldName: 'RE13_WORK_PROP',
+          show: true,
+          required: false
+        },
+        {
+          name: '职位描述',
+          popType: 'field',
+          value: '',
+          code: '',
+          type: 'textarea',
+          fieldName: 'RE13_DESC',
+          placeHolder: '请输入职位描述',
+          show: true,
+          required: true,
+          class: 'textarea-class',
+          clearable: false
+        },
+        {
+          name: '经验要求',
+          popType: 'radio',
+          value: '',
+          code: 'UDRE011',
+          fieldName: 'RE13_WORK_YEAR',
+          show: true,
+          required: true
+        },
+        {
+          name: '最低学历',
+          popType: 'radio',
+          value: '',
+          code: 'UDHR021',
+          fieldName: 'RE13_EDU_DEGREE',
+          show: true,
+          required: true
+        },
+//        {
+//          name: '薪资范围',
+//          popType: 'radio',
+//          value: '',
+//          code: 'UDRE005',
+//          fieldName: 'RE13_SALARY_REQUIRED',
+//          show: true,
+//          required: true
+//        },
+        {
+          name: '薪资范围',
+          popType: '',
+          value: '',
+          code: '',
+          fieldName: 'RE13_SALARY_REQUIRED',
+          show: true,
+          required: true
+        }
       ],
       PopFieldData: null // 传去弹窗的数据
-//      PopFieldData: {name: '职位描述', code: '', value: '', placeHolder: '请输入职位描述', type: 'textarea', popType: '', fieldName: 'Mobile', required: false, clearable: true, class: 'textarea-class'}
+      //      PopFieldData: {name: '职位描述', code: '', value: '', placeHolder: '请输入职位描述', type: 'textarea', popType: '', fieldName: 'Mobile', required: false, clearable: true, class: 'textarea-class'}
 
     }
   },
@@ -170,11 +267,11 @@ export default {
       console.log(res)
       if (myModule.isEmpty(res.ReturnData)) {
         console.log('暂无数据')
-//        this.$toast.fail({
-//          mask: false,
-//          message: '暂无数据',
-//          forbidClick: true // 禁用背景点击
-//        })
+        //        this.$toast.fail({
+        //          mask: false,
+        //          message: '暂无数据',
+        //          forbidClick: true // 禁用背景点击
+        //        })
         return
       }
       this.resData = res.ReturnData
@@ -224,24 +321,35 @@ export default {
     padding: 15px;
     position: relative;
   }
+
   .theStar {
     position: absolute;
     left: -8px;
     top: 3px;
     color: red;
   }
+
   .van-cell__right-icon {
     color: $mainColor;
   }
+
   .van-popup60 {
     width: 60%;
   }
+
   .btn-box {
     @include borderBox();
     width: 100%;
     padding: 30px 15px 0;
   }
+
   .btnStyle {
     @include theBtnColor
+  }
+  .xinzi {
+    @include font-size(16px);
+  }
+  .xinzi.van-cell {
+    padding: 0;
   }
 </style>

@@ -36,7 +36,7 @@ export default {
       showPop: false, // 弹窗开关
       theRadioData: [
         {id: 'RE0201', Value: '人才库'},
-        {id: 'RE0202', Value: '面试库'},
+//        {id: 'RE0202', Value: '面试库'},
         {id: 'RE0203', Value: '录用库'},
         {id: 'RE0204', Value: '签约库'},
         {id: 'RE0205', Value: '备用人才库'},

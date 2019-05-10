@@ -175,7 +175,7 @@ export default {
   formatDate: function (dateStr) {
     if (!dateStr || typeof dateStr !== 'string') {
       console.log('参数错误:', dateStr)
-      return
+      return ''
     }
     // debugger
     let theResult = dateStr
@@ -183,11 +183,11 @@ export default {
     let theReg2 = /\/Date\(-{1}\d*\)\//g
     if (theReg2.test(theResult)) { // 带负号的时间, 返回为空值
       console.log(`时间格式不正确: ${theResult}`)
-      return
+      return ''
     }
     if (!theReg.test(theResult)) {
       console.log(`时间格式不正确: ${theResult}`)
-      return
+      return ''
     }
     // if (!theReg.test(theResult)) {
     //   if (theReg2.test(theResult)) { // 带负号的时间, 为空值
@@ -415,6 +415,6 @@ export default {
     if (typeof num !== 'number') {
       return num
     }
-    return num <= 0 ? null : num
+    return num <= 0 ? '' : num
   }
 }

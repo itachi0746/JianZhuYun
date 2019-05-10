@@ -97,7 +97,7 @@ export default {
     font-family: PingFang SC,Helvetica Neue,Arial,sans-serif;
     text-align: center;
     box-sizing: border-box;
-    padding: 0 0.06rem;
+    /*padding: 0 0.06rem;*/
     /*min-width: 0.32rem;*/
     line-height: 0.28rem;
     border: 0.02rem solid #f44;
