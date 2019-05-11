@@ -182,8 +182,8 @@ export default {
           name: '公司网站',
           label: '公司网站',
           code: '',
-//          value: 'http://',
-          value: '',
+          value: 'http://',
+//          value: '',
           placeHolder: '请完善公司网站',
           type: 'text',
           popType: '',
@@ -389,7 +389,6 @@ export default {
         this.$toast.fail('两次输入的密码不一致')
         return
       }
-
       this.$toast.loading({
         mask: false,
         message: '加载中...',

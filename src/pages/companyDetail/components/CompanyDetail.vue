@@ -7,8 +7,8 @@
           <van-cell>
             <div class="note-title">公司简介</div>
             <div class="note">{{resData.HRA0_DESC}}</div>
-            <div class="note-title">公司官网</div>
-            <div class="note">
+            <div class="note-title" v-if="isURL(resData.HRA0_WEB_URL)">公司官网</div>
+            <div class="note" v-if="isURL(resData.HRA0_WEB_URL)">
               <a :href="resData.HRA0_WEB_URL">{{resData.HRA0_WEB_URL}}</a>
               <!--{{resData.HRA0_WEB_URL}}-->
             </div>
@@ -81,6 +81,12 @@ export default {
       }
       const WH = myModule.getClientHeight()
       this.$refs.body.style.height = WH - this.headerHeight + 'px'
+    },
+    /**
+     * 检查网址格式是否正确
+     */
+    isURL (url) {
+      return myModule.checkURL(url)
     }
   }
 }

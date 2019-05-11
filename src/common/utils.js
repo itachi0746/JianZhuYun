@@ -397,6 +397,15 @@ export default {
     return reg.test(theValue)
   },
   /**
+   * 检查字段 网址的值
+   * @param theValue
+   */
+  checkURL (theValue) {
+    // let reg = /^((https?|ftp|news):\/\/)?([a-z]([a-z0-9\-]*[\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$/
+    let reg = /^((https|http|ftp|rtsp|mms){1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/
+    return reg.test(theValue)
+  },
+  /**
    * 检查年龄
    * @param theValue 字符串
    */
@@ -416,5 +425,36 @@ export default {
       return num
     }
     return num <= 0 ? '' : num
-  }
+  },
+  /**
+   * 格式化地区名 去掉 省 市 两字
+   * @param provinceName
+   * @param cityName
+   */
+  formatArea (provinceName, cityName) {
+    if (typeof provinceName !== 'string' || typeof cityName !== 'string') {
+      return
+    }
+    let sheng = '省', shi = '市'
+    provinceName = this.delStr(provinceName, sheng)
+    cityName = this.delStr(cityName, shi)
+    return provinceName + cityName
+  },
+  /**
+   * 删除字符串中的特定字符
+   * @param str 原来的字符串
+   * @param target 要删除的目标字符串
+   */
+  delStr (str, target) {
+    if (typeof str !== 'string' || typeof target !== 'string') {
+      return str
+    }
+    let i = str.indexOf(target)
+    if (i === -1) {
+      console.log(`目标字符不存在: ${str},${target}`)
+      return str
+    }
+    return str.substr(0, i)
+  },
+
 }

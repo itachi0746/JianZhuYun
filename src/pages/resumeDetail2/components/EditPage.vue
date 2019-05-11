@@ -34,6 +34,8 @@
              @cancel="clickCancel"></PopDate>
     <!--单选-->
     <PopRadio v-if="showRadio" :theRadioData="theRadioData" @closePop="closePop"></PopRadio>
+    <!--地区-->
+    <PopArea v-if="showArea" @cancelArea="closeArea" @confirmArea="confirmArea"></PopArea>
   </div>
 </template>
 
@@ -44,6 +46,7 @@ import { postData } from '../../../common/server'
 import myModule from '../../../common'
 import PopRadio from '../../../component/PopRadio.vue'
 import PopDate from '../../../component/PopDate.vue'
+import PopArea from '../../../component/PopArea.vue'
 import UserHead from '../../../component/UserHead.vue'
 
 export default {
@@ -68,6 +71,7 @@ export default {
       showPicker: false, // 显示日期选择器弹窗
       theSaveLink: '', // 保存 api
       theDelLink: '', // 删除 api
+      showArea: false, // 地区弹窗开关
       dataMap: { // 数据映射
         p0: { // 个人信息
           getLink: '/ReService/ResumeDetails', // 请求数据 api
@@ -116,11 +120,11 @@ export default {
               value: '',
               placeHolder: '请选填写籍贯',
               type: 'text',
-              popType: 'place',
+              popType: 'area',
               fieldName: 'RE23_BORN_IN',
               required: false,
               clearable: true,
-              disabled: false
+              disabled: true
             },
             {
               label: '手机',
@@ -637,7 +641,8 @@ export default {
     Field,
     PopRadio,
     PopDate,
-    UserHead
+    UserHead,
+    PopArea
   },
 
   computed: {},
@@ -694,6 +699,8 @@ export default {
           this.showPicker = true
         } else if (thePopType === 'radio') {
           this.showRadio = true
+        } else if (thePopType === 'area') {
+          this.showArea = true
         }
         return
       }
@@ -754,6 +761,25 @@ export default {
       this.theFieldArr[this.curFieldDIdx].value = this.radio
       this.showRadio = false
       this.theRadioData = null
+    },
+    // 关闭地区弹窗
+    closeArea (obj) {
+      console.log(obj)
+      this.showArea = false
+    },
+    // 地区弹窗确定
+    confirmArea (obj) {
+      console.log(obj)
+      this.showArea = false
+      let provinceName = obj.value[0].name,
+        cityName = obj.value[1].name,
+        result
+      if (provinceName === cityName) {
+        result = myModule.delStr(cityName, '市')
+      } else {
+        result = myModule.formatArea(provinceName, cityName)
+      }
+      this.theFieldArr[this.curFieldDIdx].value = result
     },
     /**
      * 保存
