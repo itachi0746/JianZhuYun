@@ -29,8 +29,10 @@
                     :disabled="false">
           上一页
         </van-button>
-        <van-button v-if="activePage===1" type="info" class="btnClass" size="large" @click="clickNext"
-                    :disabled="false">
+        <van-button v-if="activePage===1" type="info" :class="{'btnClass': isAbleToNextPage()}" size="large" @click="clickNext"
+                    :disabled="!isAbleToNextPage()">
+        <!--<van-button v-if="activePage===1" type="info" :class="{'btnClass': isAbleToNextPage()}" size="large" @click="clickNext"-->
+                    <!--:disabled="false">-->
           下一页
         </van-button>
         <BigButton v-if="activePage===2" class="" :theFieldArr="theFieldArr" :font="'确定'" @clickSubmit="clickSubmit"></BigButton>
@@ -101,24 +103,24 @@ export default {
           required: true,
           clearable: true
         },
+//        {
+//          name: '营业注册号',
+//          label: '营业注册号',
+//          code: '',
+//          value: '',
+//          placeHolder: '请填写营业注册号',
+//          type: 'text',
+//          popType: '',
+//          fieldName: 'HRA0_LICENCE',
+//          required: true,
+//          clearable: true
+//        },
         {
-          name: '营业注册号',
-          label: '营业注册号',
+          name: '社会信用代码',
+          label: '社会信用代码',
           code: '',
           value: '',
-          placeHolder: '请填写营业注册号',
-          type: 'text',
-          popType: '',
-          fieldName: 'HRA0_LICENCE',
-          required: true,
-          clearable: true
-        },
-        {
-          name: '公司信用代码',
-          label: '公司信用代码',
-          code: '',
-          value: '',
-          placeHolder: '请填写公司信用代码',
+          placeHolder: '请填写社会信用代码',
           type: 'text',
           popType: '',
           fieldName: 'HRA0_INFO_CODE',
@@ -155,18 +157,6 @@ export default {
           clearable: true
         },
         {
-          name: '人数规模',
-          label: '人数规模',
-          code: '',
-          value: '',
-          placeHolder: '请填写人数规模',
-          type: 'text',
-          popType: '',
-          fieldName: 'HRA0_COMPANY_SIZE',
-          required: false,
-          clearable: true
-        },
-        {
           name: '公司地址',
           label: '公司地址',
           code: '',
@@ -178,6 +168,19 @@ export default {
           required: true,
           clearable: true
         },
+        {
+          name: '人数规模',
+          label: '人数规模',
+          code: '',
+          value: '',
+          placeHolder: '请填写人数规模',
+          type: 'text',
+          popType: '',
+          fieldName: 'HRA0_COMPANY_SIZE',
+          required: false,
+          clearable: true
+        },
+
         {
           name: '公司网站',
           label: '公司网站',
@@ -296,7 +299,7 @@ export default {
           type: 'hidden',
           popType: '',
           fieldName: 'HRA0_LICENCE_IMG_URL1',
-          required: false,
+          required: true,
           clearable: false,
           disabled: false,
           isUpload: true,
@@ -375,10 +378,19 @@ export default {
     clickCancel () {
       this.showPicker = false
     },
+    // 提交
     clickSubmit () {
       if (!myModule.checkRequired(this.theFieldArr)) {
         this.$toast.fail('必填项不能为空')
         return
+      }
+      for (let obj of this.theFieldArr) {
+        if (obj.name === '社会信用代码') {
+          if (!myModule.checkCreditCode(obj.value)) {
+            this.$toast.fail('统一社会信用代码格式不正确')
+            return
+          }
+        }
       }
       if (!myModule.checkPSW2(this.theFieldArr)) {
         this.$toast.fail('密码格式不正确')
@@ -585,6 +597,19 @@ export default {
       this.theFieldArr[this.curFieldDIdx].value = obj.value.Value
       this.showRadio = false
       this.theRadioData = null
+    },
+    /**
+     * 检查第一页的是否都已经输入有值, 有就可以点击 下一页 的按钮
+     */
+    isAbleToNextPage () {
+      let num = 8 // 第一页有8个输入
+      for (let i = 0; i < num; i++) {
+        let obj = this.theFieldArr[i]
+        if (!obj.value) {
+          return false
+        }
+      }
+      return true
     }
   }
 }

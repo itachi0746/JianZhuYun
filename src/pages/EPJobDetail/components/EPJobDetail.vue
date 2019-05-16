@@ -4,30 +4,6 @@
     <div class="body" ref="body">
       <div v-if="resData">
         <JobDetailItem :jobData="resData"></JobDetailItem>
-
-        <!--<div class="job-header van-hairline&#45;&#45;bottom">-->
-          <!--<van-row type="flex" align="center">-->
-            <!--<van-col span="16">-->
-              <!--<div class="job-name">{{resData.RE13_NAME}}</div>-->
-            <!--</van-col>-->
-            <!--<van-col span="8">-->
-              <!--<div class="job-pay">{{resData.ReferenceValues.RE13_SALARY_REQUIRED}}</div>-->
-            <!--</van-col>-->
-          <!--</van-row>-->
-        <!--</div>-->
-        <!--<div class="job-desc">-->
-          <!--<div class="job-desc-title">职位详情</div>-->
-          <!--<div class="job-desc-main">-->
-            <!--<div v-for="(item,index) in detailData" :key="index" class="desc-item">-->
-              <!--<div class="desc-name">-->
-                <!--{{item.key}}-->
-              <!--</div>-->
-              <!--<div class="desc-value">-->
-                <!--{{item.value}}-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
       </div>
     </div>
     <footer ref="footer" class="van-hairline--top">
@@ -59,17 +35,7 @@ export default {
       resData: null,
       id: null,
       showDialog: false,
-      recommendation: '',
-      dataMap: {
-        RE13_EDU_DEGREE: '学历要求',
-        RE13_POSITION_TYPE: '职位类别',
-        RE13_SALARY_REQUIRED: '薪资要求',
-//        RE13_STATUS: '状态',
-        RE13_WORK_PLACE: '工作地点',
-        RE13_WORK_PROP: '工作性质',
-        RE13_WORK_YEAR: '工作年限'
-      },
-      detailData: []
+      recommendation: ''
     }
   },
   components: {
@@ -118,21 +84,6 @@ export default {
       if (this.headerHeight && this.footerHeight) {
         const WH = myModule.getClientHeight()
         this.$refs.body.style.height = WH - this.headerHeight - this.footerHeight + 'px'
-      }
-    },
-    /**
-     * 把描述发在detailData
-     * @param dataObj
-     */
-    handleDetail (dataObj) {
-      let me = this
-      for (let key in dataObj) {
-//        console.log(key)
-        const obj = {
-          key: me.dataMap[key],
-          value: dataObj[key]
-        }
-        this.detailData.push(obj)
       }
     },
     /**

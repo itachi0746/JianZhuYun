@@ -38,11 +38,15 @@ export default {
       type: Boolean,
       default: false
     },
-    config: { // 设置按钮
+    config: { // 设置按钮 /是不是个人中心
       type: Boolean,
       default: false
     },
     save: { // 保存按钮
+      type: Boolean,
+      default: false
+    },
+    isEnt: { // 是不是企业端
       type: Boolean,
       default: false
     }
@@ -65,6 +69,14 @@ export default {
       this.$router.push({name: 'Config', params: {}})
     },
     clickBack () {
+      if (this.headerName === '设置') {
+        if (this.isEnt) {
+          GoToPage('', 'EPProfile.html', {})
+        } else {
+          GoToPage('', 'profile.html', {})
+        }
+        return
+      }
       this.$router.go(-1)
     },
     clickSave () {

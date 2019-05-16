@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header @sendHeight="handleHeight" :back="true" :headerName="headerName"></Header>
+    <Header @sendHeight="handleHeight" :back="true" :headerName="headerName" :isEnt="true"></Header>
     <div class="body" ref="body">
       <div v-if="theCellArr.length">
         <div class="out-warp">

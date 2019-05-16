@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>@import "../../styles/font.css";
-
+.van-field--disabled .van-field__control, .van-field__right-icon {
+  color: #666;
+}
 </style>

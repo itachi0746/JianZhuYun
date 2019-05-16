@@ -6,7 +6,10 @@
         <van-panel :title="resData.HRA0_ENT_NAME" :desc="resData.HRA0_ENT_ADDR_L1">
           <van-cell>
             <div class="note-title">公司简介</div>
-            <div class="note">{{resData.HRA0_DESC}}</div>
+            <div class="note">
+              <van-field class="text-box" v-model="resData.HRA0_DESC" type="textarea" autosize :disabled="true" placeholder="" />
+              <!--{{resData.HRA0_DESC}}-->
+            </div>
             <div class="note-title" v-if="isURL(resData.HRA0_WEB_URL)">公司官网</div>
             <div class="note" v-if="isURL(resData.HRA0_WEB_URL)">
               <a :href="resData.HRA0_WEB_URL">{{resData.HRA0_WEB_URL}}</a>
@@ -118,5 +121,9 @@ export default {
   .note-title {
     @include font-size(22px);
     margin: 20px 0;
+  }
+  .text-box {
+    padding-left: 0;
+    padding-right: 0;
   }
 </style>

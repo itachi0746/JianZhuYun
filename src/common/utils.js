@@ -456,5 +456,18 @@ export default {
     }
     return str.substr(0, i)
   },
+  /**
+   * 检查统一社会信用代码
+   * 市面上现在有2中企业营业执照注册号(统一社会信用代码)，一种是15位(从2007年开始)，一种是18位(从2015年开始)
+   * @param val
+   */
+  checkCreditCode (val) {
+    if (typeof val !== 'string') {
+      console.log(`参数类型错误: ${val}`)
+      return
+    }
+    let reg = /(^(?:(?![IOZSV])[\dA-Z]){2}\d{6}(?:(?![IOZSV])[\dA-Z]){10}$)|(^\d{15}$)/
+    return reg.test(val)
+  }
 
 }

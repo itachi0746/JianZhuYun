@@ -3,16 +3,19 @@
     <div>
       <Field v-for="(item,index) in theFieldArr" :key="index" :index="index" :item="item"
              @clickRightIcon="clickRightIcon" @clickInput="clickInput"></Field>
+    </div>
+    <div style="height: 50px"></div>
+    <div>
       <van-cell>
         <van-row type="flex" justify="space-between">
-          <van-col span="8" class="tac" @click.native="clickRegister">
-            <div class="login-tab">注册</div>
+          <van-col span="8" class="tac">
+            <div class="login-tab" @click="clickRegister">注册</div>
           </van-col>
-          <van-col span="8" class="tac" @click.native="clickReset">
-            <div class="login-tab">忘记密码</div>
+          <van-col span="8" class="tac">
+            <div class="login-tab" @click="clickReset">忘记密码</div>
           </van-col>
-          <van-col span="8" class="tac" @click.native="clickSwitch">
-            <div class="login-tab">个人登录</div>
+          <van-col span="8" class="tac">
+            <div class="login-tab" @click="clickSwitch">个人登录</div>
           </van-col>
         </van-row>
       </van-cell>
@@ -78,6 +81,7 @@ export default {
   },
   mounted () {
     console.log(myModule)
+    //    this.bindTouch()
   },
   methods: {
     clickRegister () {
@@ -110,7 +114,7 @@ export default {
 
       postData('/EntService/Login', form).then((res) => {
         console.log(res)
-//        debugger
+        //        debugger
         this.$toast.success('登录成功')
         myModule.clearHistory()
         GoToPage('', 'EPIndex.html', {})
@@ -208,12 +212,36 @@ export default {
   .btnStyle.active {
     background-color: $mainColor;
   }
+
   .cell-mb {
     margin-bottom: 10px;
   }
+
   .login-tab {
     width: 100%;
     height: 30px;
     line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .act-box-inner {
+    /*flex: 1;*/
+    float: left;
+    width: 33.33%;
+  }
+
+  .act-box {
+    width: 100%;
+    margin-top: 100px;
+    /*display: flex;*/
+    padding: .2rem .3rem;
+    box-sizing: border-box;
+    line-height: .48rem;
+    position: relative;
+    background-color: #fff;
+    color: #323233;
+    font-size: .28rem;
+    overflow: hidden;
   }
 </style>

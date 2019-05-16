@@ -68,16 +68,11 @@ Axios.interceptors.response.use(
         let pathName = window.location.pathname
         // console.log(res.data.Result)
         // debugger
-        // window.location.href = res.data.Result
-        // if (pathName.indexOf('/Re') !== -1) {
-        //   setTimeout(() => {
-            window.location.href = res.data.Result
-        //   }, 2000)
-        // }
-        // else {
-        //   setTimeout(() => {
-        //     GoToPage('', 'login.html', {})
-        //   }, 2000)
+        window.location.href = res.data.Result
+        // if (pathName.indexOf('re') !== -1 || pathName.indexOf('ent') !== -1) {
+        //   window.location.href = res.data.Result
+        // } else {
+        //   GoToPage('', 'login.html', {})
         // }
 
       }

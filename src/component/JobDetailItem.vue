@@ -29,7 +29,8 @@
     <div class="job-desc van-hairline--top">
       <div class="job-prop-title">职位描述</div>
       <div class="job-desc-main">
-        {{jobData.RE13_DESC}}
+        <!--{{jobData.RE13_DESC}}-->
+        <van-field class="text-box" v-model="jobData.RE13_DESC" type="textarea" autosize :disabled="true" placeholder="" />
       </div>
     </div>
     <div class="job-desc van-hairline--top">
@@ -57,7 +58,15 @@ export default {
 
   computed: {},
 
-  methods: {},
+  methods: {
+    /**
+     * 替换 '\n' 为 <br/>
+     * @param str
+     */
+    repalceStr (str) {
+
+    }
+  },
 
   created () {},
 
@@ -170,6 +179,10 @@ export default {
     font-weight: bold;
     margin-right: 15px;
     margin-bottom: 10px;
+  }
+  .text-box {
+    padding-left: 0;
+    padding-right: 0;
   }
 
 </style>

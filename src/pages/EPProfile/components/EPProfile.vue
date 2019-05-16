@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <Header @sendHeight="handleHeight" :config="true"></Header>
+    <Header @sendHeight="handleHeight" :config="true" :isEnt="true"></Header>
     <div class="body" ref="body">
       <div v-if="resData">
         <ProfileItem

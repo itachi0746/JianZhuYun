@@ -12,3 +12,13 @@ html, body, #app {
 .van-dialog__confirm, .van-dialog__confirm:active {
   color: #00A7DD;
 }
+.van-button--disabled {
+  /* opacity: .5; */
+  background-color: #AAAAAA;
+  border-color: #aaaaaa;
+  color: #ffffff;
+  border-radius: 0.1rem;
+}
+.van-popup--top {
+  top: 4%;
+}
