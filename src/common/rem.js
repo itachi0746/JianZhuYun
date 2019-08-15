@@ -1,4 +1,4 @@
-(function (doc, win) { // 立即执行,所以只引入多次会执行多次
+(function (doc, win) { // 立即执行,所以引入多次会执行多次
   let docEl = doc.documentElement,
     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
     recalc = function () {
